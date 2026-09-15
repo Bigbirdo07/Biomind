@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_034_CROSS_COHORT_DOMAIN_SHIFT",
+  "difficulty": "ADVANCED",
+  "category": "ml_design",
+  "scenario": "A sepsis predictive algorithm trained on ICU EHR data at an academic hospital deployed directly at a rural community clinic without external calibration.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: A sepsis predictive algorithm trained on ICU EHR data at an academic hospital deployed directly at a rural community clinic without external calibration.",
+  "flawed_analysis_present": true,
+  "flaw_type": "domain_shift_failure",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_034_CROSS_COHORT_DOMAIN_SHIFT: demographic and clinical protocol shift, external cohort validation required, risk of calibration collapse.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "domain_shift_failure",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "demographic and clinical protocol shift",
+        "external cohort validation required",
+        "risk of calibration collapse"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "domain_shift_failure",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "domain_shift_failure"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "demographic and clinical protocol shift",
+      "external cohort validation required"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "ml_design",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "domain_shift_failure"
+  },
+  "tags": [
+    "ml_design",
+    "advanced",
+    "phase1_expanded"
+  ]
+}

@@ -1,6 +1,8 @@
 {
   "episode_id": "EP_004_BATCH_PHENOTYPE_CONFOUNDING",
+  "episode_type": "FLAWED_WORKFLOW",
   "domain": "functional_genomics",
+  "subdomain": "batch_effects",
   "question": "All 20 wild-type samples were sequenced in January (Flowcell 1) and all 20 knockout samples were sequenced in March (Flowcell 2). Differential expression reveals 4,500 significant genes. Can we conclude these genes are regulated by the knockout?",
   "experiment": {
     "organism": "Homo sapiens",
@@ -16,10 +18,6 @@
         "name": "Knockout",
         "sample_count": 20
       }
-    ],
-    "covariates": [
-      "flowcell",
-      "library_prep_date"
     ],
     "batch_structure": {
       "batch_variable": "flowcell_date",
@@ -57,7 +55,18 @@
       "Complete confounding between batch and genotype prevents causal biological attribution."
     ]
   },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "confounding",
+    "experimental_unit": "cell_culture_dish",
+    "analysis": "differential_expression",
+    "failure_mode": "collinear_batch_and_condition"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Leek et al. (2010) Nature Reviews Genetics 11:733-739"
+  },
   "sources": [
     "Leek et al. (2010) Nature Reviews Genetics 11:733-739"
   ]

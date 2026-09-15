@@ -1,15 +1,17 @@
 """
-Command-line interface for the BioReason platform.
+Command-line interface for the BioReason platform (Phase 1).
 """
 
 import json
 import sys
 from pathlib import Path
+from typing import Dict, Any, List
 import click
 
-from bioreason.schemas.episode import ScientificReasoningEpisode
+from bioreason.schemas.episode import ScientificReasoningEpisode, ValidationStatus, EpisodeType
 from bioreason.schemas.experiment import ExperimentSpec
 from bioreason.schemas.workflow import WorkflowPlan
+from bioreason.schemas.benchmark import BenchmarkItem, DifficultyLevel, BenchmarkCategory
 from bioreason.datasets.loader import (
     load_episode,
     load_experiment_spec,
@@ -170,14 +172,20 @@ def evaluate_cmd(target_path, adapter, model_path, output):
 
     agg = results["aggregate_metrics"]
     click.echo("\n--- EVALUATION SUMMARY ---")
-    click.echo(f"Items Evaluated: {agg['total_items']}")
+    click.echo(f"Items Evaluated:         {agg['total_items']}")
     click.echo(f"Flaw Detection Accuracy: {agg['flaw_detection_accuracy'] * 100:.1f}%")
+    click.echo(f"Critical Failure Rate:   {agg.get('critical_failure_rate', 0.0) * 100:.1f}%")
     click.echo(f"Mean Composite Score:    {agg['mean_composite_score']:.3f}")
     click.echo(f"Mean Flaw Detection:     {agg['mean_flaw_detection_score']:.3f}")
     click.echo(f"Mean Explanation:        {agg['mean_explanation_score']:.3f}")
     click.echo(f"Mean Correction Quality: {agg['mean_correction_score']:.3f}")
     click.echo(f"Mean Calibration:        {agg['mean_calibration_score']:.3f}")
     click.echo(f"Mean Interpretation:     {agg['mean_interpretation_score']:.3f}")
+
+    if agg.get("by_difficulty"):
+        click.echo("\n--- BY DIFFICULTY ---")
+        for diff, stats in agg["by_difficulty"].items():
+            click.echo(f"  {diff:<14}: N={stats['count']:<3} Composite={stats['mean_composite']:.3f} CritFail={stats['critical_failure_rate']*100:.1f}%")
 
     with open(output, "w", encoding="utf-8") as f:
         json.dump(results, f, indent=2)
@@ -204,6 +212,88 @@ def check_contamination_cmd(train_dir, benchmark_dir, threshold):
         sys.exit(1)
     else:
         click.secho("\n✓ No benchmark contamination or overlap detected. Datasets are strictly separated.", fg="green")
+
+
+@cli.command("dataset-audit")
+@click.argument("train_dir", type=click.Path(exists=True), default="training_data/examples")
+@click.argument("bench_dir", type=click.Path(exists=True), default="benchmark/examples")
+@click.option("--output", "-o", type=click.Path(), default="BIOREASON_DATASET_AUDIT.md", help="Output audit report file.")
+def dataset_audit_cmd(train_dir, bench_dir, output):
+    """Generate comprehensive dataset and benchmark audit report."""
+    train_episodes = load_episodes_from_dir(train_dir)
+    bench_items = load_benchmark_from_dir(bench_dir)
+    reports = check_contamination(train_episodes, bench_items)
+
+    # Calculate distributions
+    train_domains: Dict[str, int] = {}
+    train_types: Dict[str, int] = {}
+    train_status: Dict[str, int] = {}
+    for ep in train_episodes:
+        train_domains[ep.domain] = train_domains.get(ep.domain, 0) + 1
+        ep_type = ep.episode_type.value if ep.episode_type else "FLAWED_WORKFLOW"
+        train_types[ep_type] = train_types.get(ep_type, 0) + 1
+        train_status[ep.validation_status.value] = train_status.get(ep.validation_status.value, 0) + 1
+
+    bench_categories: Dict[str, int] = {}
+    bench_diffs: Dict[str, int] = {}
+    for item in bench_items:
+        bench_categories[item.category.value] = bench_categories.get(item.category.value, 0) + 1
+        bench_diffs[item.difficulty.value] = bench_diffs.get(item.difficulty.value, 0) + 1
+
+    report_md = f"""# BioReason Dataset & Benchmark Audit Report
+
+## 1. Executive Summary
+- **Total Training Episodes**: {len(train_episodes)}
+- **Total Benchmark Items**: {len(bench_items)}
+- **Contamination / Collision Violations**: {len(reports)}
+- **Contamination Status**: {'PASSED (Zero Overlap)' if len(reports) == 0 else 'FAILED'}
+
+---
+
+## 2. Training Dataset Composition (BioReasonTrain)
+### Domain Breakdown:
+"""
+    for d, c in sorted(train_domains.items()):
+        report_md += f"- **{d}**: {c}\n"
+
+    report_md += "\n### Episode Type Breakdown:\n"
+    for t, c in sorted(train_types.items()):
+        report_md += f"- **{t}**: {c}\n"
+
+    report_md += "\n### Human Review Status:\n"
+    for s, c in sorted(train_status.items()):
+        report_md += f"- **{s}**: {c}\n"
+
+    report_md += f"""
+---
+
+## 3. Benchmark Composition (BioReasonBench)
+### Category Breakdown:
+"""
+    for cat, c in sorted(bench_categories.items()):
+        report_md += f"- **{cat}**: {c}\n"
+
+    report_md += "\n### Difficulty Breakdown:\n"
+    for diff, c in sorted(bench_diffs.items()):
+        report_md += f"- **{diff}**: {c}\n"
+
+    report_md += f"""
+---
+
+## 4. Contamination & Firewall Audit
+- **Exact Matches**: {sum(1 for r in reports if r['contamination_type'] == 'EXACT_QUESTION_MATCH')}
+- **Normalized Matches**: {sum(1 for r in reports if r['contamination_type'] == 'NORMALIZED_QUESTION_MATCH')}
+- **Scenario Signature Collisions**: {sum(1 for r in reports if r['contamination_type'] == 'SCENARIO_SIGNATURE_COLLISION')}
+- **High Token Overlaps**: {sum(1 for r in reports if r['contamination_type'] == 'HIGH_TOKEN_SIMILARITY')}
+
+### Verdict:
+{'✓ Clean separation maintained across training and held-out benchmark partitions.' if len(reports) == 0 else '⚠ Contamination issues detected.'}
+"""
+
+    with open(output, "w", encoding="utf-8") as f:
+        f.write(report_md)
+
+    click.secho(f"✓ Dataset audit report written to: {output}", fg="green")
 
 
 if __name__ == "__main__":

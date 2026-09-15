@@ -1,72 +1,99 @@
 {
   "item_id": "BENCH_014_OVERFITTING_DEEP_NN_GENOMICS",
+  "difficulty": "INTERMEDIATE",
   "category": "overfitting",
-  "scenario": "An unregularized deep neural network with 5 million parameters is trained to classify 50 glioblastoma patients vs 50 controls from 20,000 gene expression features. Training accuracy reaches 100%, but 5-fold CV accuracy is 51%.",
-  "question": "Diagnose the statistical phenomenon causing this divergence and recommend a regularized alternative.",
+  "scenario": "Unregularized deep neural network with 5 million parameters trained on 50 glioblastoma patients vs 50 controls from 20,000 gene features (100% train acc, 51% CV acc).",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Unregularized deep neural network with 5 million parameters trained on 50 glioblastoma patients vs 50 controls from 20,000 gene features (100% train acc, 51% CV acc).",
   "flawed_analysis_present": true,
   "flaw_type": "high_dimensional_overfitting",
-  "ground_truth_rationale": "In p >> n regimes (p=20,000, n=100), high-capacity neural networks easily memorize idiosyncratic sample noise. Sparse linear models (LASSO / Elastic Net) with stability selection or dimension reduction should be used.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_014_OVERFITTING_DEEP_NN_GENOMICS: p >> n overfitting, LASSO / Elastic Net regularized linear models, noise memorization.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "overfitting",
-        "p >> n regime",
-        "extreme overparameterization"
+        "high_dimensional_overfitting",
+        "methodological"
       ],
       "negative_points": [
-        "model learned true patterns"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
-        "5 million parameters vs 100 samples",
-        "noise memorization",
-        "generalization failure"
+        "p >> n overfitting",
+        "LASSO / Elastic Net regularized linear models",
+        "noise memorization"
       ],
       "negative_points": [
-        "more training epochs needed"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "LASSO / Elastic Net",
-        "sparse regularization",
-        "feature selection inside CV"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "add more layers"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "training accuracy 100% is meaningless"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "100% training accuracy is good"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "balance model capacity with biological sample size"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "deep learning always outperforms linear models"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "high_dimensional_overfitting",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "high_dimensional_overfitting"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "p >> n overfitting",
+      "LASSO / Elastic Net regularized linear models"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "overfitting",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "high_dimensional_overfitting"
+  },
   "tags": [
     "overfitting",
-    "biological_ml",
-    "regularization"
+    "intermediate",
+    "phase1_expanded"
   ]
 }

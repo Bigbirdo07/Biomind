@@ -1,5 +1,6 @@
 {
   "episode_id": "EP_018_SCRNA_MARKER_CIRCULARITY",
+  "episode_type": "DIAGNOSE_FAILURE",
   "domain": "single_cell_transcriptomics",
   "question": "Cells were clustered using Leiden clustering on 2,000 highly variable genes. Differential expression between cluster 1 and cluster 2 yielded 400 genes with p < 1e-50. The authors claim strong proof of distinct cell types.",
   "experiment": {
@@ -45,8 +46,19 @@
       "Post-clustering double-dipping invalidates classic null hypothesis testing."
     ]
   },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "circular_inference",
+    "experimental_unit": "patient",
+    "analysis": "clustering_cell_typing",
+    "failure_mode": "post_clustering_testing_same_data"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Gao et al. (2022) Biostatistics 23(3):717-734"
+  },
   "sources": [
-    "Gao et al. (2022) Selective inference for single-cell RNA-seq clustering. Biostatistics 23(3):717-734"
+    "Gao et al. (2022) Biostatistics 23(3):717-734"
   ]
 }

@@ -1,71 +1,99 @@
 {
   "item_id": "BENCH_018_RAW_FASTQ_ALIGNMENT_QC",
+  "difficulty": "FOUNDATIONAL",
   "category": "fastq_bam_vcf",
-  "scenario": "A bioinformatician receives RNA-seq FASTQ files showing 40% poly-A tail read-through and high adapter dimer content in FastQC. They skip adapter trimming and align directly using STAR.",
-  "question": "What downstream artifacts will be introduced in read mapping and differential expression?",
+  "scenario": "Directly aligning RNA-seq FASTQ with 40% poly-A tail read-through and high adapter dimer content in STAR without trimming.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Directly aligning RNA-seq FASTQ with 40% poly-A tail read-through and high adapter dimer content in STAR without trimming.",
   "flawed_analysis_present": true,
   "flaw_type": "omitted_adapter_trimming",
-  "ground_truth_rationale": "Untrimmed adapter sequences and poly-A tails cause excessive soft-clipping, unmapped reads, chimeric alignments, and inaccurate quantification at transcript boundaries. Trimming with fastp / Trimmomatic is essential.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_018_RAW_FASTQ_ALIGNMENT_QC: untrimmed adapters, soft clipping artifacts, fastp / Trimmomatic.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "untrimmed adapters",
-        "soft clipping",
-        "mapping artifacts"
+        "omitted_adapter_trimming",
+        "methodological"
       ],
       "negative_points": [
-        "STAR automatically handles all adapters perfectly"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
-        "adapter read-through",
-        "false chimeric junctions",
-        "quantification degradation"
+        "untrimmed adapters",
+        "soft clipping artifacts",
+        "fastp / Trimmomatic"
       ],
       "negative_points": [
-        "adapters improve alignment"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "trim adapters with fastp / Trimmomatic / cutadapt",
-        "verify FastQC post-trimming"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "align without trimming"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "quantification accuracy is compromised without QC"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "100% mapping accuracy"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "computational alignment quality depends on read preprocessing integrity"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "skip QC"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "omitted_adapter_trimming",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "omitted_adapter_trimming"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "untrimmed adapters",
+      "soft clipping artifacts"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "fastq_bam_vcf",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "omitted_adapter_trimming"
+  },
   "tags": [
     "fastq_bam_vcf",
-    "bioinformatics_qc",
-    "bulk_rnaseq"
+    "foundational",
+    "phase1_expanded"
   ]
 }

@@ -1,71 +1,99 @@
 {
   "item_id": "BENCH_009_IMPUTATION_TEST_LEAKAGE",
+  "difficulty": "INTERMEDIATE",
   "category": "data_leakage",
-  "scenario": "A metabolomics dataset with 20% missing values is imputed using MissForest on the entire 200-sample dataset prior to splitting into 70% train and 30% test sets.",
-  "question": "Does this procedure introduce data leakage? Explain the mechanism and state the correct pipeline structure.",
+  "scenario": "A metabolomics dataset with 20% missing values is imputed using MissForest globally on all 200 samples before 70/30 train/test split.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: A metabolomics dataset with 20% missing values is imputed using MissForest globally on all 200 samples before 70/30 train/test split.",
   "flawed_analysis_present": true,
   "flaw_type": "imputation_leakage",
-  "ground_truth_rationale": "MissForest uses random forests fitted on available feature relationships. Fitting on the full dataset uses test set covariance and value patterns to fill training values (and vice versa), leaking information across partitions.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_009_IMPUTATION_TEST_LEAKAGE: imputation leakage, fit imputer on training fold only, test contamination.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "imputation leakage",
-        "global MissForest",
-        "test information leaked"
+        "imputation_leakage",
+        "methodological"
       ],
       "negative_points": [
-        "valid imputation"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
-        "borrows covariance across partitions",
-        "optimistic test performance",
-        "violates split isolation"
+        "imputation leakage",
+        "fit imputer on training fold only",
+        "test contamination"
       ],
       "negative_points": [
-        "imputation cannot leak"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "fit imputer on training fold only",
-        "transform test fold using fitted imputer"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "impute before split"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "reported performance is inflated"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "unbiased estimate"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "all learned transformations must respect training boundaries"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "ignore imputation scope"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "imputation_leakage",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "imputation_leakage"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "imputation leakage",
+      "fit imputer on training fold only"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "data_leakage",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "imputation_leakage"
+  },
   "tags": [
     "data_leakage",
-    "imputation",
-    "machine_learning"
+    "intermediate",
+    "phase1_expanded"
   ]
 }

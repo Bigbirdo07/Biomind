@@ -4,6 +4,7 @@ Rule engine exports.
 
 from .base import Rule, RuleResult, RuleSeverity
 from .pseudoreplication import PseudoreplicationRule
+from .statistical_power import StatisticalPowerRule
 from .leakage import (
     FeatureSelectionLeakageRule,
     PreprocessingLeakageRule,
@@ -20,6 +21,7 @@ __all__ = [
     "RuleResult",
     "RuleSeverity",
     "PseudoreplicationRule",
+    "StatisticalPowerRule",
     "FeatureSelectionLeakageRule",
     "PreprocessingLeakageRule",
     "GroupLeakageRule",

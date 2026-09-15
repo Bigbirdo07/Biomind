@@ -1,0 +1,57 @@
+{
+  "episode_id": "EP_041_REPEATED_MEASURES_GLMM_VALID",
+  "episode_type": "CORRECT_WORKFLOW",
+  "domain": "single_cell_transcriptomics",
+  "question": "Fitting GLMM with subject random intercepts across 50,000 cells from 12 patients, appropriately modeling hierarchical variance.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "scrna_seq",
+    "experimental_unit": "patient",
+    "samples": 12,
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression"
+  },
+  "proposed_analysis": "Execution of workflow described in scenario: Fitting GLMM with subject random intercepts across 50,000 cells from 12 patients, appropriately modeling hierarchical variance.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Apply rigorous methodological controls, proper nesting, and external validation as required by scientific design principles.",
+  "reasoning_summary": "Methodological evaluation for EP_041_REPEATED_MEASURES_GLMM_VALID: enforces appropriate biological units, variance modeling, and validation isolation.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Analysis performed in accordance with stated scientific principles.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Causal assertions without perturbation experiments.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "Requires rigorous independent replication."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "single_cell_transcriptomics",
+    "experimental_unit": "patient",
+    "analysis": "differential_expression",
+    "failure_mode": "none"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "BioReason Scientific Working Group"
+  },
+  "sources": [
+    "Peer-reviewed standard methods"
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_045_PROVENANCE_IRREPRODUCIBLE_RANDOM_SEED",
+  "difficulty": "FOUNDATIONAL",
+  "category": "reproducibility",
+  "scenario": "Publishing a deep learning transcriptomic classification paper without recording software versions, random seeds, or hardware environment.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Publishing a deep learning transcriptomic classification paper without recording software versions, random seeds, or hardware environment.",
+  "flawed_analysis_present": true,
+  "flaw_type": "irreproducible_provenance",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_045_PROVENANCE_IRREPRODUCIBLE_RANDOM_SEED: stochastic variation cannot be reproduced, run manifest and fixed seed required, reproducibility crisis in biological ML.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "irreproducible_provenance",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "stochastic variation cannot be reproduced",
+        "run manifest and fixed seed required",
+        "reproducibility crisis in biological ML"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "irreproducible_provenance",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "irreproducible_provenance"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "stochastic variation cannot be reproduced",
+      "run manifest and fixed seed required"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "reproducibility",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "irreproducible_provenance"
+  },
+  "tags": [
+    "reproducibility",
+    "foundational",
+    "phase1_expanded"
+  ]
+}

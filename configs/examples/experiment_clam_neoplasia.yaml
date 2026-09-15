@@ -1,6 +1,9 @@
 organism: Mercenaria mercenaria
 assay: scrna_seq
 experimental_unit: animal
+observational_unit: cell
+analysis_unit: pseudobulk_sample
+replicate_type: biological
 samples: 20
 total_observations: 50000
 groups:

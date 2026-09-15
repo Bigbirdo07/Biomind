@@ -1,72 +1,99 @@
 {
   "item_id": "BENCH_020_NESTED_VS_NON_NESTED_CV",
+  "difficulty": "INTERMEDIATE",
   "category": "cross_validation",
-  "scenario": "A data scientist tunes the regularization parameter (C) and gamma of an RBF-SVM using 5-fold cross-validation, picks the hyperparameters yielding the highest test score, and reports that cross-validation score as the unbiased model performance.",
-  "question": "Is this single-loop cross-validation score an unbiased estimate of generalization error? Explain nested cross-validation.",
+  "scenario": "Tuning RBF-SVM hyperparameters on 5-fold CV and reporting the peak CV score as the unbiased generalization error.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Tuning RBF-SVM hyperparameters on 5-fold CV and reporting the peak CV score as the unbiased generalization error.",
   "flawed_analysis_present": true,
   "flaw_type": "hyperparameter_tuning_leakage",
-  "ground_truth_rationale": "Selecting hyperparameters to maximize the cross-validation score overfits the validation split, introducing optimistic bias. Nested cross-validation (outer loop for performance evaluation, inner loop for hyperparameter tuning) is required for unbiased error estimation.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_020_NESTED_VS_NON_NESTED_CV: hyperparameter tuning bias, nested cross-validation, inner loop tuning, outer loop evaluation.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "hyperparameter tuning bias",
-        "optimistic CV score",
-        "non-nested evaluation"
+        "hyperparameter_tuning_leakage",
+        "methodological"
       ],
       "negative_points": [
-        "single CV loop is perfectly unbiased"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
-        "hyperparameters chosen to maximize CV test score",
-        "optimism bias",
-        "need separate evaluation partition"
+        "hyperparameter tuning bias",
+        "nested cross-validation",
+        "inner loop tuning, outer loop evaluation"
       ],
       "negative_points": [
-        "hyperparameter search cannot leak"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "nested cross-validation",
-        "inner loop for hyperparameter search",
-        "outer loop for evaluation"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "tune on test set"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "true generalization error will be higher than tuned CV score"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "tuned score is exact"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "separate model selection from model evaluation"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "ignore nested tuning"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "hyperparameter_tuning_leakage",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "hyperparameter_tuning_leakage"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "hyperparameter tuning bias",
+      "nested cross-validation"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "cross_validation",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "hyperparameter_tuning_leakage"
+  },
   "tags": [
     "cross_validation",
-    "hyperparameter_tuning",
-    "machine_learning"
+    "intermediate",
+    "phase1_expanded"
   ]
 }

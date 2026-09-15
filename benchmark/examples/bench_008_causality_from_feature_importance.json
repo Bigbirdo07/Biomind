@@ -1,71 +1,99 @@
 {
   "item_id": "BENCH_008_CAUSALITY_FROM_FEATURE_IMPORTANCE",
+  "difficulty": "INTERMEDIATE",
   "category": "result_interpretation",
-  "scenario": "An XGBoost model trained on bulk transcriptomics of diabetic vs healthy kidney biopsies identifies SLC12A1 as the top feature by SHAP importance. The manuscript title is 'SLC12A1 Causes Diabetic Nephropathy Progression.'",
-  "question": "Evaluate whether the scientific claim in the title is supported by the machine learning methodology.",
+  "scenario": "An XGBoost model classifies diabetic kidney biopsies; SLC12A1 is top by SHAP. The paper claims 'SLC12A1 Causes Diabetic Nephropathy.'",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: An XGBoost model classifies diabetic kidney biopsies; SLC12A1 is top by SHAP. The paper claims 'SLC12A1 Causes Diabetic Nephropathy.'",
   "flawed_analysis_present": true,
   "flaw_type": "causal_overclaim",
-  "ground_truth_rationale": "Machine learning feature importance and SHAP values quantify predictive association in observational data, not biological causality. A causal claim requires mechanistic, interventional experiments (knockout, knockdown, rescue).",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_008_CAUSALITY_FROM_FEATURE_IMPORTANCE: association is not causation, SHAP does not prove cause, interventional experiments required.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "causal overclaiming",
-        "association is not causation",
-        "SHAP does not prove cause"
+        "causal_overclaim",
+        "methodological"
       ],
       "negative_points": [
-        "title is accurate"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
-        "observational data",
-        "predictive importance != biological causality",
-        "confounding / reverse causation possible"
+        "association is not causation",
+        "SHAP does not prove cause",
+        "interventional experiments required"
       ],
       "negative_points": [
-        "SHAP proves causation"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "reframe claim as association or hypothesis",
-        "mandate functional biological perturbation experiments"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "use Random Forest instead"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "explicitly categorize as biological interpretation or hypothesis"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "causality confirmed"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "strict adherence to the scientific claim hierarchy"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "predictive importance = mechanism"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "causal_overclaim",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "causal_overclaim"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "association is not causation",
+      "SHAP does not prove cause"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "result_interpretation",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "causal_overclaim"
+  },
   "tags": [
     "result_interpretation",
-    "causality",
-    "shap"
+    "intermediate",
+    "phase1_expanded"
   ]
 }

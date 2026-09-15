@@ -1,11 +1,16 @@
 {
   "episode_id": "EP_001_SCRNA_PSEUDOREPLICATION",
+  "episode_type": "FLAWED_WORKFLOW",
   "domain": "single_cell_transcriptomics",
-  "question": "A researcher has 40,000 cells from one diseased mouse and 30,000 cells from one healthy control mouse. They run a two-sample t-test comparing gene expression across the 70,000 cells to find disease-associated genes. Evaluate this analysis.",
+  "subdomain": "differential_expression",
+  "question": "A researcher has 40,000 cells from one diseased mouse and 30,000 cells from one healthy control mouse. They run a cell-level Student's t-test across the 70,000 cells to find disease-associated genes. Evaluate this analysis.",
   "experiment": {
     "organism": "Mus musculus",
     "assay": "scrna_seq",
     "experimental_unit": "animal",
+    "observational_unit": "cell",
+    "analysis_unit": "cell",
+    "replicate_type": "biological",
     "samples": 2,
     "total_observations": 70000,
     "groups": [
@@ -21,8 +26,7 @@
       }
     ],
     "covariates": [
-      "sequencing_depth",
-      "mitochondrial_percent"
+      "sequencing_depth"
     ],
     "batch_structure": {
       "batch_variable": "run_date",
@@ -61,7 +65,19 @@
       "Observed differences reflect individual animal idiosyncrasies or batch artifacts."
     ]
   },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "pseudoreplication",
+    "experimental_unit": "animal",
+    "observational_unit": "cell",
+    "analysis": "differential_expression",
+    "failure_mode": "cells_as_independent_replicates"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Squair et al. (2021) Nature Communications 12:5692"
+  },
   "sources": [
     "Squair et al. (2021) Nature Communications 12:5692"
   ]

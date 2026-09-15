@@ -1,72 +1,99 @@
 {
   "item_id": "BENCH_010_GATK_HARD_FILTERING_STANDARDS",
+  "difficulty": "FOUNDATIONAL",
   "category": "gatk_workflows",
-  "scenario": "A clinical sequencing lab calls germline small variants using GATK HaplotypeCaller on 50 exomes. They skip VQSR because the sample size is small (<30 per cohort) and instead use raw uncalibrated VCF calls directly for diagnostic reporting.",
-  "question": "What best-practice alternative should be applied when sample size is too small for VQSR?",
+  "scenario": "A lab calls germline small variants using GATK HaplotypeCaller on 25 exomes. Skipping VQSR due to small cohort, they use raw uncalibrated VCF for diagnostics.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: A lab calls germline small variants using GATK HaplotypeCaller on 25 exomes. Skipping VQSR due to small cohort, they use raw uncalibrated VCF for diagnostics.",
   "flawed_analysis_present": true,
   "flaw_type": "unfiltered_variant_calling",
-  "ground_truth_rationale": "When cohort size is insufficient for VQSR, GATK Best Practices mandate standard hard-filtering on specific quality annotations: QD < 2.0, QUAL < 30.0, SOR > 3.0, FS > 60.0, MQ < 40.0, MQRankSum < -12.5, ReadPosRankSum < -8.0 for SNPs.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_010_GATK_HARD_FILTERING_STANDARDS: GATK hard filtering, QD, FS, MQ, ReadPosRankSum, unfiltered raw VCF.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "unfiltered raw variants",
-        "high false positive rate",
-        "uncalibrated VCF"
+        "unfiltered_variant_calling",
+        "methodological"
       ],
       "negative_points": [
-        "raw VCF is clinically ready"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
-        "strand bias artifacts",
-        "low quality by depth",
-        "mapping quality bias"
+        "GATK hard filtering",
+        "QD, FS, MQ, ReadPosRankSum",
+        "unfiltered raw VCF"
       ],
       "negative_points": [
-        "HaplotypeCaller output is error-free"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "GATK hard filtering",
-        "filter on QD, FS, MQ, ReadPosRankSum",
-        "VariantFiltration"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "use raw calls"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "raw calls have high false positive rates in clinical context"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "100% confidence"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "bioinformatics QC precedes clinical interpretation"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "skip filtering"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "unfiltered_variant_calling",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "unfiltered_variant_calling"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "GATK hard filtering",
+      "QD, FS, MQ, ReadPosRankSum"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "gatk_workflows",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "unfiltered_variant_calling"
+  },
   "tags": [
     "gatk_workflows",
-    "wgs_wes",
-    "variant_calling"
+    "foundational",
+    "phase1_expanded"
   ]
 }

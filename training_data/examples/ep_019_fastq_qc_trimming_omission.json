@@ -1,5 +1,6 @@
 {
   "episode_id": "EP_019_FASTQ_QC_TRIMMING_OMISSION",
+  "episode_type": "FLAWED_WORKFLOW",
   "domain": "bioinformatics_qc",
   "question": "A researcher aligns raw FASTQ files containing 35% Illumina adapter read-through and degraded 3' base qualities (Q < 10) directly to GRCh38 with BWA-MEM without trimming. Evaluate impact.",
   "experiment": {
@@ -38,8 +39,19 @@
       "Adapter artifacts degrade alignment specificity and variant calling precision."
     ]
   },
+  "scenario_signature": {
+    "assay": "wgs",
+    "problem": "quality_control",
+    "experimental_unit": "patient",
+    "analysis": "alignment_variant_calling",
+    "failure_mode": "omitting_adapter_trimming"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Chen et al. (2018) Bioinformatics 34(17):i884-i890"
+  },
   "sources": [
-    "Chen et al. (2018) fastp: an ultra-fast all-in-one FASTQ preprocessor. Bioinformatics 34(17):i884-i890"
+    "Chen et al. (2018) Bioinformatics 34(17):i884-i890"
   ]
 }

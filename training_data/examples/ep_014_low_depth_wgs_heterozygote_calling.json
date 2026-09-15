@@ -1,5 +1,6 @@
 {
   "episode_id": "EP_014_LOW_DEPTH_WGS_HETEROZYGOTE_CALLING",
+  "episode_type": "DIAGNOSE_FAILURE",
   "domain": "wgs_genomics",
   "question": "A researcher attempts to confidently call heterozygous non-coding single-nucleotide variants from 3x mean coverage whole-genome sequencing data. Evaluate.",
   "experiment": {
@@ -38,8 +39,19 @@
       "Severe allelic dropout prevents reliable individual genotyping at 3x depth."
     ]
   },
+  "scenario_signature": {
+    "assay": "wgs",
+    "problem": "insufficient_coverage",
+    "experimental_unit": "patient",
+    "analysis": "variant_calling",
+    "failure_mode": "calling_heterozygotes_at_low_depth"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Nielsen et al. (2011) Nature Reviews Genetics 12:443-451"
+  },
   "sources": [
-    "Nielsen et al. (2011) Genotype and SNP calling from next-generation sequencing data. Nature Reviews Genetics 12:443-451"
+    "Nielsen et al. (2011) Nature Reviews Genetics 12:443-451"
   ]
 }

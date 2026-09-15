@@ -1,5 +1,6 @@
 {
   "episode_id": "EP_017_GLOBAL_SCALING_LEAKAGE",
+  "episode_type": "FLAWED_WORKFLOW",
   "domain": "biological_ml",
   "question": "A pipeline fits StandardScaler and PCA on all 300 samples before splitting into 80/20 train/test sets. Evaluate validity.",
   "experiment": {
@@ -38,7 +39,18 @@
       "Information leakage through global variance computation."
     ]
   },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "data_leakage",
+    "experimental_unit": "patient",
+    "analysis": "supervised_classification",
+    "failure_mode": "global_scaler_and_pca"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Varoquaux (2018) NeuroImage 180:68-77"
+  },
   "sources": [
     "Varoquaux (2018) NeuroImage 180:68-77"
   ]

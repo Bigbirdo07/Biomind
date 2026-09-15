@@ -1,24 +1,26 @@
 {
   "episode_id": "EP_009_TECHNICAL_REPLICATION_PSEUDOREP",
+  "episode_type": "FLAWED_WORKFLOW",
   "domain": "bulk_rnaseq",
   "question": "RNA from 2 treated mice was split across 5 sequencing lanes each, yielding 10 FASTQ files. The analyst performs DESeq2 differential expression treating N=10 vs N=10 controls. Evaluate.",
   "experiment": {
     "organism": "Mus musculus",
     "assay": "bulk_rna_seq",
     "experimental_unit": "animal",
+    "observational_unit": "technical_replicate",
+    "replicate_type": "technical",
     "samples": 4,
     "groups": [
       {
         "name": "Treated",
-        "sample_count": 2
+        "sample_count": 2,
+        "technical_replicates_per_sample": 5
       },
       {
         "name": "Control",
-        "sample_count": 2
+        "sample_count": 2,
+        "technical_replicates_per_sample": 5
       }
-    ],
-    "covariates": [
-      "sequencing_lane"
     ],
     "input_data_type": "raw_counts",
     "objective": "differential_expression"
@@ -51,8 +53,20 @@
       "True biological replication is N=2, insufficient for robust dispersion estimation."
     ]
   },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "technical_pseudoreplication",
+    "experimental_unit": "animal",
+    "observational_unit": "technical_replicate",
+    "analysis": "differential_expression",
+    "failure_mode": "technical_lanes_as_biological_n"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Blainey et al. (2014) Nature Methods 11:879-880"
+  },
   "sources": [
-    "Blainey et al. (2014) Points of Significance: Replication. Nature Methods 11:879-880"
+    "Blainey et al. (2014) Nature Methods 11:879-880"
   ]
 }

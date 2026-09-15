@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_032_ATAC_SEQ_TSS_ENRICHMENT_QC",
+  "difficulty": "INTERMEDIATE",
+  "category": "experimental_design",
+  "scenario": "Calling open chromatin peaks from an ATAC-seq experiment where TSS enrichment score was 2.1 and fragment distribution lacked nucleosomal periodicity.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Calling open chromatin peaks from an ATAC-seq experiment where TSS enrichment score was 2.1 and fragment distribution lacked nucleosomal periodicity.",
+  "flawed_analysis_present": true,
+  "flaw_type": "low_quality_atac_library",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_032_ATAC_SEQ_TSS_ENRICHMENT_QC: low TSS enrichment indicates high background noise, missing nucleosomal periodicity, filter low-quality ATAC libraries.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "low_quality_atac_library",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "low TSS enrichment indicates high background noise",
+        "missing nucleosomal periodicity",
+        "filter low-quality ATAC libraries"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "low_quality_atac_library",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "low_quality_atac_library"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "low TSS enrichment indicates high background noise",
+      "missing nucleosomal periodicity"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "experimental_design",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "low_quality_atac_library"
+  },
+  "tags": [
+    "experimental_design",
+    "intermediate",
+    "phase1_expanded"
+  ]
+}

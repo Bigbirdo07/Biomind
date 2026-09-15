@@ -1,10 +1,18 @@
 """
-Typed schemas for BioReasonBench items, multi-dimensional scoring rubrics, and evaluation results.
+Typed schemas for BioReasonBench items, difficulty levels, compound issues, scoring rubrics, and critical failure metrics.
 """
 
 from enum import Enum
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field, ConfigDict
+from .episode import ScenarioSignature, SourceProvenance
+
+
+class DifficultyLevel(str, Enum):
+    FOUNDATIONAL = "FOUNDATIONAL"
+    INTERMEDIATE = "INTERMEDIATE"
+    ADVANCED = "ADVANCED"
+    ADVERSARIAL = "ADVERSARIAL"
 
 
 class BenchmarkCategory(str, Enum):
@@ -33,6 +41,7 @@ class BenchmarkCategory(str, Enum):
     BIOLOGICAL_PLAUSIBILITY = "biological_plausibility"
     REPRODUCIBILITY = "reproducibility"
     ADVERSARIAL_FLAWED_ANALYSIS = "adversarial_flawed_analysis"
+    AMBIGUOUS_JUDGMENT = "ambiguous_judgment"
 
 
 class RubricCriterion(BaseModel):
@@ -51,27 +60,59 @@ class ScoringRubric(BaseModel):
     correction_quality: RubricCriterion
     uncertainty_calibration: RubricCriterion
     interpretation_quality: RubricCriterion
+    experimental_unit_reasoning: Optional[RubricCriterion] = None
+
+
+class ExpectedDecision(BaseModel):
+    primary_issue: str
+    secondary_issues: List[str] = Field(default_factory=list)
+    severity: str = "ERROR"
+    acceptable_methods: List[str] = Field(default_factory=list)
+    unacceptable_methods: List[str] = Field(default_factory=list)
+    supported_claims: List[str] = Field(default_factory=list)
+    unsupported_claims: List[str] = Field(default_factory=list)
+
+
+class ScoringBreakdown(BaseModel):
+    must_identify: List[str] = Field(default_factory=list)
+    should_identify: List[str] = Field(default_factory=list)
+    critical_errors: List[str] = Field(
+        default_factory=list,
+        description="Fatal scientific endorsements that trigger critical_failure = true"
+    )
+    partial_credit: List[str] = Field(default_factory=list)
 
 
 class BenchmarkItem(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     item_id: str = Field(description="Unique benchmark question identifier (e.g. BENCH_001_LEAKAGE_PCA)")
+    domain: Optional[str] = None
+    subdomain: Optional[str] = None
+    difficulty: DifficultyLevel = Field(
+        default=DifficultyLevel.INTERMEDIATE,
+        description="Reasoning complexity level"
+    )
     category: BenchmarkCategory
     scenario: str = Field(description="Detailed experimental, computational, or statistical scenario presented")
     question: str = Field(description="Specific scientific question testing deep reasoning")
     flawed_analysis_present: bool = Field(description="True if the presented scenario contains a methodological flaw")
     flaw_type: Optional[str] = Field(
         default=None,
-        description="Short canonical flaw name if flawed (e.g., pseudoreplication, target_leakage, batch_confounding)"
+        description="Short canonical flaw name if flawed"
     )
     ground_truth_rationale: str = Field(description="Authoritative, expert-validated scientific rationale")
     scoring_rubric: ScoringRubric
+    expected_decision: Optional[ExpectedDecision] = None
+    scoring_breakdown: Optional[ScoringBreakdown] = None
+    scenario_signature: Optional[ScenarioSignature] = None
+    provenance: Optional[SourceProvenance] = None
     tags: List[str] = Field(default_factory=list)
 
 
 class EvaluationScore(BaseModel):
     item_id: str
+    difficulty: Optional[DifficultyLevel] = DifficultyLevel.INTERMEDIATE
     flaw_detection_score: float = Field(ge=0.0, le=1.0)
     explanation_score: float = Field(ge=0.0, le=1.0)
     correction_score: float = Field(ge=0.0, le=1.0)
@@ -79,4 +120,9 @@ class EvaluationScore(BaseModel):
     interpretation_score: float = Field(ge=0.0, le=1.0)
     composite_score: float = Field(ge=0.0, le=1.0)
     flaw_detected_binary: bool
+    critical_failure: bool = Field(
+        default=False,
+        description="True if model endorsed an egregious scientific violation (e.g. pseudoreplication, causal overclaim, leakage)"
+    )
+    identified_failure_modes: List[str] = Field(default_factory=list)
     comments: Optional[str] = None

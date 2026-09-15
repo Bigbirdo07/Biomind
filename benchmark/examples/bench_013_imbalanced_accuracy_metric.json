@@ -1,73 +1,99 @@
 {
   "item_id": "BENCH_013_IMBALANCED_ACCURACY_METRIC",
+  "difficulty": "FOUNDATIONAL",
   "category": "ml_design",
-  "scenario": "A machine learning pipeline for screening a 0.5% prevalence hereditary syndrome achieves 99.5% accuracy by predicting negative for all 10,000 subjects.",
-  "question": "Why is accuracy an invalid metric here, and which metrics should be reported instead?",
+  "scenario": "Classifier for 0.5% prevalence rare syndrome achieves 99.5% accuracy by predicting negative for all patients.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Classifier for 0.5% prevalence rare syndrome achieves 99.5% accuracy by predicting negative for all patients.",
   "flawed_analysis_present": true,
   "flaw_type": "inappropriate_evaluation_metric",
-  "ground_truth_rationale": "With 0.5% prevalence, a dummy classifier predicting negative for all instances achieves 99.5% accuracy while possessing 0% sensitivity and 0% PR-AUC. Precision-Recall AUC, Sensitivity at specified Specificity, and Balanced Accuracy are mandatory.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_013_IMBALANCED_ACCURACY_METRIC: accuracy paradox, zero sensitivity, PR-AUC and balanced accuracy required.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "accuracy paradox",
-        "class imbalance",
-        "zero sensitivity"
+        "inappropriate_evaluation_metric",
+        "methodological"
       ],
       "negative_points": [
-        "accuracy is ideal"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
-        "majority class dominates accuracy",
-        "fails to detect any disease cases",
-        "misleading clinical score"
+        "accuracy paradox",
+        "zero sensitivity",
+        "PR-AUC and balanced accuracy required"
       ],
       "negative_points": [
-        "99.5% proves model works"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "PR-AUC",
-        "balanced accuracy",
-        "sensitivity/recall",
-        "F1 score"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "use accuracy on training set"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "model has zero clinical utility"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "highly reliable screening"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "metric selection must reflect base rate and clinical objective"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "accuracy is universally valid"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "inappropriate_evaluation_metric",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "inappropriate_evaluation_metric"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "accuracy paradox",
+      "zero sensitivity"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "ml_design",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "inappropriate_evaluation_metric"
+  },
   "tags": [
     "ml_design",
-    "class_imbalance",
-    "metrics"
+    "foundational",
+    "phase1_expanded"
   ]
 }

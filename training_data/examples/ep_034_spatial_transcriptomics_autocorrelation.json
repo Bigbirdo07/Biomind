@@ -1,0 +1,57 @@
+{
+  "episode_id": "EP_034_SPATIAL_TRANSCRIPTOMICS_AUTOCORRELATION",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "spatial_transcriptomics",
+  "question": "Analyzing 10,000 spatial Visium spots as independent biological replicates without accounting for spatial autocorrelation and tissue morphology.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "other",
+    "experimental_unit": "tissue_sample",
+    "samples": 2,
+    "input_data_type": "tabular_features",
+    "objective": "differential_expression"
+  },
+  "proposed_analysis": "Execution of workflow described in scenario: Analyzing 10,000 spatial Visium spots as independent biological replicates without accounting for spatial autocorrelation and tissue morphology.",
+  "scientific_checks": {
+    "replication_valid": false,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": false,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": false
+  },
+  "preferred_analysis": "Apply rigorous methodological controls, proper nesting, and external validation as required by scientific design principles.",
+  "reasoning_summary": "Methodological evaluation for EP_034_SPATIAL_TRANSCRIPTOMICS_AUTOCORRELATION: enforces appropriate biological units, variance modeling, and validation isolation.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Analysis performed in accordance with stated scientific principles.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Causal assertions without perturbation experiments.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "Requires rigorous independent replication."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "other",
+    "problem": "spatial_transcriptomics",
+    "experimental_unit": "tissue_sample",
+    "analysis": "differential_expression",
+    "failure_mode": "methodological_flaw"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "BioReason Scientific Working Group"
+  },
+  "sources": [
+    "Peer-reviewed standard methods"
+  ]
+}

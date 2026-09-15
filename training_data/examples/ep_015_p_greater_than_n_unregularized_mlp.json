@@ -1,5 +1,6 @@
 {
   "episode_id": "EP_015_P_GREATER_THAN_N_UNREGULARIZED_MLP",
+  "episode_type": "DIAGNOSE_FAILURE",
   "domain": "biological_ml",
   "question": "A deep neural network (3 hidden layers, 500,000 parameters) is trained on 80 transcriptomic samples (20,000 genes) without regularization. Training loss reaches 0.0001, but test loss explodes. Diagnose.",
   "experiment": {
@@ -48,8 +49,19 @@
       "Catastrophic overfitting due to p >> n parameterization."
     ]
   },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "overfitting",
+    "experimental_unit": "patient",
+    "analysis": "supervised_classification",
+    "failure_mode": "unregularized_mlp_p_greater_n"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Hastie et al. (2009)"
+  },
   "sources": [
-    "Hastie, Tibshirani & Friedman (2009) Elements of Statistical Learning"
+    "Hastie et al. (2009)"
   ]
 }

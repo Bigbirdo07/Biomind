@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_044_GENE_SET_ENRICHMENT_SELF_CONTAINED_VS_COMPETITIVE",
+  "difficulty": "ADVANCED",
+  "category": "statistical_reasoning",
+  "scenario": "Applying hypergeometric Fisher exact test to 500 significant genes, assuming all 20,000 genome genes are independent.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Applying hypergeometric Fisher exact test to 500 significant genes, assuming all 20,000 genome genes are independent.",
+  "flawed_analysis_present": true,
+  "flaw_type": "gene_gene_correlation_in_ora",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_044_GENE_SET_ENRICHMENT_SELF_CONTAINED_VS_COMPETITIVE: inter-gene correlation inflates Fisher test p-values, competitive test (GSEA/camera) accounts for correlation, self-contained vs competitive distinction.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "gene_gene_correlation_in_ora",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "inter-gene correlation inflates Fisher test p-values",
+        "competitive test (GSEA/camera) accounts for correlation",
+        "self-contained vs competitive distinction"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "gene_gene_correlation_in_ora",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "gene_gene_correlation_in_ora"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "inter-gene correlation inflates Fisher test p-values",
+      "competitive test (GSEA/camera) accounts for correlation"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "statistical_reasoning",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "gene_gene_correlation_in_ora"
+  },
+  "tags": [
+    "statistical_reasoning",
+    "advanced",
+    "phase1_expanded"
+  ]
+}

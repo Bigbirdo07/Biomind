@@ -1,5 +1,6 @@
 {
   "item_id": "BENCH_003_BATCH_CONFOUNDING_TREATMENT",
+  "difficulty": "ADVANCED",
   "category": "batch_effects",
   "scenario": "In a drug repurposing experiment, 12 vehicle-treated cell lines were prepared using Reagent Kit A on Monday, and 12 drug-treated cell lines were prepared using Reagent Kit B on Friday. High-throughput RNA-seq identified 3,200 differentially expressed genes.",
   "question": "Can the researcher attribute these 3,200 genes to the drug's mechanism of action? Justify statistically.",
@@ -62,6 +63,17 @@
         "validated mechanism"
       ]
     }
+  },
+  "expected_decision": {
+    "primary_issue": "Complete batch-treatment confounding",
+    "severity": "ERROR"
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "confounding",
+    "experimental_unit": "cell_culture_dish",
+    "analysis": "differential_expression",
+    "failure_mode": "collinear_batch"
   },
   "tags": [
     "confounding",

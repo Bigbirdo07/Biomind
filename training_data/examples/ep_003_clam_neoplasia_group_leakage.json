@@ -1,11 +1,14 @@
 {
   "episode_id": "EP_003_CLAM_NEOPLASIA_GROUP_LEAKAGE",
+  "episode_type": "DIAGNOSE_FAILURE",
   "domain": "single_cell_transcriptomics_ml",
+  "subdomain": "validation_design",
   "question": "In a study on hard-shell clam (Mercenaria mercenaria) hemocyte neoplasia, 50,000 single-cell transcriptomes from 10 diseased and 10 healthy clams were randomly shuffled into 5-fold CV. The model achieved 0.9999 CV AUC, but only 0.58 on an external cohort. Explain the discrepancy.",
   "experiment": {
     "organism": "Mercenaria mercenaria",
     "assay": "scrna_seq",
     "experimental_unit": "animal",
+    "observational_unit": "cell",
     "samples": 20,
     "total_observations": 50000,
     "groups": [
@@ -19,9 +22,6 @@
         "sample_count": 10,
         "cell_count": 25000
       }
-    ],
-    "covariates": [
-      "sampling_site"
     ],
     "input_data_type": "raw_counts",
     "objective": "supervised_classification"
@@ -51,11 +51,22 @@
       }
     ],
     "limitations": [
-      "Random splitting violates observation independence across animal units.",
-      "External validation collapse confirms animal identity leakage."
+      "Random splitting violates observation independence across animal units."
     ]
   },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "group_leakage",
+    "experimental_unit": "animal",
+    "observational_unit": "cell",
+    "analysis": "supervised_classification",
+    "failure_mode": "random_split_hierarchical_data"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Little et al. (2017) Perspectives in Science 10:100-110"
+  },
   "sources": [
     "Little et al. (2017) Perspectives in Science 10:100-110"
   ]

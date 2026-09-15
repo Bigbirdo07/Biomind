@@ -1,0 +1,57 @@
+{
+  "episode_id": "EP_028_BOOTSTRAP_STABILITY_SELECTION",
+  "episode_type": "SELECT_MODEL",
+  "domain": "biomarker_discovery",
+  "question": "Evaluating gene selection stability across 500 bootstrap iterations to filter transient correlation noise in biomarker discovery.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "samples": 150,
+    "input_data_type": "raw_counts",
+    "objective": "biomarker_discovery"
+  },
+  "proposed_analysis": "Execution of workflow described in scenario: Evaluating gene selection stability across 500 bootstrap iterations to filter transient correlation noise in biomarker discovery.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Apply rigorous methodological controls, proper nesting, and external validation as required by scientific design principles.",
+  "reasoning_summary": "Methodological evaluation for EP_028_BOOTSTRAP_STABILITY_SELECTION: enforces appropriate biological units, variance modeling, and validation isolation.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Analysis performed in accordance with stated scientific principles.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Causal assertions without perturbation experiments.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "Requires rigorous independent replication."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "biomarker_discovery",
+    "experimental_unit": "patient",
+    "analysis": "biomarker_discovery",
+    "failure_mode": "none"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "BioReason Scientific Working Group"
+  },
+  "sources": [
+    "Peer-reviewed standard methods"
+  ]
+}

@@ -1,5 +1,6 @@
 {
   "episode_id": "EP_013_GATK_GERMLINE_VARIANT_RECALIBRATION",
+  "episode_type": "FLAWED_WORKFLOW",
   "domain": "genomics_variant_calling",
   "question": "A whole-exome sequencing pipeline calls germline SNPs using raw HaplotypeCaller output without applying VQSR (Variant Quality Score Recalibration) or hard filtering. Evaluate variant call reliability.",
   "experiment": {
@@ -38,8 +39,19 @@
       "Unfiltered variant calls exhibit high false discovery rates."
     ]
   },
+  "scenario_signature": {
+    "assay": "wes",
+    "problem": "variant_quality_filtering",
+    "experimental_unit": "patient",
+    "analysis": "variant_calling",
+    "failure_mode": "unfiltered_raw_vcf"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Van der Auwera & O'Connor (2020) GATK Best Practices"
+  },
   "sources": [
-    "Van der Auwera & O'Connor (2020) Genomics in the Cloud: GATK Best Practices. O'Reilly."
+    "Van der Auwera & O'Connor (2020) GATK Best Practices"
   ]
 }

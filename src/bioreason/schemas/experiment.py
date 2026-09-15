@@ -18,6 +18,7 @@ class AssayType(str, Enum):
     PROTEOMICS = "proteomics"
     METABOLOMICS = "metabolomics"
     FLOW_CYTOMETRY = "flow_cytometry"
+    MICROARRAY = "microarray"
     OTHER = "other"
 
 
@@ -30,6 +31,36 @@ class ExperimentalUnitLevel(str, Enum):
     CELL = "cell"
     READ = "read"
     OTHER = "other"
+
+
+class ObservationalUnitLevel(str, Enum):
+    ORGANISM = "organism"
+    PATIENT = "patient"
+    ANIMAL = "animal"
+    TISSUE_SAMPLE = "tissue_sample"
+    CELL_CULTURE_DISH = "cell_culture_dish"
+    CELL = "cell"
+    READ = "read"
+    TIMEPOINT = "timepoint"
+    TECHNICAL_REPLICATE = "technical_replicate"
+    OTHER = "other"
+
+
+class AnalysisUnitLevel(str, Enum):
+    ORGANISM = "organism"
+    PATIENT = "patient"
+    ANIMAL = "animal"
+    TISSUE_SAMPLE = "tissue_sample"
+    PSEUDOBULK_SAMPLE = "pseudobulk_sample"
+    CELL = "cell"
+    READ = "read"
+    OTHER = "other"
+
+
+class ReplicateType(str, Enum):
+    BIOLOGICAL = "biological"
+    TECHNICAL = "technical"
+    MIXED = "mixed"
 
 
 class DataType(str, Enum):
@@ -62,6 +93,7 @@ class SampleGroup(BaseModel):
     name: str
     sample_count: int = Field(ge=0, description="Number of distinct biological subjects/samples")
     cell_count: Optional[int] = Field(default=None, ge=0, description="Total cells if single-cell assay")
+    technical_replicates_per_sample: Optional[int] = Field(default=1, ge=1)
     description: Optional[str] = None
 
 
@@ -82,6 +114,18 @@ class ExperimentSpec(BaseModel):
     assay: AssayType = Field(description="Type of biological assay performed")
     experimental_unit: ExperimentalUnitLevel = Field(
         description="True independent biological unit of replication (e.g. animal, patient)"
+    )
+    observational_unit: Optional[ObservationalUnitLevel] = Field(
+        default=None,
+        description="Unit at which individual observations are recorded (e.g. cell, timepoint, aliquot)"
+    )
+    analysis_unit: Optional[AnalysisUnitLevel] = Field(
+        default=None,
+        description="Unit treated as independent in the statistical test (e.g. cell vs pseudobulk_sample vs animal)"
+    )
+    replicate_type: Optional[ReplicateType] = Field(
+        default=ReplicateType.BIOLOGICAL,
+        description="Type of replicates being modeled (biological vs technical)"
     )
     samples: int = Field(ge=1, description="Total number of independent biological samples/replicates")
     total_observations: Optional[int] = Field(

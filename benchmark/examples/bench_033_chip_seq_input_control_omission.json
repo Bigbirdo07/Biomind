@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_033_CHIP_SEQ_INPUT_CONTROL_OMISSION",
+  "difficulty": "FOUNDATIONAL",
+  "category": "experimental_design",
+  "scenario": "Calling transcription factor ChIP-seq binding peaks with MACS2 without providing an input DNA / IgG control library.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Calling transcription factor ChIP-seq binding peaks with MACS2 without providing an input DNA / IgG control library.",
+  "flawed_analysis_present": true,
+  "flaw_type": "omitted_chip_input_control",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_033_CHIP_SEQ_INPUT_CONTROL_OMISSION: input control required to model chromatin accessibility bias, false positive peak calls, MACS2 requires -c control.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "omitted_chip_input_control",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "input control required to model chromatin accessibility bias",
+        "false positive peak calls",
+        "MACS2 requires -c control"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "omitted_chip_input_control",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "omitted_chip_input_control"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "input control required to model chromatin accessibility bias",
+      "false positive peak calls"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "experimental_design",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "omitted_chip_input_control"
+  },
+  "tags": [
+    "experimental_design",
+    "foundational",
+    "phase1_expanded"
+  ]
+}

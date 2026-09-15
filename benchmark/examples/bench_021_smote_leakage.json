@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_021_SMOTE_LEAKAGE",
+  "difficulty": "INTERMEDIATE",
+  "category": "data_leakage",
+  "scenario": "Applying SMOTE oversampling on the complete 150-sample imbalanced cohort before 5-fold cross-validation.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Applying SMOTE oversampling on the complete 150-sample imbalanced cohort before 5-fold cross-validation.",
+  "flawed_analysis_present": true,
+  "flaw_type": "smote_leakage",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_021_SMOTE_LEAKAGE: SMOTE leakage, apply oversampling inside training folds only, synthetic test contamination.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "smote_leakage",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "SMOTE leakage",
+        "apply oversampling inside training folds only",
+        "synthetic test contamination"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "smote_leakage",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "smote_leakage"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "SMOTE leakage",
+      "apply oversampling inside training folds only"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "data_leakage",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "smote_leakage"
+  },
+  "tags": [
+    "data_leakage",
+    "intermediate",
+    "phase1_expanded"
+  ]
+}

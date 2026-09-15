@@ -1,0 +1,70 @@
+{
+  "episode_id": "EP_023_AMBIGUOUS_PSEUDOBULK_VS_GLMM",
+  "episode_type": "COMPARE_METHODS",
+  "domain": "single_cell_transcriptomics",
+  "question": "An investigator asks whether to use sample-level pseudobulk aggregation with DESeq2 or a cell-level Generalized Linear Mixed Model (GLMM with patient random effects) for single-cell differential expression with 15 patients per group. Evaluate both options.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "scrna_seq",
+    "experimental_unit": "patient",
+    "observational_unit": "cell",
+    "samples": 30,
+    "total_observations": 90000,
+    "groups": [
+      {
+        "name": "Disease",
+        "sample_count": 15
+      },
+      {
+        "name": "Control",
+        "sample_count": 15
+      }
+    ],
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression"
+  },
+  "proposed_analysis": "Compare pseudobulk DESeq2 vs GLMM with patient random intercepts.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Both methods are scientifically defensible: pseudobulk provides robust False Discovery Rate control and computational speed, while GLMMs allow modeling continuous single-cell covariates (e.g. cell cycle, mitochondrial ratio) at the cost of substantial compute time and convergence challenges.",
+  "reasoning_summary": "Both pseudobulk and mixed-effects models correctly account for patient-level clustering. Choice depends on computational budget and whether single-cell level covariates must be included in the inferential model.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Both methods properly account for non-independence of cells from the same patient.",
+        "level": "STATISTICAL_INFERENCE"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Pseudobulk is always inferior to GLMM.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "GLMMs may suffer convergence failures on lowly expressed genes."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "method_comparison",
+    "experimental_unit": "patient",
+    "observational_unit": "cell",
+    "analysis": "differential_expression",
+    "failure_mode": "none"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Squair et al. (2021) Nature Communications 12:5692"
+  },
+  "sources": [
+    "Squair et al. (2021) Nature Communications 12:5692"
+  ]
+}

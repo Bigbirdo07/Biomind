@@ -5,6 +5,9 @@ BioReason schema exports.
 from .experiment import (
     AssayType,
     ExperimentalUnitLevel,
+    ObservationalUnitLevel,
+    AnalysisUnitLevel,
+    ReplicateType,
     DataType,
     AnalysisObjective,
     SampleGroup,
@@ -13,10 +16,13 @@ from .experiment import (
 )
 from .episode import (
     ValidationStatus,
+    EpisodeType,
     ClaimLevel,
     ScientificClaim,
     ScientificChecks,
     InterpretationSection,
+    ScenarioSignature,
+    SourceProvenance,
     ScientificReasoningEpisode,
 )
 from .workflow import (
@@ -34,9 +40,12 @@ from .workflow import (
     WorkflowPlan,
 )
 from .benchmark import (
+    DifficultyLevel,
     BenchmarkCategory,
     RubricCriterion,
     ScoringRubric,
+    ExpectedDecision,
+    ScoringBreakdown,
     BenchmarkItem,
     EvaluationScore,
 )
@@ -45,16 +54,22 @@ from .provenance import RunManifest
 __all__ = [
     "AssayType",
     "ExperimentalUnitLevel",
+    "ObservationalUnitLevel",
+    "AnalysisUnitLevel",
+    "ReplicateType",
     "DataType",
     "AnalysisObjective",
     "SampleGroup",
     "BatchStructure",
     "ExperimentSpec",
     "ValidationStatus",
+    "EpisodeType",
     "ClaimLevel",
     "ScientificClaim",
     "ScientificChecks",
     "InterpretationSection",
+    "ScenarioSignature",
+    "SourceProvenance",
     "ScientificReasoningEpisode",
     "SplitType",
     "NormalizationMethod",
@@ -68,9 +83,12 @@ __all__ = [
     "ValidationConfig",
     "InterpretabilityConfig",
     "WorkflowPlan",
+    "DifficultyLevel",
     "BenchmarkCategory",
     "RubricCriterion",
     "ScoringRubric",
+    "ExpectedDecision",
+    "ScoringBreakdown",
     "BenchmarkItem",
     "EvaluationScore",
     "RunManifest",

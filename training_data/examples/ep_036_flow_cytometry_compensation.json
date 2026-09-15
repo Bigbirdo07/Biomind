@@ -1,0 +1,57 @@
+{
+  "episode_id": "EP_036_FLOW_CYTOMETRY_COMPENSATION",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "immunology",
+  "question": "Analyzing 14-color flow cytometry panel without applying single-stain fluorophore compensation matrix.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "flow_cytometry",
+    "experimental_unit": "patient",
+    "samples": 20,
+    "input_data_type": "tabular_features",
+    "objective": "clustering_cell_typing"
+  },
+  "proposed_analysis": "Execution of workflow described in scenario: Analyzing 14-color flow cytometry panel without applying single-stain fluorophore compensation matrix.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": false,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Apply rigorous methodological controls, proper nesting, and external validation as required by scientific design principles.",
+  "reasoning_summary": "Methodological evaluation for EP_036_FLOW_CYTOMETRY_COMPENSATION: enforces appropriate biological units, variance modeling, and validation isolation.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Analysis performed in accordance with stated scientific principles.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Causal assertions without perturbation experiments.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "Requires rigorous independent replication."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "flow_cytometry",
+    "problem": "immunology",
+    "experimental_unit": "patient",
+    "analysis": "clustering_cell_typing",
+    "failure_mode": "none"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "BioReason Scientific Working Group"
+  },
+  "sources": [
+    "Peer-reviewed standard methods"
+  ]
+}

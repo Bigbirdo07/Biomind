@@ -1,5 +1,6 @@
 {
   "episode_id": "EP_007_BIOMARKER_SPARSITY_VS_COMPLEXITY",
+  "episode_type": "SELECT_MODEL",
   "domain": "biomarker_discovery",
   "question": "For clinical blood-based biomarker discovery, Model A (XGBoost on 2,000 genes) achieves 0.96 AUC. Model B (Sparse Logistic Regression on 12 genes) achieves 0.94 AUC. Which model should be prioritized for wet-lab clinical assay development?",
   "experiment": {
@@ -29,7 +30,7 @@
     "multiple_testing_controlled": true,
     "sample_size_adequate": true
   },
-  "preferred_analysis": "Prioritize Model B for validation. A 12-gene sparse panel is clinically actionable via multiplex RT-qPCR/targeted panels, less prone to overfitting, and offers superior interpretability and experimental validation feasibility.",
+  "preferred_analysis": "Prioritize Model B for validation. A 12-gene sparse panel is clinically actionable via multiplex RT-qPCR, less prone to overfitting, and offers superior interpretability and experimental validation feasibility.",
   "reasoning_summary": "In biomarker discovery, minor gains in predictive metrics on complex models often reflect overfitting to non-essential variance. Sparse models with high stability offer vastly greater clinical and experimental utility.",
   "interpretation": {
     "supported_claims": [
@@ -48,8 +49,19 @@
       "High feature counts hinder wet-lab translation and increase risk of distribution shift failure."
     ]
   },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "model_selection",
+    "experimental_unit": "patient",
+    "analysis": "biomarker_discovery",
+    "failure_mode": "ignoring_parsimony_and_translation"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Meinshausen & B\u00fchlmann (2010) JRSS B 72:417-473"
+  },
   "sources": [
-    "Meinshausen & B\u00fchlmann (2010) Stability Selection. JRSS B 72:417-473"
+    "Meinshausen & B\u00fchlmann (2010) JRSS B 72:417-473"
   ]
 }

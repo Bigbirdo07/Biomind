@@ -1,7 +1,8 @@
 {
   "episode_id": "EP_006_MULTIPLE_TESTING_GENOMIC_SCALE",
+  "episode_type": "FLAWED_WORKFLOW",
   "domain": "transcriptomics_statistics",
-  "question": "In a microarray study of 25,000 probes across 20 cancer and 20 normal samples, 1,250 probes show p < 0.05 by unadjusted Student's t-test. The author concludes all 1,250 genes are cancer biomarkers. Evaluate this conclusion.",
+  "question": "In a study of 25,000 genes across 20 cancer and 20 normal samples, 1,250 genes show p < 0.05 by unadjusted Student's t-test. The author concludes all 1,250 genes are cancer biomarkers. Evaluate this conclusion.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "bulk_rna_seq",
@@ -48,7 +49,18 @@
       "Unadjusted multiple testing produces massive false discovery rates."
     ]
   },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "multiple_testing",
+    "experimental_unit": "patient",
+    "analysis": "differential_expression",
+    "failure_mode": "no_fdr_control"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Benjamini & Hochberg (1995) JRSS B 57:289-300"
+  },
   "sources": [
     "Benjamini & Hochberg (1995) JRSS B 57:289-300"
   ]

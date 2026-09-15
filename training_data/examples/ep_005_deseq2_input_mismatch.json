@@ -1,6 +1,8 @@
 {
   "episode_id": "EP_005_DESEQ2_INPUT_MISMATCH",
+  "episode_type": "FLAWED_WORKFLOW",
   "domain": "bulk_rnaseq",
+  "subdomain": "transformations",
   "question": "A researcher normalizes RNA-seq counts to TPM (Transcripts Per Million), applies log2(TPM + 1), and feeds this matrix into DESeq2(design = ~ condition). Evaluate this pipeline.",
   "experiment": {
     "organism": "Mus musculus",
@@ -16,9 +18,6 @@
         "name": "Control",
         "sample_count": 6
       }
-    ],
-    "covariates": [
-      "sex"
     ],
     "input_data_type": "tpm_fpkm_rpkm",
     "objective": "differential_expression"
@@ -51,7 +50,18 @@
       "Violation of count distribution assumptions invalidates dispersion shrinkage and p-values."
     ]
   },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "transformation_mismatch",
+    "experimental_unit": "animal",
+    "analysis": "differential_expression",
+    "failure_mode": "normalized_tpm_in_count_model"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Love et al. (2014) Genome Biology 15:550"
+  },
   "sources": [
     "Love et al. (2014) Genome Biology 15:550"
   ]

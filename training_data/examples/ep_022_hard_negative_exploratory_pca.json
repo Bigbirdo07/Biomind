@@ -1,0 +1,57 @@
+{
+  "episode_id": "EP_022_HARD_NEGATIVE_EXPLORATORY_PCA",
+  "episode_type": "CORRECT_WORKFLOW",
+  "domain": "transcriptomics_qc",
+  "question": "Prior to any statistical hypothesis testing or model training, an investigator computes PCA on all 80 normalized RNA-seq samples to visualize batch clusters and sample outliers. Evaluate.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "samples": 80,
+    "input_data_type": "normalized_counts",
+    "objective": "exploratory_analysis"
+  },
+  "proposed_analysis": "Perform unsupervised PCA on all samples strictly for visual quality control and sample clustering inspection.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Unsupervised PCA for exploratory QC does not constitute data leakage because no supervised train/test split or predictive claim is being evaluated.",
+  "reasoning_summary": "Unsupervised exploratory visualization across an entire cohort is completely standard and valid for QC. Data leakage only occurs when unsupervised transformations are learned on test data to evaluate a supervised prediction task.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "PCA visualization reveals primary axes of sample variance.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "PC1 alone proves disease causality.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "PCA is an unsupervised projection and does not prove statistical significance."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "exploratory_pca",
+    "experimental_unit": "patient",
+    "analysis": "exploratory_analysis",
+    "failure_mode": "none"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Love et al. (2014)"
+  },
+  "sources": [
+    "Love et al. (2014)"
+  ]
+}

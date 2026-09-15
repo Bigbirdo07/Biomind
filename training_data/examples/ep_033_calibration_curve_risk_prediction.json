@@ -1,0 +1,57 @@
+{
+  "episode_id": "EP_033_CALIBRATION_CURVE_RISK_PREDICTION",
+  "episode_type": "SELECT_MODEL",
+  "domain": "clinical_ml",
+  "question": "Model with 0.88 AUC exhibiting severe probability overconfidence (Brier score 0.32); recalibrated via isotonic regression for clinical risk assessment.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "other",
+    "experimental_unit": "patient",
+    "samples": 300,
+    "input_data_type": "tabular_features",
+    "objective": "supervised_classification"
+  },
+  "proposed_analysis": "Execution of workflow described in scenario: Model with 0.88 AUC exhibiting severe probability overconfidence (Brier score 0.32); recalibrated via isotonic regression for clinical risk assessment.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Apply rigorous methodological controls, proper nesting, and external validation as required by scientific design principles.",
+  "reasoning_summary": "Methodological evaluation for EP_033_CALIBRATION_CURVE_RISK_PREDICTION: enforces appropriate biological units, variance modeling, and validation isolation.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Analysis performed in accordance with stated scientific principles.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Causal assertions without perturbation experiments.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "Requires rigorous independent replication."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "other",
+    "problem": "clinical_ml",
+    "experimental_unit": "patient",
+    "analysis": "supervised_classification",
+    "failure_mode": "none"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "BioReason Scientific Working Group"
+  },
+  "sources": [
+    "Peer-reviewed standard methods"
+  ]
+}

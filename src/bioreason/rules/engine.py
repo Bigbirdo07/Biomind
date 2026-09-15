@@ -8,6 +8,7 @@ from bioreason.schemas.workflow import WorkflowPlan
 from bioreason.schemas.episode import ScientificReasoningEpisode
 from .base import Rule, RuleResult, RuleSeverity
 from .pseudoreplication import PseudoreplicationRule
+from .statistical_power import StatisticalPowerRule
 from .leakage import (
     FeatureSelectionLeakageRule,
     PreprocessingLeakageRule,
@@ -26,6 +27,7 @@ class ScientificRuleEngine:
         else:
             self.rules = [
                 PseudoreplicationRule(),
+                StatisticalPowerRule(),
                 FeatureSelectionLeakageRule(),
                 PreprocessingLeakageRule(),
                 GroupLeakageRule(),
@@ -55,11 +57,6 @@ class ScientificRuleEngine:
         return results
 
     def validate_episode(self, episode: ScientificReasoningEpisode) -> List[RuleResult]:
-        """
-        Validates a scientific reasoning episode:
-        Checks whether the episode's scientific_checks, reasoning_summary,
-        and interpretation correctly align with the ground-truth methodological assessment.
-        """
         results = []
         for rule in self.rules:
             res = rule.evaluate_episode(episode)

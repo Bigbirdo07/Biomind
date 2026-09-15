@@ -1,0 +1,57 @@
+{
+  "episode_id": "EP_038_DOUBLET_BARCODE_LEAKAGE",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "single_cell_transcriptomics_ml",
+  "question": "Failing to filter doublets in scRNA-seq before train/test split, allowing synthetic hybrid transcriptomes to span cross-validation partitions.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "scrna_seq",
+    "experimental_unit": "patient",
+    "samples": 8,
+    "input_data_type": "raw_counts",
+    "objective": "supervised_classification"
+  },
+  "proposed_analysis": "Execution of workflow described in scenario: Failing to filter doublets in scRNA-seq before train/test split, allowing synthetic hybrid transcriptomes to span cross-validation partitions.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": true,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Apply rigorous methodological controls, proper nesting, and external validation as required by scientific design principles.",
+  "reasoning_summary": "Methodological evaluation for EP_038_DOUBLET_BARCODE_LEAKAGE: enforces appropriate biological units, variance modeling, and validation isolation.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Analysis performed in accordance with stated scientific principles.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Causal assertions without perturbation experiments.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "Requires rigorous independent replication."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "single_cell_transcriptomics_ml",
+    "experimental_unit": "patient",
+    "analysis": "supervised_classification",
+    "failure_mode": "methodological_flaw"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "BioReason Scientific Working Group"
+  },
+  "sources": [
+    "Peer-reviewed standard methods"
+  ]
+}

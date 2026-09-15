@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_036_CALIBRATION_CURVE_VS_ROC_AUC",
+  "difficulty": "INTERMEDIATE",
+  "category": "ml_design",
+  "scenario": "Clinical cardiovascular risk model with 0.89 AUC predicting probabilities clustered near 0.90 for low-risk patients (severe miscalibration).",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Clinical cardiovascular risk model with 0.89 AUC predicting probabilities clustered near 0.90 for low-risk patients (severe miscalibration).",
+  "flawed_analysis_present": true,
+  "flaw_type": "poor_model_calibration",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_036_CALIBRATION_CURVE_VS_ROC_AUC: high AUC does not imply calibrated risk probabilities, Brier score and calibration curve, isotonic/Platt recalibration.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "poor_model_calibration",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "high AUC does not imply calibrated risk probabilities",
+        "Brier score and calibration curve",
+        "isotonic/Platt recalibration"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "poor_model_calibration",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "poor_model_calibration"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "high AUC does not imply calibrated risk probabilities",
+      "Brier score and calibration curve"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "ml_design",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "poor_model_calibration"
+  },
+  "tags": [
+    "ml_design",
+    "intermediate",
+    "phase1_expanded"
+  ]
+}

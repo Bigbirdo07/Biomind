@@ -1,0 +1,97 @@
+{
+  "item_id": "BENCH_042_HARD_NEGATIVE_PIPELINE_TRAIN_SCALING",
+  "difficulty": "FOUNDATIONAL",
+  "category": "data_leakage",
+  "scenario": "StandardScaler fit strictly on training fold inside scikit-learn Pipeline and applied to transform test fold.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: StandardScaler fit strictly on training fold inside scikit-learn Pipeline and applied to transform test fold.",
+  "flawed_analysis_present": false,
+  "flaw_type": null,
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_042_HARD_NEGATIVE_PIPELINE_TRAIN_SCALING: nested Pipeline scaling is completely valid, no data leakage, proper validation isolation.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "valid analysis",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "nested Pipeline scaling is completely valid",
+        "no data leakage",
+        "proper validation isolation"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "No methodological flaw; analysis is defensible",
+    "severity": "INFO",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": []
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "nested Pipeline scaling is completely valid",
+      "no data leakage"
+    ],
+    "critical_errors": [
+      "analysis is severely flawed"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "data_leakage",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "none"
+  },
+  "tags": [
+    "data_leakage",
+    "foundational",
+    "phase1_expanded"
+  ]
+}

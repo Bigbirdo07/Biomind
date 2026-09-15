@@ -1,5 +1,6 @@
 {
   "episode_id": "EP_011_CIRCULAR_BIOMARKER_VALIDATION",
+  "episode_type": "DIAGNOSE_FAILURE",
   "domain": "biomarker_discovery",
   "question": "A 10-gene signature was discovered by differential expression on Cohort A (N=50). The same Cohort A was then used to train and evaluate a logistic regression model, achieving 95% sensitivity. The paper claims clinical readiness.",
   "experiment": {
@@ -48,8 +49,19 @@
       "Lack of external cohort validation precludes clinical readiness claims."
     ]
   },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "circular_validation",
+    "experimental_unit": "patient",
+    "analysis": "biomarker_discovery",
+    "failure_mode": "no_external_cohort"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Simon (2005) Clin Cancer Res 11:3044-3051"
+  },
   "sources": [
-    "Simon, R. (2005) Roadmap for developing and validating therapeutic biomarkers. Clin Cancer Res 11:3044-3051"
+    "Simon (2005) Clin Cancer Res 11:3044-3051"
   ]
 }

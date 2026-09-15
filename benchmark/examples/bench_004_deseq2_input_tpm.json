@@ -1,5 +1,6 @@
 {
   "item_id": "BENCH_004_DESEQ2_INPUT_TPM",
+  "difficulty": "FOUNDATIONAL",
   "category": "differential_expression",
   "scenario": "A bioinformatician runs Salmon to obtain transcript-level TPMs, sums them to gene-level TPMs, applies log1p, and feeds this matrix directly into DESeq2.",
   "question": "Explain whether this input is appropriate for DESeq2 and what statistical consequences occur.",
@@ -61,6 +62,17 @@
         "ignore count distribution"
       ]
     }
+  },
+  "expected_decision": {
+    "primary_issue": "Normalized counts passed to discrete count model",
+    "severity": "ERROR"
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "transformation_mismatch",
+    "experimental_unit": "sample",
+    "analysis": "differential_expression",
+    "failure_mode": "log_tpm_in_deseq2"
   },
   "tags": [
     "differential_expression",

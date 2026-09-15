@@ -1,22 +1,22 @@
 {
   "item_id": "BENCH_011_UNPAIRED_TTEST_ON_MATCHED_TUMORS",
+  "difficulty": "INTERMEDIATE",
   "category": "experimental_design",
-  "scenario": "A study collects matched primary tumor and liver metastasis samples from 10 colon cancer patients (20 samples total). An analyst runs an unpaired Welch's t-test comparing primary vs metastasis.",
-  "question": "Explain the statistical shortcoming of this design and propose the appropriate linear modeling specification.",
+  "scenario": "Matched primary and liver metastasis samples from 10 colon cancer patients analyzed using unpaired Welch's t-test.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Matched primary and liver metastasis samples from 10 colon cancer patients analyzed using unpaired Welch's t-test.",
   "flawed_analysis_present": true,
   "flaw_type": "unmodeled_pairing",
-  "ground_truth_rationale": "An unpaired test ignores patient-level baseline correlation between matched primary and metastatic lesions from the same patient. A paired t-test or linear model with patient blocking factors (~ patient + site) must be used.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_011_UNPAIRED_TTEST_ON_MATCHED_TUMORS: matched samples share genetic background, paired test or design ~ patient + site, loss of power.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "unpaired test on matched samples",
-        "loss of statistical power",
-        "inter-patient variability"
+        "unmodeled_pairing",
+        "methodological"
       ],
       "negative_points": [
-        "unpaired test is optimal"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
@@ -24,49 +24,76 @@
       "weight": 1.0,
       "key_points": [
         "matched samples share genetic background",
-        "unpaired test inflates residual variance",
-        "higher type II error"
+        "paired test or design ~ patient + site",
+        "loss of power"
       ],
       "negative_points": [
-        "samples are independent"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "paired model",
-        "design ~ patient + tissue_site",
-        "repeated measures / blocking factor"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "run Mann-Whitney unpaired"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "small sample size N=10 requires maximizing power"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "guaranteed discovery"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "experimental design structure must match the statistical formula"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "pairing is irrelevant"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "unmodeled_pairing",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "unmodeled_pairing"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "matched samples share genetic background",
+      "paired test or design ~ patient + site"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "experimental_design",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "unmodeled_pairing"
+  },
   "tags": [
     "experimental_design",
-    "paired_design",
-    "differential_expression"
+    "intermediate",
+    "phase1_expanded"
   ]
 }

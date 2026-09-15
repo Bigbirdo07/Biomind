@@ -1,62 +1,109 @@
 """
-Rule: Detect pseudoreplication and improper experimental unit modeling in single-cell and biological assays.
+Rule PSEUDO_001: Detect pseudoreplication and independence violations across biological hierarchies.
 """
 
 from typing import Optional
-from bioreason.schemas.experiment import ExperimentSpec, AssayType, ExperimentalUnitLevel
-from bioreason.schemas.workflow import WorkflowPlan
+from bioreason.schemas.experiment import (
+    ExperimentSpec,
+    AssayType,
+    ExperimentalUnitLevel,
+    ObservationalUnitLevel,
+    AnalysisUnitLevel,
+    ReplicateType,
+)
 from bioreason.schemas.episode import ScientificReasoningEpisode
 from .base import Rule, RuleResult, RuleSeverity
 
 
 class PseudoreplicationRule(Rule):
     rule_id = "PSEUDO_001"
-    name = "Pseudoreplication in Single-Cell / Hierarchical Biological Assays"
+    name = "Independence / Pseudoreplication Violation"
     category = "experimental_design"
     description = (
-        "Ensures that individual cells or sub-replicates are not treated as independent biological replicates "
-        "when the true experimental unit is the organism, animal, or patient."
+        "Ensures that subordinate, correlated, or technical observations (e.g. single cells, technical replicates, "
+        "repeated longitudinal measurements) are not treated as independent biological units of replication."
     )
 
     def evaluate_experiment(self, experiment: ExperimentSpec) -> Optional[RuleResult]:
-        # Case 1: Assay is scRNA-seq/snRNA-seq, experimental unit is animal/patient/organism,
-        # but sample count per group is critically low (e.g. 1 animal per condition with thousands of cells)
-        if experiment.assay in [AssayType.SINGLE_CELL_RNA_SEQ, AssayType.SINGLE_NUCLEUS_RNA_SEQ]:
-            if experiment.experimental_unit in [
-                ExperimentalUnitLevel.ANIMAL,
-                ExperimentalUnitLevel.PATIENT,
-                ExperimentalUnitLevel.ORGANISM,
-            ]:
+        # Case 1: Technical replicates treated as independent biological replicates
+        if experiment.replicate_type == ReplicateType.TECHNICAL:
+            if experiment.analysis_unit in [AnalysisUnitLevel.CELL, AnalysisUnitLevel.READ, None]:
                 for grp in experiment.groups:
-                    if grp.sample_count < 3 and grp.cell_count and grp.cell_count > 100:
+                    if grp.technical_replicates_per_sample and grp.technical_replicates_per_sample > 1:
                         return RuleResult(
                             rule_id=self.rule_id,
                             rule_name=self.name,
                             passed=False,
                             severity=RuleSeverity.ERROR,
-                            message=f"Group '{grp.name}' has only {grp.sample_count} biological subject(s) with {grp.cell_count} cells.",
+                            message=f"Group '{grp.name}' treats {grp.technical_replicates_per_sample} technical replicates per sample as independent biological replicates.",
                             explanation=(
-                                "Cells from the same organism share genetic background, microenvironment, and technical processing. "
-                                "Treating individual cells as independent biological observations inflates statistical power, produces "
-                                "artificially deflated p-values, and constitutes classic pseudoreplication."
+                                "Technical replicates measure the precision of the assay instrument or protocol, not biological variation "
+                                "across a population. Treating technical aliquots as independent inflates sample size and produces artificially "
+                                "deflated p-values."
                             ),
                             suggested_correction=(
-                                "Aggregate cells into sample-level pseudobulk profiles (e.g., sum counts per biological sample) "
-                                "and perform differential analysis with DESeq2/edgeR, or employ generalized linear mixed models (GLMMs) "
-                                "with random intercepts for individual biological subjects."
+                                "Collapse technical replicates per biological sample prior to inferential testing (e.g., using "
+                                "DESeq2::collapseReplicates or calculating the mean/sum per subject)."
                             ),
                             references=[
-                                "Squair et al. (2021) Confronting false discoveries in single-cell differential expression. Nature Communications, 12:5692.",
+                                "Blainey et al. (2014) Points of Significance: Replication. Nature Methods 11:879-880.",
                                 "Hurlbert, S. H. (1984) Pseudoreplication and the design of ecological field experiments. Ecological Monographs, 54(2), 187-211."
                             ]
                         )
+
+        # Case 2: Hierarchical unit (animal/patient/organism) with single cells treated as independent units of analysis
+        is_hierarchical_subject = experiment.experimental_unit in [
+            ExperimentalUnitLevel.ANIMAL,
+            ExperimentalUnitLevel.PATIENT,
+            ExperimentalUnitLevel.ORGANISM,
+        ]
+        
+        if is_hierarchical_subject:
+            # If the analysis unit is explicitly individual cells, or if single-cell assay without pseudobulk/hierarchical modeling
+            is_cell_level_analysis = (
+                experiment.analysis_unit == AnalysisUnitLevel.CELL
+                or (
+                    experiment.assay in [AssayType.SINGLE_CELL_RNA_SEQ, AssayType.SINGLE_NUCLEUS_RNA_SEQ]
+                    and experiment.analysis_unit != AnalysisUnitLevel.PSEUDOBULK_SAMPLE
+                    and any(g.cell_count and g.cell_count > 100 for g in experiment.groups)
+                )
+            )
+
+            if is_cell_level_analysis:
+                total_cells = sum(g.cell_count or 0 for g in experiment.groups)
+                total_subjects = sum(g.sample_count for g in experiment.groups) or experiment.samples
+                
+                return RuleResult(
+                    rule_id=self.rule_id,
+                    rule_name=self.name,
+                    passed=False,
+                    severity=RuleSeverity.ERROR,
+                    message=(
+                        f"Analysis treats individual cells (total: {total_cells}) as independent biological replicates across "
+                        f"{total_subjects} biological subject(s)."
+                    ),
+                    explanation=(
+                        "Cells sampled from the same organism share genetic background, microenvironment, and batch conditions. "
+                        "Treating thousands of single cells as independent observations constitutes classic pseudoreplication, "
+                        "severely underestimating variance and yielding false-positive discovery rates exceeding 50% under the null."
+                    ),
+                    suggested_correction=(
+                        "Aggregate single-cell counts into sample-level pseudobulk profiles (summing counts per cell type per subject) "
+                        "and test with DESeq2/edgeR, or fit Generalized Linear Mixed Models (GLMMs) with random intercepts for each biological subject."
+                    ),
+                    references=[
+                        "Squair et al. (2021) Confronting false discoveries in single-cell differential expression. Nature Communications, 12:5692.",
+                        "Zimmerman et al. (2021) Practical solution to pseudoreplication in single-cell RNA-seq. Nature Communications, 12:738."
+                    ]
+                )
+
         return RuleResult(
             rule_id=self.rule_id,
             rule_name=self.name,
             passed=True,
             severity=RuleSeverity.INFO,
-            message="No obvious pseudoreplication detected in experiment design.",
-            explanation="Biological replicates and experimental units appear properly aligned."
+            message="No pseudoreplication or independence violation detected.",
+            explanation="Experimental units and analytical units are properly aligned."
         )
 
     def evaluate_episode(self, episode: ScientificReasoningEpisode) -> Optional[RuleResult]:

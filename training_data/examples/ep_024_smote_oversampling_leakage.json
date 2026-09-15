@@ -1,0 +1,67 @@
+{
+  "episode_id": "EP_024_SMOTE_OVERSAMPLING_LEAKAGE",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "biological_ml",
+  "question": "A researcher applies SMOTE (Synthetic Minority Over-sampling Technique) to the entire 100-sample dataset to balance a 90:10 class ratio, and then runs 5-fold cross-validation, reporting 96% AUC. Evaluate.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "samples": 100,
+    "groups": [
+      {
+        "name": "Minority",
+        "sample_count": 10
+      },
+      {
+        "name": "Majority",
+        "sample_count": 90
+      }
+    ],
+    "input_data_type": "normalized_counts",
+    "objective": "supervised_classification"
+  },
+  "proposed_analysis": "Apply SMOTE globally to entire dataset prior to cross-validation partitioning.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": true,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": false
+  },
+  "preferred_analysis": "Apply SMOTE strictly within training folds inside each cross-validation fold (e.g. using imbalanced-learn Pipeline); test folds must contain strictly untouched real test samples.",
+  "reasoning_summary": "Applying SMOTE globally synthesizes artificial samples by interpolating between test and training samples, directly leaking test-set variance and feature combinations into the training set.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "SMOTE balanced training feature dimensions under global application.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "96% AUC reflects true generalization on unobserved minority cases.",
+        "level": "STATISTICAL_INFERENCE"
+      }
+    ],
+    "limitations": [
+      "Synthetic test leakage generates severely biased performance estimates."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "data_leakage",
+    "experimental_unit": "patient",
+    "analysis": "supervised_classification",
+    "failure_mode": "smote_before_splitting"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Vandewiele et al. (2021) Journal of Biomedical Informatics 117:103744"
+  },
+  "sources": [
+    "Vandewiele et al. (2021) Journal of Biomedical Informatics 117:103744"
+  ]
+}

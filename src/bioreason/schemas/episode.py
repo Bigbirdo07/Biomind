@@ -1,5 +1,5 @@
 """
-Typed schemas for Scientific Reasoning Episodes and Claim Hierarchy.
+Typed schemas for Scientific Reasoning Episodes, Claim Hierarchy, and Episode Classification.
 """
 
 from enum import Enum
@@ -9,11 +9,25 @@ from .experiment import ExperimentSpec
 
 
 class ValidationStatus(str, Enum):
+    DRAFT = "draft"
+    AUTO_VALIDATED = "auto_validated"
+    SCIENTIST_REVIEWED = "scientist_reviewed"
     EXPERT_VALIDATED = "expert_validated"
     PEER_REVIEWED = "peer_reviewed"
     BENCHMARK_VERIFIED = "benchmark_verified"
-    DRAFT = "draft"
     PROVISIONAL = "provisional"
+
+
+class EpisodeType(str, Enum):
+    CORRECT_WORKFLOW = "CORRECT_WORKFLOW"
+    FLAWED_WORKFLOW = "FLAWED_WORKFLOW"
+    COMPARE_METHODS = "COMPARE_METHODS"
+    DIAGNOSE_FAILURE = "DIAGNOSE_FAILURE"
+    INTERPRET_RESULT = "INTERPRET_RESULT"
+    DESIGN_EXPERIMENT = "DESIGN_EXPERIMENT"
+    SELECT_MODEL = "SELECT_MODEL"
+    ASSESS_CLAIM = "ASSESS_CLAIM"
+    UNCERTAINTY_CASE = "UNCERTAINTY_CASE"
 
 
 class ClaimLevel(str, Enum):
@@ -35,7 +49,7 @@ class ScientificClaim(BaseModel):
 
 class ScientificChecks(BaseModel):
     replication_valid: bool = Field(
-        description="True if biological replication is sufficient and pseudoreplication is avoided"
+        description="True if biological replication is modeled independently and pseudoreplication is avoided"
     )
     confounding_detected: bool = Field(
         description="True if batch or technical covariates confound biological variables of interest"
@@ -52,7 +66,7 @@ class ScientificChecks(BaseModel):
     )
     sample_size_adequate: Optional[bool] = Field(
         default=True,
-        description="True if biological sample size (n) is adequate for statistical power in p >> n regimes"
+        description="True if biological sample size (independent N) provides adequate statistical power"
     )
 
 
@@ -71,13 +85,41 @@ class InterpretationSection(BaseModel):
     )
 
 
+class ScenarioSignature(BaseModel):
+    """
+    Structured semantic signature of an experimental scenario used for
+    fine-grained contamination detection across different surface wordings.
+    """
+    assay: str
+    problem: str
+    experimental_unit: str
+    observational_unit: Optional[str] = "same"
+    analysis: str
+    failure_mode: Optional[str] = "none"
+
+
+class SourceProvenance(BaseModel):
+    source_type: str = Field(default="expert_authored", description="e.g. expert_authored, methods_paper, textbook, benchmark")
+    citation: Optional[str] = None
+    doi: Optional[str] = None
+    license: Optional[str] = "CC-BY-4.0"
+    author: Optional[str] = "BioReason Scientific Working Group"
+    reviewer: Optional[str] = None
+    review_status: ValidationStatus = ValidationStatus.EXPERT_VALIDATED
+
+
 class ScientificReasoningEpisode(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     episode_id: str = Field(description="Unique deterministic identifier (e.g., EP_001_SCRNA_PSEUDOREP)")
+    episode_type: Optional[EpisodeType] = Field(
+        default=EpisodeType.FLAWED_WORKFLOW,
+        description="Specific pedagogical archetype of the reasoning episode"
+    )
     domain: str = Field(
         description="Scientific domain (e.g., single_cell_transcriptomics, biological_ml, bulk_rnaseq, variant_calling)"
     )
+    subdomain: Optional[str] = None
     question: str = Field(description="User question, research problem, or proposed analytical scenario")
     experiment: ExperimentSpec = Field(description="Structured metadata of the biological experiment")
     proposed_analysis: str = Field(description="Description or code snippet of the proposed or flawed analysis")
@@ -91,10 +133,12 @@ class ScientificReasoningEpisode(BaseModel):
     interpretation: InterpretationSection = Field(
         description="Explicit breakdown of supported vs unsupported claims and limitations"
     )
+    scenario_signature: Optional[ScenarioSignature] = None
     validation_status: ValidationStatus = Field(
         default=ValidationStatus.EXPERT_VALIDATED,
         description="Verification status of the episode"
     )
+    provenance: Optional[SourceProvenance] = None
     sources: List[str] = Field(
         default_factory=list,
         description="Citations, DOIs, or peer-reviewed literature references supporting the rationale"

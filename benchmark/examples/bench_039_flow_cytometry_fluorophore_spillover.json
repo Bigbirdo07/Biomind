@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_039_FLOW_CYTOMETRY_FLUOROPHORE_SPILLOVER",
+  "difficulty": "FOUNDATIONAL",
+  "category": "experimental_design",
+  "scenario": "Gating CD4+ and CD8+ T cells in a 12-color flow cytometry experiment without calculating single-stain fluorescence compensation.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Gating CD4+ and CD8+ T cells in a 12-color flow cytometry experiment without calculating single-stain fluorescence compensation.",
+  "flawed_analysis_present": true,
+  "flaw_type": "omitted_flow_compensation",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_039_FLOW_CYTOMETRY_FLUOROPHORE_SPILLOVER: spectral spillover across channels, false double-positive populations, compensation matrix mandatory.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "omitted_flow_compensation",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "spectral spillover across channels",
+        "false double-positive populations",
+        "compensation matrix mandatory"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "omitted_flow_compensation",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "omitted_flow_compensation"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "spectral spillover across channels",
+      "false double-positive populations"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "experimental_design",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "omitted_flow_compensation"
+  },
+  "tags": [
+    "experimental_design",
+    "foundational",
+    "phase1_expanded"
+  ]
+}

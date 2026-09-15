@@ -1,0 +1,67 @@
+{
+  "episode_id": "EP_021_CORRECT_NESTED_PIPELINE",
+  "episode_type": "CORRECT_WORKFLOW",
+  "domain": "biological_ml",
+  "question": "A team configures an end-to-end scikit-learn Pipeline with variance thresholding, SelectKBest, and Elastic Net logistic regression inside a 5-fold cross-validation loop on 120 breast cancer transcriptomes. Evaluate.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "samples": 120,
+    "groups": [
+      {
+        "name": "Responder",
+        "sample_count": 60
+      },
+      {
+        "name": "NonResponder",
+        "sample_count": 60
+      }
+    ],
+    "input_data_type": "normalized_counts",
+    "objective": "supervised_classification"
+  },
+  "proposed_analysis": "Encapsulate feature filtering and selection inside a Pipeline executed strictly within cross-validation training folds.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "The proposed nested Pipeline is methodologically sound and prevents all forms of feature selection leakage.",
+  "reasoning_summary": "Encapsulating feature selection inside cross-validation guarantees that validation folds remain completely unobserved during feature discovery and hyperparameter fitting.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Cross-validation score reflects unbiased internal generalization error.",
+        "level": "STATISTICAL_INFERENCE"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The signature is clinically validated without external testing.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "External multi-center cohort validation remains necessary before clinical deployment."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "pipeline_validation",
+    "experimental_unit": "patient",
+    "analysis": "supervised_classification",
+    "failure_mode": "none"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Hastie et al. (2009)"
+  },
+  "sources": [
+    "Hastie et al. (2009)"
+  ]
+}

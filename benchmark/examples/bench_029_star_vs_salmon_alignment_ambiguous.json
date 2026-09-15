@@ -1,0 +1,97 @@
+{
+  "item_id": "BENCH_029_STAR_VS_SALMON_ALIGNMENT_AMBIGUOUS",
+  "difficulty": "FOUNDATIONAL",
+  "category": "ambiguous_judgment",
+  "scenario": "Comparing STAR alignment vs Salmon pseudo-alignment for standard gene-level quantification in well-annotated human RNA-seq.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Comparing STAR alignment vs Salmon pseudo-alignment for standard gene-level quantification in well-annotated human RNA-seq.",
+  "flawed_analysis_present": false,
+  "flaw_type": null,
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_029_STAR_VS_SALMON_ALIGNMENT_AMBIGUOUS: both tools defensible, STAR provides splice alignments, Salmon provides rapid transcript quantification.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "valid analysis",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "both tools defensible",
+        "STAR provides splice alignments",
+        "Salmon provides rapid transcript quantification"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "No methodological flaw; analysis is defensible",
+    "severity": "INFO",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": []
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "both tools defensible",
+      "STAR provides splice alignments"
+    ],
+    "critical_errors": [
+      "analysis is severely flawed"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "ambiguous_judgment",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "none"
+  },
+  "tags": [
+    "ambiguous_judgment",
+    "foundational",
+    "phase1_expanded"
+  ]
+}

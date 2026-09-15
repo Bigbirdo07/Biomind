@@ -1,17 +1,25 @@
 """
-Deterministic scientific rubric scorer for benchmark evaluation.
+Deterministic scientific rubric scorer for benchmark evaluation with critical failure analysis and error taxonomy.
 """
 
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 from bioreason.schemas.benchmark import BenchmarkItem, EvaluationScore, RubricCriterion
 from bioreason.models.base import ModelPrediction
+
+
+CRITICAL_FAILURE_TRIGGERS = [
+    ("pseudoreplication", "MISSED_PSEUDOREPLICATION", ["cells are independent", "30000 independent samples", "treat each cell as replicate"]),
+    ("leakage", "MISSED_LEAKAGE", ["pca never leaks", "feature selection on all samples is fine", "leakage is harmless"]),
+    ("confounding", "MISSED_CONFOUNDING", ["combat will fix perfectly", "batch has no effect", "valid drug effect despite collinearity"]),
+    ("causality", "OVERCLAIMED_CAUSALITY", ["causes", "proven causal mechanism", "shap proves causation"]),
+    ("transformation", "INVALID_TRANSFORMATION", ["deseq2 expects log counts", "tpm is recommended for deseq2"]),
+]
 
 
 class ScientificRubricScorer:
     """
     Evaluates model predictions against structured multi-dimensional scientific rubrics.
-    Avoids naive exact text matching by analyzing structured fields, key scientific concept coverage,
-    and penalized negative claims.
+    Tracks critical failures and classifies model errors into canonical taxonomy.
     """
 
     @staticmethod
@@ -21,17 +29,16 @@ class ScientificRubricScorer:
         
         text_lower = text.lower()
         
-        # Calculate positive key point coverage
+        # Positive key point coverage
         matched_positives = 0
         for kp in criterion.key_points:
-            # Check if any main terms of keypoint are covered in text
             kp_words = [w for w in kp.lower().split() if len(w) > 4]
             if any(w in text_lower for w in kp_words):
                 matched_positives += 1
                 
         pos_ratio = matched_positives / max(len(criterion.key_points), 1)
         
-        # Calculate negative penalty
+        # Negative penalty
         penalty = 0.0
         for np in criterion.negative_points:
             np_words = [w for w in np.lower().split() if len(w) > 4]
@@ -43,6 +50,7 @@ class ScientificRubricScorer:
 
     def evaluate_prediction(self, benchmark_item: BenchmarkItem, prediction: ModelPrediction) -> EvaluationScore:
         rubric = benchmark_item.scoring_rubric
+        raw_text = f"{prediction.scientific_rationale or ''} {prediction.raw_response or ''}".lower()
 
         # 1. Flaw detection
         pred_flaw_present = prediction.flaw_detected if prediction.flaw_detected is not None else False
@@ -72,6 +80,40 @@ class ScientificRubricScorer:
         interp_text = f"{prediction.scientific_rationale or ''} {' '.join(prediction.limitations_noted)}"
         interpretation_score = self.score_criterion(interp_text, rubric.interpretation_quality)
 
+        # 6. Critical failure and taxonomy evaluation
+        critical_failure = False
+        identified_failure_modes: List[str] = []
+
+        # If a flaw was present, but model failed to detect it
+        if benchmark_item.flawed_analysis_present and not pred_flaw_present:
+            critical_failure = True
+            if benchmark_item.flaw_type:
+                ft = benchmark_item.flaw_type.lower()
+                if "pseudo" in ft:
+                    identified_failure_modes.append("MISSED_PSEUDOREPLICATION")
+                elif "leak" in ft:
+                    identified_failure_modes.append("MISSED_LEAKAGE")
+                elif "confound" in ft or "batch" in ft:
+                    identified_failure_modes.append("MISSED_CONFOUNDING")
+                elif "transform" in ft or "count" in ft:
+                    identified_failure_modes.append("INVALID_TRANSFORMATION")
+                else:
+                    identified_failure_modes.append("STATISTICAL_ERROR")
+
+        # Check explicit critical trigger phrases in response
+        for category, mode, bad_phrases in CRITICAL_FAILURE_TRIGGERS:
+            if any(p in raw_text for p in bad_phrases):
+                critical_failure = True
+                if mode not in identified_failure_modes:
+                    identified_failure_modes.append(mode)
+
+        # Check scoring breakdown critical errors if present on benchmark item
+        if benchmark_item.scoring_breakdown and benchmark_item.scoring_breakdown.critical_errors:
+            for ce in benchmark_item.scoring_breakdown.critical_errors:
+                if ce.lower() in raw_text:
+                    critical_failure = True
+                    identified_failure_modes.append("CRITICAL_ASSERTION_VIOLATION")
+
         # Composite weighted score
         weights = [
             rubric.flaw_detection.weight,
@@ -89,8 +131,13 @@ class ScientificRubricScorer:
             + interpretation_score * rubric.interpretation_quality.weight
         ) / total_weight
 
+        # Heavy penalty if critical failure occurred
+        if critical_failure:
+            composite = max(0.0, composite * 0.5)
+
         return EvaluationScore(
             item_id=benchmark_item.item_id,
+            difficulty=benchmark_item.difficulty,
             flaw_detection_score=flaw_detection_score,
             explanation_score=explanation_score,
             correction_score=correction_score,
@@ -98,5 +145,7 @@ class ScientificRubricScorer:
             interpretation_score=interpretation_score,
             composite_score=round(composite, 3),
             flaw_detected_binary=flaw_detected_binary,
-            comments=f"Flaw matched: {flaw_detected_binary}, Composite: {composite:.3f}"
+            critical_failure=critical_failure,
+            identified_failure_modes=identified_failure_modes,
+            comments=f"Flaw matched: {flaw_detected_binary}, Critical Fail: {critical_failure}, Composite: {composite:.3f}"
         )

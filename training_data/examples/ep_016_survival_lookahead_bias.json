@@ -1,5 +1,6 @@
 {
   "episode_id": "EP_016_SURVIVAL_LOOKAHEAD_BIAS",
+  "episode_type": "FLAWED_WORKFLOW",
   "domain": "clinical_ml",
   "question": "A model predicts 5-year patient survival using post-recurrence chemotherapy response data measured 18 months after diagnosis as a baseline predictor. Diagnose the flaw.",
   "experiment": {
@@ -38,8 +39,19 @@
       "Lookahead leakage invalidates prognostic timing."
     ]
   },
+  "scenario_signature": {
+    "assay": "clinical",
+    "problem": "immortal_time_bias",
+    "experimental_unit": "patient",
+    "analysis": "survival_prediction",
+    "failure_mode": "future_feature_as_baseline"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Yadav & Lewis (2021) JAMA 325(7):686-687"
+  },
   "sources": [
-    "Yadav & Lewis (2021) Immortal Time Bias in Observational Studies. JAMA 325(7):686-687"
+    "Yadav & Lewis (2021) JAMA 325(7):686-687"
   ]
 }

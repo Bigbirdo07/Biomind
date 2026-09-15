@@ -1,6 +1,8 @@
 {
   "episode_id": "EP_002_FEATURE_SELECTION_LEAKAGE",
+  "episode_type": "FLAWED_WORKFLOW",
   "domain": "biological_ml",
+  "subdomain": "cross_validation",
   "question": "A team selects the top 50 genes correlated with cancer recurrence using all 150 patient samples, then performs 5-fold cross-validation with an SVM, reporting 98% accuracy. Is this result scientifically valid?",
   "experiment": {
     "organism": "Homo sapiens",
@@ -49,11 +51,21 @@
       }
     ],
     "limitations": [
-      "Severe selection bias invalidates the reported 98% accuracy.",
-      "Must be re-evaluated using strictly nested cross-validation."
+      "Severe selection bias invalidates the reported 98% accuracy."
     ]
   },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "data_leakage",
+    "experimental_unit": "patient",
+    "analysis": "supervised_classification",
+    "failure_mode": "feature_selection_before_split"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Ambroise & McLachlan (2002) PNAS 99(10):6562-6566"
+  },
   "sources": [
     "Ambroise & McLachlan (2002) PNAS 99(10):6562-6566"
   ]

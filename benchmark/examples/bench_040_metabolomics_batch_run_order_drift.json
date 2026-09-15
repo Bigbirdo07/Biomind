@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_040_METABOLOMICS_BATCH_RUN_ORDER_DRIFT",
+  "difficulty": "ADVANCED",
+  "category": "batch_effects",
+  "scenario": "LC-MS metabolomics run where all cancer samples were injected on Day 1 and all healthy controls on Day 3 on the same column.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: LC-MS metabolomics run where all cancer samples were injected on Day 1 and all healthy controls on Day 3 on the same column.",
+  "flawed_analysis_present": true,
+  "flaw_type": "run_order_confounding",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_040_METABOLOMICS_BATCH_RUN_ORDER_DRIFT: instrument sensitivity drift over time, 100% confounded with batch/date, randomized run order required.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "run_order_confounding",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "instrument sensitivity drift over time",
+        "100% confounded with batch/date",
+        "randomized run order required"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "run_order_confounding",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "run_order_confounding"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "instrument sensitivity drift over time",
+      "100% confounded with batch/date"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "batch_effects",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "run_order_confounding"
+  },
+  "tags": [
+    "batch_effects",
+    "advanced",
+    "phase1_expanded"
+  ]
+}

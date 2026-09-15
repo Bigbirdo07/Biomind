@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_030_CLAIM_HIERARCHY_BOOTSTRAP_BIOMARKER",
+  "difficulty": "INTERMEDIATE",
+  "category": "result_interpretation",
+  "scenario": "Gene X was selected in 95% of bootstrap iterations in an Alzheimer's transcriptomic ML model. Authors conclude 'Gene X causes Alzheimer's disease.'",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Gene X was selected in 95% of bootstrap iterations in an Alzheimer's transcriptomic ML model. Authors conclude 'Gene X causes Alzheimer's disease.'",
+  "flawed_analysis_present": true,
+  "flaw_type": "causal_overclaim",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_030_CLAIM_HIERARCHY_BOOTSTRAP_BIOMARKER: predictive stability != biological causality, classify as stable biomarker hypothesis, interventional knockout required.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "causal_overclaim",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "predictive stability != biological causality",
+        "classify as stable biomarker hypothesis",
+        "interventional knockout required"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "causal_overclaim",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "causal_overclaim"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "predictive stability != biological causality",
+      "classify as stable biomarker hypothesis"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "result_interpretation",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "causal_overclaim"
+  },
+  "tags": [
+    "result_interpretation",
+    "intermediate",
+    "phase1_expanded"
+  ]
+}

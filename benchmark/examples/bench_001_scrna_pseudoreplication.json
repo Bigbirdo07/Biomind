@@ -1,5 +1,6 @@
 {
   "item_id": "BENCH_001_SCRNA_PSEUDOREPLICATION",
+  "difficulty": "ADVANCED",
   "category": "scrna_seq",
   "scenario": "An investigator compares single-cell RNA-seq from 3 control mice (15,000 cells) against 3 knockout mice (15,000 cells). They run a cell-level Mann-Whitney U test across all 30,000 individual cells and identify 6,000 significant genes with p < 1e-15.",
   "question": "Is the reported differential expression analysis statistically valid? Identify the primary methodological flaw and propose a defensible alternative workflow.",
@@ -65,6 +66,37 @@
         "6000 true biomarkers"
       ]
     }
+  },
+  "expected_decision": {
+    "primary_issue": "Pseudoreplication of single cells across animal subjects",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "pseudobulk DESeq2",
+      "pseudobulk edgeR",
+      "GLMM with animal random intercept"
+    ],
+    "unacceptable_methods": [
+      "cell-level t-test",
+      "cell-level Wilcoxon test without mixed effects"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "pseudoreplication",
+      "non-independence"
+    ],
+    "critical_errors": [
+      "cells are independent",
+      "30000 independent samples"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "pseudoreplication",
+    "experimental_unit": "animal",
+    "observational_unit": "cell",
+    "analysis": "differential_expression",
+    "failure_mode": "cells_as_replicates"
   },
   "tags": [
     "scrna_seq",

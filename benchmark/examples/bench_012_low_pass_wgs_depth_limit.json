@@ -1,70 +1,99 @@
 {
   "item_id": "BENCH_012_LOW_PASS_WGS_DEPTH_LIMIT",
+  "difficulty": "FOUNDATIONAL",
   "category": "wgs_wes",
-  "scenario": "A researcher attempts to discover rare de novo single-nucleotide variants in autism trios using 2x mean coverage WGS per individual.",
-  "question": "Is 2x coverage technically sufficient for de novo germline SNV discovery? Why or why not?",
+  "scenario": "Attempting to discover rare de novo single-nucleotide variants in autism trios using 2x mean coverage WGS per individual.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Attempting to discover rare de novo single-nucleotide variants in autism trios using 2x mean coverage WGS per individual.",
   "flawed_analysis_present": true,
   "flaw_type": "insufficient_sequencing_depth",
-  "ground_truth_rationale": "At 2x coverage, Poisson sampling leaves substantial portions of the genome with 0 or 1 reads (probability of 0 reads = e^-2 \u2248 13.5%). Detecting heterozygous de novo variants requires at least 30x coverage to reliably observe both maternal and paternal alleles.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_012_LOW_PASS_WGS_DEPTH_LIMIT: 2x coverage cannot call de novo variants, allelic dropout, 30x+ required.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "insufficient coverage",
-        "allelic dropout",
-        "2x cannot call de novo variants"
+        "insufficient_sequencing_depth",
+        "methodological"
       ],
       "negative_points": [
-        "2x is sufficient"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
-        "Poisson sampling depth",
-        "cannot distinguish heterozygote from sequencing error",
-        "massive false negative and false positive rates"
+        "2x coverage cannot call de novo variants",
+        "allelic dropout",
+        "30x+ required"
       ],
       "negative_points": [
-        "2 reads is enough for confidence"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "sequence at 30x+ depth for clinical/germline discovery"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "use BWA with lenient flags"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "zero high-confidence de novo calls possible at 2x"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "high confidence"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "physical assay limits bound downstream analytical validity"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "depth does not matter"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "insufficient_sequencing_depth",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "insufficient_sequencing_depth"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "2x coverage cannot call de novo variants",
+      "allelic dropout"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "wgs_wes",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "insufficient_sequencing_depth"
+  },
   "tags": [
     "wgs_wes",
-    "sequencing_depth",
-    "genomics"
+    "foundational",
+    "phase1_expanded"
   ]
 }

@@ -1,72 +1,99 @@
 {
   "item_id": "BENCH_016_POST_CLUSTERING_DOUBLE_DIPPING",
+  "difficulty": "ADVANCED",
   "category": "adversarial_flawed_analysis",
-  "scenario": "After clustering 10,000 PBMC cells into 8 clusters with Seurat (FindClusters), the user runs FindMarkers between Cluster 1 and Cluster 2 and reports p-values of 1e-100 as proof that Cluster 1 is an authentic novel cell type.",
-  "question": "Why are p-values derived from comparing clusters identified from the same data statistically inflated?",
+  "scenario": "Running FindMarkers between Seurat clusters derived from the same 10,000 cells and reporting p < 1e-100 as proof of novel cell type.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Running FindMarkers between Seurat clusters derived from the same 10,000 cells and reporting p < 1e-100 as proof of novel cell type.",
   "flawed_analysis_present": true,
   "flaw_type": "selective_inference_circularity",
-  "ground_truth_rationale": "Clustering algorithms partition samples by optimizing difference in feature space. Testing for differential expression between those clusters on the same data tests the exact hypothesis the clustering algorithm constructed (double-dipping), producing invalid p-values under the null.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_016_POST_CLUSTERING_DOUBLE_DIPPING: double dipping, clustering forces separation, selective inference / countsplit.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "double dipping",
-        "circular inference",
-        "post-clustering test invalid"
+        "selective_inference_circularity",
+        "methodological"
       ],
       "negative_points": [
-        "p < 1e-100 proves distinct cell type"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
+        "double dipping",
         "clustering forces separation",
-        "nominal p-values invalid under null",
-        "selective inference bias"
+        "selective inference / countsplit"
       ],
       "negative_points": [
-        "Seurat p-values are exact"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "countsplitting",
-        "selective inference corrections",
-        "orthogonal biological validation (e.g. Flow/IHC)"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "use lower p-value threshold"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "1e-100 is an algorithmic artifact, not biological evidence certainty"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "definitive cell type"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "distinguish algorithmic separation from biological cell identity"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "clusters always equal cell types"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "selective_inference_circularity",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "selective_inference_circularity"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "double dipping",
+      "clustering forces separation"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "adversarial_flawed_analysis",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "selective_inference_circularity"
+  },
   "tags": [
-    "scrna_seq",
-    "circular_inference",
-    "clustering"
+    "adversarial_flawed_analysis",
+    "advanced",
+    "phase1_expanded"
   ]
 }

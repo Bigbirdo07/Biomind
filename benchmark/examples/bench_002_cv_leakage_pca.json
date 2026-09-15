@@ -1,7 +1,8 @@
 {
   "item_id": "BENCH_002_CV_LEAKAGE_PCA",
-  "scenario": "To predict immunotherapy response from 100 melanoma biopsies (20,000 genes), a computational team performs PCA on all 100 samples to extract the top 20 principal components, then trains a logistic regression model with 10-fold CV, reporting 92% accuracy.",
+  "difficulty": "INTERMEDIATE",
   "category": "data_leakage",
+  "scenario": "To predict immunotherapy response from 100 melanoma biopsies (20,000 genes), a computational team performs PCA on all 100 samples to extract the top 20 principal components, then trains a logistic regression model with 10-fold CV, reporting 92% accuracy.",
   "question": "Assess the validity of this cross-validation scheme. What bias is introduced, and how should the pipeline be structured?",
   "flawed_analysis_present": true,
   "flaw_type": "preprocessing_leakage",
@@ -63,6 +64,17 @@
         "proven biomarker"
       ]
     }
+  },
+  "expected_decision": {
+    "primary_issue": "Global PCA leakage across CV partitions",
+    "severity": "ERROR"
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "data_leakage",
+    "experimental_unit": "patient",
+    "analysis": "supervised_classification",
+    "failure_mode": "global_pca_before_split"
   },
   "tags": [
     "ml_design",

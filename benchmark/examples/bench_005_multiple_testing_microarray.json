@@ -1,5 +1,6 @@
 {
   "item_id": "BENCH_005_MULTIPLE_TESTING_MICROARRAY",
+  "difficulty": "FOUNDATIONAL",
   "category": "statistical_reasoning",
   "scenario": "A researcher tests 30,000 genes for association with patient survival using Cox proportional hazards models. They report 1,500 genes with nominal p < 0.05 and claim a massive discovery.",
   "question": "What is the expected number of false positive discoveries under the complete null hypothesis, and what statistical correction is required?",
@@ -63,6 +64,17 @@
         "all 1500 are biological"
       ]
     }
+  },
+  "expected_decision": {
+    "primary_issue": "Uncontrolled multiple hypothesis testing",
+    "severity": "ERROR"
+  },
+  "scenario_signature": {
+    "assay": "microarray",
+    "problem": "multiple_testing",
+    "experimental_unit": "patient",
+    "analysis": "survival_analysis",
+    "failure_mode": "unadjusted_cox_pvalues"
   },
   "tags": [
     "statistical_reasoning",

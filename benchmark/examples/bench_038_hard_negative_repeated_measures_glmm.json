@@ -1,0 +1,97 @@
+{
+  "item_id": "BENCH_038_HARD_NEGATIVE_REPEATED_MEASURES_GLMM",
+  "difficulty": "ADVANCED",
+  "category": "statistical_reasoning",
+  "scenario": "Fitting a generalized linear mixed model with patient-level random intercepts across 40,000 single cells from 15 patients.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Fitting a generalized linear mixed model with patient-level random intercepts across 40,000 single cells from 15 patients.",
+  "flawed_analysis_present": false,
+  "flaw_type": null,
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_038_HARD_NEGATIVE_REPEATED_MEASURES_GLMM: GLMM properly accounts for patient clustering, no pseudoreplication, valid hierarchical modeling.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "valid analysis",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "GLMM properly accounts for patient clustering",
+        "no pseudoreplication",
+        "valid hierarchical modeling"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "No methodological flaw; analysis is defensible",
+    "severity": "INFO",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": []
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "GLMM properly accounts for patient clustering",
+      "no pseudoreplication"
+    ],
+    "critical_errors": [
+      "analysis is severely flawed"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "statistical_reasoning",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "none"
+  },
+  "tags": [
+    "statistical_reasoning",
+    "advanced",
+    "phase1_expanded"
+  ]
+}

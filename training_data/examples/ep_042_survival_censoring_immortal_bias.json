@@ -1,0 +1,57 @@
+{
+  "episode_id": "EP_042_SURVIVAL_CENSORING_IMMORTAL_BIAS",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "clinical_ml",
+  "question": "Assigning post-treatment surgery status to patients as a baseline variable at diagnosis, creating severe immortal time bias.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "other",
+    "experimental_unit": "patient",
+    "samples": 200,
+    "input_data_type": "tabular_features",
+    "objective": "supervised_regression"
+  },
+  "proposed_analysis": "Execution of workflow described in scenario: Assigning post-treatment surgery status to patients as a baseline variable at diagnosis, creating severe immortal time bias.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": true,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Apply rigorous methodological controls, proper nesting, and external validation as required by scientific design principles.",
+  "reasoning_summary": "Methodological evaluation for EP_042_SURVIVAL_CENSORING_IMMORTAL_BIAS: enforces appropriate biological units, variance modeling, and validation isolation.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Analysis performed in accordance with stated scientific principles.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Causal assertions without perturbation experiments.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "Requires rigorous independent replication."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "other",
+    "problem": "clinical_ml",
+    "experimental_unit": "patient",
+    "analysis": "supervised_regression",
+    "failure_mode": "methodological_flaw"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "BioReason Scientific Working Group"
+  },
+  "sources": [
+    "Peer-reviewed standard methods"
+  ]
+}

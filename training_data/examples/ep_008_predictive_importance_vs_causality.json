@@ -1,5 +1,6 @@
 {
   "episode_id": "EP_008_PREDICTIVE_IMPORTANCE_VS_CAUSALITY",
+  "episode_type": "ASSESS_CLAIM",
   "domain": "biological_ml_interpretation",
   "question": "A Random Forest model classifies Alzheimer's disease brain samples with high accuracy. Gene X has the highest Gini feature importance. The authors state 'Gene X causes Alzheimer's pathogenesis.' Critique this assertion.",
   "experiment": {
@@ -52,8 +53,19 @@
       "Observational machine learning cannot establish causal directionality without interventional experiments."
     ]
   },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "causal_overclaim",
+    "experimental_unit": "patient",
+    "analysis": "supervised_classification",
+    "failure_mode": "feature_importance_as_causation"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Pearl (2009) Causality"
+  },
   "sources": [
-    "Pearl, J. (2009) Causality: Models, Reasoning, and Inference. Cambridge Univ Press."
+    "Pearl (2009) Causality"
   ]
 }

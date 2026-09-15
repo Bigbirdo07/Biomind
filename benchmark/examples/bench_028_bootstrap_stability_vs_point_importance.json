@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_028_BOOTSTRAP_STABILITY_VS_POINT_IMPORTANCE",
+  "difficulty": "INTERMEDIATE",
+  "category": "biomarker_discovery",
+  "scenario": "Selecting biomarkers based on a single Random Forest Gini importance run without evaluating bootstrap selection stability.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Selecting biomarkers based on a single Random Forest Gini importance run without evaluating bootstrap selection stability.",
+  "flawed_analysis_present": true,
+  "flaw_type": "unstable_biomarker_selection",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_028_BOOTSTRAP_STABILITY_VS_POINT_IMPORTANCE: single-split importance instability, bootstrap stability selection, transient correlation noise.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "unstable_biomarker_selection",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "single-split importance instability",
+        "bootstrap stability selection",
+        "transient correlation noise"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "unstable_biomarker_selection",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "unstable_biomarker_selection"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "single-split importance instability",
+      "bootstrap stability selection"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "biomarker_discovery",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "unstable_biomarker_selection"
+  },
+  "tags": [
+    "biomarker_discovery",
+    "intermediate",
+    "phase1_expanded"
+  ]
+}

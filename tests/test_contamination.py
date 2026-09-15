@@ -1,11 +1,37 @@
 """
-Unit tests for data contamination detection between training episodes and benchmark items.
+Unit tests for data contamination detection engine v2 (Phase 1).
 """
 
-from bioreason.schemas.episode import ScientificReasoningEpisode, ScientificChecks, InterpretationSection
-from bioreason.schemas.benchmark import BenchmarkItem, BenchmarkCategory, ScoringRubric, RubricCriterion
+from bioreason.schemas.episode import ScientificReasoningEpisode, ScientificChecks, InterpretationSection, ScenarioSignature
+from bioreason.schemas.benchmark import BenchmarkItem, BenchmarkCategory, DifficultyLevel, ScoringRubric, RubricCriterion
 from bioreason.schemas.experiment import ExperimentSpec, AssayType, ExperimentalUnitLevel, DataType, AnalysisObjective
-from bioreason.datasets.contamination import check_contamination
+from bioreason.datasets.contamination import check_contamination, normalize_text, compare_scenario_signatures
+
+
+def test_normalize_text():
+    raw = "  Why does   PCA, before cross-validation... cause LEAKAGE?!  "
+    norm = normalize_text(raw)
+    assert norm == "why does pca before cross validation cause leakage"
+
+
+def test_scenario_signature_collision():
+    sig_a = ScenarioSignature(
+        assay="scrna_seq",
+        problem="pseudoreplication",
+        experimental_unit="animal",
+        analysis="differential_expression",
+        failure_mode="cells_as_replicates"
+    )
+    sig_b = ScenarioSignature(
+        assay="scrna_seq",
+        problem="pseudoreplication",
+        experimental_unit="animal",
+        analysis="differential_expression",
+        failure_mode="cells_as_replicates"
+    )
+    is_match, score = compare_scenario_signatures(sig_a, sig_b)
+    assert is_match is True
+    assert score == 1.0
 
 
 def test_contamination_detection_catches_duplicate():
@@ -40,6 +66,7 @@ def test_contamination_detection_catches_duplicate():
 
     bench_item = BenchmarkItem(
         item_id="BENCH_TEST",
+        difficulty=DifficultyLevel.INTERMEDIATE,
         category=BenchmarkCategory.DATA_LEAKAGE,
         scenario="A researcher runs PCA globally before CV",
         question="Is PCA before split valid for supervised classification?",  # Exact duplicate
@@ -73,7 +100,14 @@ def test_contamination_clean_datasets():
         scientific_checks=ScientificChecks(replication_valid=True, confounding_detected=True, leakage_detected=False, transformation_valid=True),
         preferred_analysis="Balanced randomized block design",
         reasoning_summary="Collinear batch prevents biological attribution",
-        interpretation=InterpretationSection()
+        interpretation=InterpretationSection(),
+        scenario_signature=ScenarioSignature(
+            assay="bulk_rna_seq",
+            problem="confounding",
+            experimental_unit="cell_culture_dish",
+            analysis="differential_expression",
+            failure_mode="collinear_batch"
+        )
     )
 
     rubric = ScoringRubric(
@@ -86,13 +120,21 @@ def test_contamination_clean_datasets():
 
     bench_item = BenchmarkItem(
         item_id="BENCH_CLEAN",
+        difficulty=DifficultyLevel.ADVANCED,
         category=BenchmarkCategory.DATA_LEAKAGE,
         scenario="Single cell clam neoplasia evaluation",
         question="Why does random cell splitting cause high CV AUC but low test AUC in bivalve tumors?",
         flawed_analysis_present=True,
         flaw_type="group_leakage",
         ground_truth_rationale="Clam animal profile leakage",
-        scoring_rubric=rubric
+        scoring_rubric=rubric,
+        scenario_signature=ScenarioSignature(
+            assay="scrna_seq",
+            problem="group_leakage",
+            experimental_unit="animal",
+            analysis="supervised_classification",
+            failure_mode="random_split_hierarchical_data"
+        )
     )
 
     reports = check_contamination([train_ep], [bench_item])

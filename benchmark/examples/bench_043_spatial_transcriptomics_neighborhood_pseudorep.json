@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_043_SPATIAL_TRANSCRIPTOMICS_NEIGHBORHOOD_PSEUDOREP",
+  "difficulty": "ADVANCED",
+  "category": "scrna_seq",
+  "scenario": "Analyzing 5,000 spatial transcriptomic spots from 1 tissue section as 5,000 independent samples in standard t-test.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Analyzing 5,000 spatial transcriptomic spots from 1 tissue section as 5,000 independent samples in standard t-test.",
+  "flawed_analysis_present": true,
+  "flaw_type": "spatial_pseudoreplication",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_043_SPATIAL_TRANSCRIPTOMICS_NEIGHBORHOOD_PSEUDOREP: spatial autocorrelation across adjacent spots, true biological N=1 tissue section, pseudobulk or spatial point process models.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "spatial_pseudoreplication",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "spatial autocorrelation across adjacent spots",
+        "true biological N=1 tissue section",
+        "pseudobulk or spatial point process models"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "spatial_pseudoreplication",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "spatial_pseudoreplication"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "spatial autocorrelation across adjacent spots",
+      "true biological N=1 tissue section"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "scrna_seq",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "spatial_pseudoreplication"
+  },
+  "tags": [
+    "scrna_seq",
+    "advanced",
+    "phase1_expanded"
+  ]
+}

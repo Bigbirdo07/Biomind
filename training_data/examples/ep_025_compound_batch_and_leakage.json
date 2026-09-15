@@ -1,0 +1,78 @@
+{
+  "episode_id": "EP_025_COMPOUND_BATCH_AND_LEAKAGE",
+  "episode_type": "DIAGNOSE_FAILURE",
+  "domain": "biological_ml_compound",
+  "question": "A clinical study has 10 drug-resistant patients sequenced in Center A and 10 drug-sensitive patients sequenced in Center B. An analyst selects top 100 genes on all 20 samples and trains an SVM with 5-fold CV, reporting 100% accuracy. Diagnose all methodological errors.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "samples": 20,
+    "groups": [
+      {
+        "name": "Resistant",
+        "sample_count": 10
+      },
+      {
+        "name": "Sensitive",
+        "sample_count": 10
+      }
+    ],
+    "batch_structure": {
+      "batch_variable": "clinical_center",
+      "batch_count": 2,
+      "confounded_with_group": true
+    },
+    "input_data_type": "raw_counts",
+    "objective": "supervised_classification"
+  },
+  "proposed_analysis": "Global feature selection followed by standard cross-validation on center-confounded data.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": true,
+    "leakage_detected": true,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": false
+  },
+  "preferred_analysis": "Re-design study with balanced center recruitment; enforce nested cross-validation with feature selection strictly inside training folds.",
+  "reasoning_summary": "This scenario suffers from two compounding fatal flaws: (1) 100% batch confounding between clinical center and drug response, making biology indistinguishable from center noise; (2) Global feature selection before CV, guaranteeing 100% apparent accuracy purely from selection bias.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "The pipeline reported 100% accuracy under a doubly-flawed design.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The 100 genes represent a validated resistance biomarker panel.",
+        "level": "BIOLOGICAL_INTERPRETATION"
+      },
+      {
+        "statement": "The genes cause drug resistance in clinical populations.",
+        "level": "CAUSAL_CLAIM"
+      }
+    ],
+    "limitations": [
+      "Complete center confounding prevents biological inference.",
+      "Selection bias completely invalidates the cross-validation score."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "compound_error",
+    "experimental_unit": "patient",
+    "analysis": "supervised_classification",
+    "failure_mode": "batch_confounding_plus_selection_leakage"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Leek et al. (2010) and Ambroise & McLachlan (2002)"
+  },
+  "sources": [
+    "Leek et al. (2010)",
+    "Ambroise & McLachlan (2002)"
+  ]
+}

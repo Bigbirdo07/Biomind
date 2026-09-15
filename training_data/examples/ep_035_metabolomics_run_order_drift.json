@@ -1,0 +1,57 @@
+{
+  "episode_id": "EP_035_METABOLOMICS_RUN_ORDER_DRIFT",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "metabolomics",
+  "question": "LC-MS metabolomic run order perfectly aligned with patient clinical stage, causing instrumental sensitivity decay to masquerade as biomarker depletion.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "metabolomics",
+    "experimental_unit": "patient",
+    "samples": 80,
+    "input_data_type": "tabular_features",
+    "objective": "biomarker_discovery"
+  },
+  "proposed_analysis": "Execution of workflow described in scenario: LC-MS metabolomic run order perfectly aligned with patient clinical stage, causing instrumental sensitivity decay to masquerade as biomarker depletion.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": true,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Apply rigorous methodological controls, proper nesting, and external validation as required by scientific design principles.",
+  "reasoning_summary": "Methodological evaluation for EP_035_METABOLOMICS_RUN_ORDER_DRIFT: enforces appropriate biological units, variance modeling, and validation isolation.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Analysis performed in accordance with stated scientific principles.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Causal assertions without perturbation experiments.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "Requires rigorous independent replication."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "metabolomics",
+    "problem": "metabolomics",
+    "experimental_unit": "patient",
+    "analysis": "biomarker_discovery",
+    "failure_mode": "methodological_flaw"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "BioReason Scientific Working Group"
+  },
+  "sources": [
+    "Peer-reviewed standard methods"
+  ]
+}

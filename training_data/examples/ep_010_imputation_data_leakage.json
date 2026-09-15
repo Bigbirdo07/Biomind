@@ -1,5 +1,6 @@
 {
   "episode_id": "EP_010_IMPUTATION_DATA_LEAKAGE",
+  "episode_type": "FLAWED_WORKFLOW",
   "domain": "biological_ml",
   "question": "Missing proteomics protein abundances were imputed using k-Nearest Neighbors (k-NN) fitted on the combined train and test dataset prior to cross-validation. Evaluate.",
   "experiment": {
@@ -48,8 +49,19 @@
       "Imputation leakage produces optimistic evaluation bias."
     ]
   },
+  "scenario_signature": {
+    "assay": "proteomics",
+    "problem": "data_leakage",
+    "experimental_unit": "patient",
+    "analysis": "supervised_classification",
+    "failure_mode": "global_imputation"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Hastie et al. (2009)"
+  },
   "sources": [
-    "Hastie et al. (2009) Elements of Statistical Learning"
+    "Hastie et al. (2009)"
   ]
 }

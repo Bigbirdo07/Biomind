@@ -1,0 +1,99 @@
+{
+  "item_id": "BENCH_035_COMPOUND_RNASEQ_TRANSFORMATION_AND_PCA_ML",
+  "difficulty": "ADVERSARIAL",
+  "category": "adversarial_flawed_analysis",
+  "scenario": "Inputting RPKM into DESeq2, running global PCA before 5-fold CV, and tuning hyperparameters on the test partition.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Inputting RPKM into DESeq2, running global PCA before 5-fold CV, and tuning hyperparameters on the test partition.",
+  "flawed_analysis_present": true,
+  "flaw_type": "triple_compound_error",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_035_COMPOUND_RNASEQ_TRANSFORMATION_AND_PCA_ML: normalized RPKM in count model, global PCA leakage, test set tuning leakage.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "triple_compound_error",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "normalized RPKM in count model",
+        "global PCA leakage",
+        "test set tuning leakage"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "triple_compound_error",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "triple_compound_error"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "normalized RPKM in count model",
+      "global PCA leakage"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "adversarial_flawed_analysis",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "triple_compound_error"
+  },
+  "tags": [
+    "adversarial_flawed_analysis",
+    "adversarial",
+    "phase1_expanded"
+  ]
+}

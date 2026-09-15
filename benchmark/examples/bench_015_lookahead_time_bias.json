@@ -1,71 +1,99 @@
 {
   "item_id": "BENCH_015_LOOKAHEAD_TIME_BIAS",
+  "difficulty": "ADVANCED",
   "category": "data_leakage",
-  "scenario": "A model predicting 3-year cancer recurrence from electronic health records incorporates total cumulative dose of second-line chemotherapy administered in Year 2 as a baseline feature at diagnosis.",
-  "question": "Identify the critical temporal flaw and its impact on survival estimation.",
+  "scenario": "Predicting 3-year cancer recurrence from EHR using cumulative dose of 2nd-line chemotherapy given in Year 2 as a baseline predictor.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Predicting 3-year cancer recurrence from EHR using cumulative dose of 2nd-line chemotherapy given in Year 2 as a baseline predictor.",
   "flawed_analysis_present": true,
   "flaw_type": "immortal_time_bias",
-  "ground_truth_rationale": "Conditioning on events that occur in Year 2 introduces lookahead leakage / immortal time bias. Patients receiving Year 2 therapy must have survived recurrence-free or lived until Year 2 by definition.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_015_LOOKAHEAD_TIME_BIAS: immortal time bias, lookahead leakage, restrict baseline to diagnosis date.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "immortal time bias",
-        "lookahead leakage",
-        "future feature at baseline"
+        "immortal_time_bias",
+        "methodological"
       ],
       "negative_points": [
-        "valid survival feature"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
-        "requires patient to survive until Year 2",
-        "artificially guarantees survival",
-        "temporal confounding"
+        "immortal time bias",
+        "lookahead leakage",
+        "restrict baseline to diagnosis date"
       ],
       "negative_points": [
-        "chemotherapy dose is fixed at baseline"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "restrict baseline features strictly to diagnosis date",
-        "use time-dependent Cox model"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "normalize dose by weight"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "survival estimates are falsely inflated"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "proven prognostic benefit"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "temporal ordering must be strictly preserved in clinical prediction"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "timing does not matter"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "immortal_time_bias",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "immortal_time_bias"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "immortal time bias",
+      "lookahead leakage"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "data_leakage",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "immortal_time_bias"
+  },
   "tags": [
     "data_leakage",
-    "survival_analysis",
-    "clinical_ml"
+    "advanced",
+    "phase1_expanded"
   ]
 }

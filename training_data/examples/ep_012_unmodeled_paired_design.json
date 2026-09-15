@@ -1,5 +1,6 @@
 {
   "episode_id": "EP_012_UNMODELED_PAIRED_DESIGN",
+  "episode_type": "FLAWED_WORKFLOW",
   "domain": "statistical_genomics",
   "question": "Pre-treatment and post-treatment tumor biopsies were obtained from 15 patients (30 samples total). An analyst performs an unpaired two-sample t-test between pre- and post-groups. Evaluate.",
   "experiment": {
@@ -17,9 +18,6 @@
         "name": "Post",
         "sample_count": 15
       }
-    ],
-    "covariates": [
-      "patient_id"
     ],
     "input_data_type": "raw_counts",
     "objective": "differential_expression"
@@ -52,8 +50,19 @@
       "Failing to account for subject pairing increases type II error."
     ]
   },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "unmodeled_pairing",
+    "experimental_unit": "patient",
+    "analysis": "differential_expression",
+    "failure_mode": "unpaired_test_on_matched_pairs"
+  },
   "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "Law et al. (2014) Genome Biology 15:R29"
+  },
   "sources": [
-    "Law et al. (2014) voom: Precision weights unlock linear model analysis tools for RNA-seq. Genome Biology 15:R29"
+    "Law et al. (2014) Genome Biology 15:R29"
   ]
 }

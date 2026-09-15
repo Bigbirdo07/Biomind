@@ -1,72 +1,99 @@
 {
   "item_id": "BENCH_006_CLAM_NEOPLASIA_LEAKAGE",
+  "difficulty": "ADVANCED",
   "category": "adversarial_flawed_analysis",
   "scenario": "A single-cell transcriptomic classifier for clam neoplasia splits 40,000 hemocytes randomly across 5 CV folds and achieves 0.9999 AUC. When tested on clams from an adjacent estuary, AUC drops to 0.54.",
-  "question": "What is the primary cause of this generalization collapse, and what validation split should have been used?",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: A single-cell transcriptomic classifier for clam neoplasia splits 40,000 hemocytes randomly across 5 CV folds and achieves 0.9999 AUC. When tested on clams from an adjacent estuary, AUC drops to 0.54.",
   "flawed_analysis_present": true,
   "flaw_type": "group_leakage",
-  "ground_truth_rationale": "Random cell-level splitting leaks individual animal transcriptomic profiles into both train and test partitions. The model memorizes individual clam identities. StratifiedGroupKFold grouped by animal ID must be used.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_006_CLAM_NEOPLASIA_LEAKAGE: group leakage, animal memorization, StratifiedGroupKFold.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "group leakage",
-        "cells from same clam in train and test",
-        "animal identity memorization"
+        "group_leakage",
+        "methodological"
       ],
       "negative_points": [
-        "model works perfectly"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
-        "non-independent observations per clam",
-        "inflated CV AUC",
-        "distribution shift / failure to generalize"
+        "group leakage",
+        "animal memorization",
+        "StratifiedGroupKFold"
       ],
       "negative_points": [
-        "external cohort was bad"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "GroupKFold",
-        "StratifiedGroupKFold by animal ID",
-        "animal-level splitting"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "shuffle cells more"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "CV 0.9999 was a red flag rather than a success"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "celebrate 0.9999 AUC"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "experimental unit is the animal, not the single cell"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "cells are independent animals"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "group_leakage",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "group_leakage"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "group leakage",
+      "animal memorization"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "adversarial_flawed_analysis",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "group_leakage"
+  },
   "tags": [
-    "scrna_seq",
-    "group_leakage",
-    "biomarker_discovery"
+    "adversarial_flawed_analysis",
+    "advanced",
+    "phase1_expanded"
   ]
 }

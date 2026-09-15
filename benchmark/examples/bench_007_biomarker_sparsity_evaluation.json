@@ -1,72 +1,99 @@
 {
   "item_id": "BENCH_007_BIOMARKER_SPARSITY_EVALUATION",
+  "difficulty": "INTERMEDIATE",
   "category": "model_selection",
-  "scenario": "A research team compares a 5,000-gene Random Forest (AUC 0.95) with a 15-gene Elastic Net logistic regression model (AUC 0.93) for developing a blood-based cancer screening assay. The team selects the 5,000-gene model solely because 0.95 > 0.93.",
-  "question": "Critique this model selection decision from the perspective of biomarker discovery and experimental translation.",
+  "scenario": "A team chooses a 5,000-gene Random Forest (AUC 0.95) over a 15-gene Elastic Net model (AUC 0.93) solely for 0.02 AUC gain in clinical diagnostic development.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: A team chooses a 5,000-gene Random Forest (AUC 0.95) over a 15-gene Elastic Net model (AUC 0.93) solely for 0.02 AUC gain in clinical diagnostic development.",
   "flawed_analysis_present": true,
   "flaw_type": "inappropriate_model_selection",
-  "ground_truth_rationale": "Prioritizing a 5,000-gene black-box model for a 0.02 AUC gain ignores experimental translation feasibility, clinical assay cost (targeted qPCR/ddPCR panels), feature stability, and overfitting risks in p >> n regimes.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_007_BIOMARKER_SPARSITY_EVALUATION: translation feasibility, 15 genes vs 5000 genes, overfitting risk.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "model selection flaw",
-        "overfitting risk",
-        "translation infeasibility"
+        "inappropriate_model_selection",
+        "methodological"
       ],
       "negative_points": [
-        "always pick highest AUC"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
-        "sparse model is clinically actionable",
+        "translation feasibility",
         "15 genes vs 5000 genes",
-        "interpretability and feature stability"
+        "overfitting risk"
       ],
       "negative_points": [
-        "more genes is always better"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "select 15-gene sparse model",
-        "evaluate bootstrap stability",
-        "test on external cohort"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "use 10000 genes"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "small AUC differences on discovery cohorts rarely hold externally"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "0.95 guarantees clinical success"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "distinguish statistical fit from biological and clinical utility"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "5000 genes are all causal"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "inappropriate_model_selection",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "inappropriate_model_selection"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "translation feasibility",
+      "15 genes vs 5000 genes"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "model_selection",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "inappropriate_model_selection"
+  },
   "tags": [
-    "biomarker_discovery",
-    "interpretability",
-    "model_selection"
+    "model_selection",
+    "intermediate",
+    "phase1_expanded"
   ]
 }

@@ -1,72 +1,99 @@
 {
   "item_id": "BENCH_017_TECHNICAL_LANE_REPLICATION",
+  "difficulty": "FOUNDATIONAL",
   "category": "biological_replication",
-  "scenario": "A researcher isolates liver RNA from 1 control rat and 1 treated rat. Each RNA sample is sequenced across 8 separate lanes on a NovaSeq 6000. In DESeq2, they input 16 sample columns (8 control vs 8 treated) and claim N=8 biological replication.",
-  "question": "Is this replication biological or technical? What is the true sample size for inferring treatment effects?",
+  "scenario": "Liver RNA from 1 control rat and 1 treated rat sequenced across 8 lanes each, inputted into DESeq2 as N=8 biological replicates.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: Liver RNA from 1 control rat and 1 treated rat sequenced across 8 lanes each, inputted into DESeq2 as N=8 biological replicates.",
   "flawed_analysis_present": true,
   "flaw_type": "technical_replication_confounding",
-  "ground_truth_rationale": "Sequencing the same biological RNA sample across 8 lanes produces 8 technical replicates, not 8 biological replicates. The true biological sample size is N=1 per group. Technical replicates must be collapsed before analysis.",
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_017_TECHNICAL_LANE_REPLICATION: technical replicates, true biological N=1, collapseReplicates.",
   "scoring_rubric": {
     "flaw_detection": {
       "name": "flaw_detection",
       "weight": 1.0,
       "key_points": [
-        "technical replicates",
-        "pseudoreplication",
-        "true N=1"
+        "technical_replication_confounding",
+        "methodological"
       ],
       "negative_points": [
-        "valid N=8 replication"
+        "wrong assessment"
       ]
     },
     "scientific_explanation": {
       "name": "scientific_explanation",
       "weight": 1.0,
       "key_points": [
-        "technical precision != biological variance",
-        "same animal RNA",
-        "degrees of freedom inflated"
+        "technical replicates",
+        "true biological N=1",
+        "collapseReplicates"
       ],
       "negative_points": [
-        "lanes are independent animals"
+        "hallucinated claim"
       ]
     },
     "correction_quality": {
       "name": "correction_quality",
       "weight": 1.0,
       "key_points": [
-        "collapseReplicates",
-        "sum lanes per animal",
-        "sequence additional biological animals (N>=3)"
+        "methodologically sound pipeline",
+        "proper validation controls"
       ],
       "negative_points": [
-        "treat lanes as covariates"
+        "invalid fix"
       ]
     },
     "uncertainty_calibration": {
       "name": "uncertainty_calibration",
       "weight": 1.0,
       "key_points": [
-        "zero biological population inference possible from N=1"
+        "calibrated uncertainty",
+        "limitations recognized"
       ],
       "negative_points": [
-        "strong statistical confidence"
+        "overconfidence"
       ]
     },
     "interpretation_quality": {
       "name": "interpretation_quality",
       "weight": 1.0,
       "key_points": [
-        "distinguish technical assay measurement from biological replication"
+        "claim hierarchy",
+        "association != causation"
       ],
       "negative_points": [
-        "lanes are biological replicates"
+        "causal leap"
       ]
     }
   },
+  "expected_decision": {
+    "primary_issue": "technical_replication_confounding",
+    "severity": "ERROR",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": [
+      "technical_replication_confounding"
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "technical replicates",
+      "true biological N=1"
+    ],
+    "critical_errors": [
+      "analysis is flawless"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "biological_replication",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "technical_replication_confounding"
+  },
   "tags": [
     "biological_replication",
-    "bulk_rnaseq",
-    "experimental_design"
+    "foundational",
+    "phase1_expanded"
   ]
 }

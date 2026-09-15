@@ -1,0 +1,57 @@
+{
+  "episode_id": "EP_029_CHIP_SEQ_INPUT_CONTROL",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "epigenomics",
+  "question": "Calling H3K27ac histone modification peaks without sequencing a matched input chromatin / IgG background control.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "chip_seq",
+    "experimental_unit": "patient",
+    "samples": 6,
+    "input_data_type": "tabular_features",
+    "objective": "differential_expression"
+  },
+  "proposed_analysis": "Execution of workflow described in scenario: Calling H3K27ac histone modification peaks without sequencing a matched input chromatin / IgG background control.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": false,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Apply rigorous methodological controls, proper nesting, and external validation as required by scientific design principles.",
+  "reasoning_summary": "Methodological evaluation for EP_029_CHIP_SEQ_INPUT_CONTROL: enforces appropriate biological units, variance modeling, and validation isolation.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Analysis performed in accordance with stated scientific principles.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Causal assertions without perturbation experiments.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "Requires rigorous independent replication."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "chip_seq",
+    "problem": "epigenomics",
+    "experimental_unit": "patient",
+    "analysis": "differential_expression",
+    "failure_mode": "none"
+  },
+  "validation_status": "expert_validated",
+  "provenance": {
+    "source_type": "expert_authored",
+    "citation": "BioReason Scientific Working Group"
+  },
+  "sources": [
+    "Peer-reviewed standard methods"
+  ]
+}

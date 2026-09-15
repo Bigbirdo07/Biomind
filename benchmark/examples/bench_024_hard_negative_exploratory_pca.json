@@ -1,0 +1,97 @@
+{
+  "item_id": "BENCH_024_HARD_NEGATIVE_EXPLORATORY_PCA",
+  "difficulty": "INTERMEDIATE",
+  "category": "reproducibility",
+  "scenario": "An investigator computes PCA across all 100 RNA-seq samples purely for unsupervised visual clustering and outlier detection prior to any model training.",
+  "question": "Evaluate the methodological, statistical, and biological validity of the scenario: An investigator computes PCA across all 100 RNA-seq samples purely for unsupervised visual clustering and outlier detection prior to any model training.",
+  "flawed_analysis_present": false,
+  "flaw_type": null,
+  "ground_truth_rationale": "Authoritative scientific evaluation for BENCH_024_HARD_NEGATIVE_EXPLORATORY_PCA: exploratory PCA is valid, no supervised target leakage, unsupervised QC.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "valid analysis",
+        "methodological"
+      ],
+      "negative_points": [
+        "wrong assessment"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "exploratory PCA is valid",
+        "no supervised target leakage",
+        "unsupervised QC"
+      ],
+      "negative_points": [
+        "hallucinated claim"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "methodologically sound pipeline",
+        "proper validation controls"
+      ],
+      "negative_points": [
+        "invalid fix"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "calibrated uncertainty",
+        "limitations recognized"
+      ],
+      "negative_points": [
+        "overconfidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "claim hierarchy",
+        "association != causation"
+      ],
+      "negative_points": [
+        "causal leap"
+      ]
+    }
+  },
+  "expected_decision": {
+    "primary_issue": "No methodological flaw; analysis is defensible",
+    "severity": "INFO",
+    "acceptable_methods": [
+      "appropriate pipeline"
+    ],
+    "unacceptable_methods": []
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "exploratory PCA is valid",
+      "no supervised target leakage"
+    ],
+    "critical_errors": [
+      "analysis is severely flawed"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "various",
+    "problem": "reproducibility",
+    "experimental_unit": "patient",
+    "analysis": "evaluation",
+    "failure_mode": "none"
+  },
+  "tags": [
+    "reproducibility",
+    "intermediate",
+    "phase1_expanded"
+  ]
+}

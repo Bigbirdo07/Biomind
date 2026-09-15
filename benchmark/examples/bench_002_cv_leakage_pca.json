@@ -1,0 +1,72 @@
+{
+  "item_id": "BENCH_002_CV_LEAKAGE_PCA",
+  "scenario": "To predict immunotherapy response from 100 melanoma biopsies (20,000 genes), a computational team performs PCA on all 100 samples to extract the top 20 principal components, then trains a logistic regression model with 10-fold CV, reporting 92% accuracy.",
+  "category": "data_leakage",
+  "question": "Assess the validity of this cross-validation scheme. What bias is introduced, and how should the pipeline be structured?",
+  "flawed_analysis_present": true,
+  "flaw_type": "preprocessing_leakage",
+  "ground_truth_rationale": "Fitting PCA globally on all 100 samples leaks distribution and covariance information from test folds into training folds. PCA must be fitted exclusively on the 90 training samples in each fold and applied to transform the 10 test samples.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "leakage",
+        "global PCA",
+        "test contamination"
+      ],
+      "negative_points": [
+        "valid pipeline"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "PCA fit on test data",
+        "optimistic bias",
+        "unsupervised leakage"
+      ],
+      "negative_points": [
+        "PCA never leaks"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "Pipeline",
+        "fit PCA on training folds only",
+        "transform test folds"
+      ],
+      "negative_points": [
+        "run PCA once before"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "true performance likely lower than 92%"
+      ],
+      "negative_points": [
+        "92% is confirmed"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "distinguish internal optimistic score from generalization"
+      ],
+      "negative_points": [
+        "proven biomarker"
+      ]
+    }
+  },
+  "tags": [
+    "ml_design",
+    "leakage",
+    "pca"
+  ]
+}

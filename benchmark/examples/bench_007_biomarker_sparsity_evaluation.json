@@ -1,0 +1,72 @@
+{
+  "item_id": "BENCH_007_BIOMARKER_SPARSITY_EVALUATION",
+  "category": "model_selection",
+  "scenario": "A research team compares a 5,000-gene Random Forest (AUC 0.95) with a 15-gene Elastic Net logistic regression model (AUC 0.93) for developing a blood-based cancer screening assay. The team selects the 5,000-gene model solely because 0.95 > 0.93.",
+  "question": "Critique this model selection decision from the perspective of biomarker discovery and experimental translation.",
+  "flawed_analysis_present": true,
+  "flaw_type": "inappropriate_model_selection",
+  "ground_truth_rationale": "Prioritizing a 5,000-gene black-box model for a 0.02 AUC gain ignores experimental translation feasibility, clinical assay cost (targeted qPCR/ddPCR panels), feature stability, and overfitting risks in p >> n regimes.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "model selection flaw",
+        "overfitting risk",
+        "translation infeasibility"
+      ],
+      "negative_points": [
+        "always pick highest AUC"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "sparse model is clinically actionable",
+        "15 genes vs 5000 genes",
+        "interpretability and feature stability"
+      ],
+      "negative_points": [
+        "more genes is always better"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "select 15-gene sparse model",
+        "evaluate bootstrap stability",
+        "test on external cohort"
+      ],
+      "negative_points": [
+        "use 10000 genes"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "small AUC differences on discovery cohorts rarely hold externally"
+      ],
+      "negative_points": [
+        "0.95 guarantees clinical success"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "distinguish statistical fit from biological and clinical utility"
+      ],
+      "negative_points": [
+        "5000 genes are all causal"
+      ]
+    }
+  },
+  "tags": [
+    "biomarker_discovery",
+    "interpretability",
+    "model_selection"
+  ]
+}

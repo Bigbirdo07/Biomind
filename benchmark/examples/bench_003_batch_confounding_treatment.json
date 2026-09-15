@@ -1,0 +1,71 @@
+{
+  "item_id": "BENCH_003_BATCH_CONFOUNDING_TREATMENT",
+  "category": "batch_effects",
+  "scenario": "In a drug repurposing experiment, 12 vehicle-treated cell lines were prepared using Reagent Kit A on Monday, and 12 drug-treated cell lines were prepared using Reagent Kit B on Friday. High-throughput RNA-seq identified 3,200 differentially expressed genes.",
+  "question": "Can the researcher attribute these 3,200 genes to the drug's mechanism of action? Justify statistically.",
+  "flawed_analysis_present": true,
+  "flaw_type": "batch_confounding",
+  "ground_truth_rationale": "Reagent kit and preparation date are 100% confounded with the treatment condition. The 3,200 genes represent an inseparable combination of technical batch noise and drug effect.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "confounding",
+        "collinear",
+        "batch effect"
+      ],
+      "negative_points": [
+        "valid drug effect"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "100% collinearity",
+        "cannot be computationally corrected",
+        "technical variation"
+      ],
+      "negative_points": [
+        "combat will fix perfectly"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "randomized block design",
+        "re-run with balanced batches"
+      ],
+      "negative_points": [
+        "use unadjusted counts"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "zero causal certainty can be drawn"
+      ],
+      "negative_points": [
+        "drug clearly works"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "confounded design prevents biological conclusion"
+      ],
+      "negative_points": [
+        "validated mechanism"
+      ]
+    }
+  },
+  "tags": [
+    "confounding",
+    "batch_effects",
+    "experimental_design"
+  ]
+}

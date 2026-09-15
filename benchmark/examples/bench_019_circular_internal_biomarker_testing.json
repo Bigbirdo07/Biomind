@@ -1,0 +1,71 @@
+{
+  "item_id": "BENCH_019_CIRCULAR_INTERNAL_BIOMARKER_TESTING",
+  "category": "biomarker_discovery",
+  "scenario": "A research group performs LASSO on a 60-patient cohort, selects 8 microRNAs, and fits a support vector machine on the same 60 patients, reporting 100% sensitivity and 100% specificity. They state the panel is ready for clinical diagnostics.",
+  "question": "Critique the clinical readiness claim and explain the necessity of external cohort validation.",
+  "flawed_analysis_present": true,
+  "flaw_type": "circular_validation",
+  "ground_truth_rationale": "Testing a biomarker panel on the exact same cohort used for feature selection and model fitting evaluates training fit, not generalization. External cohort validation on an independent patient population is mandatory before claiming clinical readiness.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "circular validation",
+        "no external cohort",
+        "training overfitting"
+      ],
+      "negative_points": [
+        "panel is clinically validated"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "100% sensitivity is training fit",
+        "optimism bias",
+        "unvalidated clinical claim"
+      ],
+      "negative_points": [
+        "100% sensitivity proves clinical perfection"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "blinded external validation cohort",
+        "nested cross-validation in discovery"
+      ],
+      "negative_points": [
+        "publish as clinical tool"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "performance will drop on external clinical cohorts"
+      ],
+      "negative_points": [
+        "guaranteed 100% performance"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "adhere to clinical biomarker roadmap standards"
+      ],
+      "negative_points": [
+        "discovery cohort equals clinical trial"
+      ]
+    }
+  },
+  "tags": [
+    "biomarker_discovery",
+    "clinical_validation",
+    "reproducibility"
+  ]
+}

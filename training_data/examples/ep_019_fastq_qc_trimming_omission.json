@@ -1,0 +1,45 @@
+{
+  "episode_id": "EP_019_FASTQ_QC_TRIMMING_OMISSION",
+  "domain": "bioinformatics_qc",
+  "question": "A researcher aligns raw FASTQ files containing 35% Illumina adapter read-through and degraded 3' base qualities (Q < 10) directly to GRCh38 with BWA-MEM without trimming. Evaluate impact.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "wgs",
+    "experimental_unit": "patient",
+    "samples": 8,
+    "input_data_type": "fastq",
+    "objective": "variant_calling"
+  },
+  "proposed_analysis": "Direct alignment of contaminated raw reads without adapter or quality trimming.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": false,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Run FastQC, trim synthetic adapters and low-quality tails (using fastp / Trimmomatic / cutadapt), and verify post-trimming quality before alignment.",
+  "reasoning_summary": "Untrimmed adapter contamination causes false soft-clipping, chimeric read mapping, and erroneous indel/SNP calls at read ends.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Raw FASTQ reads had adapter content and low tail Phred scores.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Downstream variant calls from unclipped reads are reliable.",
+        "level": "STATISTICAL_INFERENCE"
+      }
+    ],
+    "limitations": [
+      "Adapter artifacts degrade alignment specificity and variant calling precision."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Chen et al. (2018) fastp: an ultra-fast all-in-one FASTQ preprocessor. Bioinformatics 34(17):i884-i890"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "item_id": "BENCH_006_CLAM_NEOPLASIA_LEAKAGE",
+  "category": "adversarial_flawed_analysis",
+  "scenario": "A single-cell transcriptomic classifier for clam neoplasia splits 40,000 hemocytes randomly across 5 CV folds and achieves 0.9999 AUC. When tested on clams from an adjacent estuary, AUC drops to 0.54.",
+  "question": "What is the primary cause of this generalization collapse, and what validation split should have been used?",
+  "flawed_analysis_present": true,
+  "flaw_type": "group_leakage",
+  "ground_truth_rationale": "Random cell-level splitting leaks individual animal transcriptomic profiles into both train and test partitions. The model memorizes individual clam identities. StratifiedGroupKFold grouped by animal ID must be used.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "group leakage",
+        "cells from same clam in train and test",
+        "animal identity memorization"
+      ],
+      "negative_points": [
+        "model works perfectly"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "non-independent observations per clam",
+        "inflated CV AUC",
+        "distribution shift / failure to generalize"
+      ],
+      "negative_points": [
+        "external cohort was bad"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "GroupKFold",
+        "StratifiedGroupKFold by animal ID",
+        "animal-level splitting"
+      ],
+      "negative_points": [
+        "shuffle cells more"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "CV 0.9999 was a red flag rather than a success"
+      ],
+      "negative_points": [
+        "celebrate 0.9999 AUC"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "experimental unit is the animal, not the single cell"
+      ],
+      "negative_points": [
+        "cells are independent animals"
+      ]
+    }
+  },
+  "tags": [
+    "scrna_seq",
+    "group_leakage",
+    "biomarker_discovery"
+  ]
+}

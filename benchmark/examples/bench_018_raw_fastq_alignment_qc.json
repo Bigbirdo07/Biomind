@@ -1,0 +1,71 @@
+{
+  "item_id": "BENCH_018_RAW_FASTQ_ALIGNMENT_QC",
+  "category": "fastq_bam_vcf",
+  "scenario": "A bioinformatician receives RNA-seq FASTQ files showing 40% poly-A tail read-through and high adapter dimer content in FastQC. They skip adapter trimming and align directly using STAR.",
+  "question": "What downstream artifacts will be introduced in read mapping and differential expression?",
+  "flawed_analysis_present": true,
+  "flaw_type": "omitted_adapter_trimming",
+  "ground_truth_rationale": "Untrimmed adapter sequences and poly-A tails cause excessive soft-clipping, unmapped reads, chimeric alignments, and inaccurate quantification at transcript boundaries. Trimming with fastp / Trimmomatic is essential.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "untrimmed adapters",
+        "soft clipping",
+        "mapping artifacts"
+      ],
+      "negative_points": [
+        "STAR automatically handles all adapters perfectly"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "adapter read-through",
+        "false chimeric junctions",
+        "quantification degradation"
+      ],
+      "negative_points": [
+        "adapters improve alignment"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "trim adapters with fastp / Trimmomatic / cutadapt",
+        "verify FastQC post-trimming"
+      ],
+      "negative_points": [
+        "align without trimming"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "quantification accuracy is compromised without QC"
+      ],
+      "negative_points": [
+        "100% mapping accuracy"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "computational alignment quality depends on read preprocessing integrity"
+      ],
+      "negative_points": [
+        "skip QC"
+      ]
+    }
+  },
+  "tags": [
+    "fastq_bam_vcf",
+    "bioinformatics_qc",
+    "bulk_rnaseq"
+  ]
+}

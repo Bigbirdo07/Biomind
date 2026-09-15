@@ -1,0 +1,72 @@
+{
+  "item_id": "BENCH_017_TECHNICAL_LANE_REPLICATION",
+  "category": "biological_replication",
+  "scenario": "A researcher isolates liver RNA from 1 control rat and 1 treated rat. Each RNA sample is sequenced across 8 separate lanes on a NovaSeq 6000. In DESeq2, they input 16 sample columns (8 control vs 8 treated) and claim N=8 biological replication.",
+  "question": "Is this replication biological or technical? What is the true sample size for inferring treatment effects?",
+  "flawed_analysis_present": true,
+  "flaw_type": "technical_replication_confounding",
+  "ground_truth_rationale": "Sequencing the same biological RNA sample across 8 lanes produces 8 technical replicates, not 8 biological replicates. The true biological sample size is N=1 per group. Technical replicates must be collapsed before analysis.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "technical replicates",
+        "pseudoreplication",
+        "true N=1"
+      ],
+      "negative_points": [
+        "valid N=8 replication"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "technical precision != biological variance",
+        "same animal RNA",
+        "degrees of freedom inflated"
+      ],
+      "negative_points": [
+        "lanes are independent animals"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "collapseReplicates",
+        "sum lanes per animal",
+        "sequence additional biological animals (N>=3)"
+      ],
+      "negative_points": [
+        "treat lanes as covariates"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "zero biological population inference possible from N=1"
+      ],
+      "negative_points": [
+        "strong statistical confidence"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "distinguish technical assay measurement from biological replication"
+      ],
+      "negative_points": [
+        "lanes are biological replicates"
+      ]
+    }
+  },
+  "tags": [
+    "biological_replication",
+    "bulk_rnaseq",
+    "experimental_design"
+  ]
+}

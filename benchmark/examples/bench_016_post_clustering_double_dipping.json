@@ -1,0 +1,72 @@
+{
+  "item_id": "BENCH_016_POST_CLUSTERING_DOUBLE_DIPPING",
+  "category": "adversarial_flawed_analysis",
+  "scenario": "After clustering 10,000 PBMC cells into 8 clusters with Seurat (FindClusters), the user runs FindMarkers between Cluster 1 and Cluster 2 and reports p-values of 1e-100 as proof that Cluster 1 is an authentic novel cell type.",
+  "question": "Why are p-values derived from comparing clusters identified from the same data statistically inflated?",
+  "flawed_analysis_present": true,
+  "flaw_type": "selective_inference_circularity",
+  "ground_truth_rationale": "Clustering algorithms partition samples by optimizing difference in feature space. Testing for differential expression between those clusters on the same data tests the exact hypothesis the clustering algorithm constructed (double-dipping), producing invalid p-values under the null.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "double dipping",
+        "circular inference",
+        "post-clustering test invalid"
+      ],
+      "negative_points": [
+        "p < 1e-100 proves distinct cell type"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "clustering forces separation",
+        "nominal p-values invalid under null",
+        "selective inference bias"
+      ],
+      "negative_points": [
+        "Seurat p-values are exact"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "countsplitting",
+        "selective inference corrections",
+        "orthogonal biological validation (e.g. Flow/IHC)"
+      ],
+      "negative_points": [
+        "use lower p-value threshold"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "1e-100 is an algorithmic artifact, not biological evidence certainty"
+      ],
+      "negative_points": [
+        "definitive cell type"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "distinguish algorithmic separation from biological cell identity"
+      ],
+      "negative_points": [
+        "clusters always equal cell types"
+      ]
+    }
+  },
+  "tags": [
+    "scrna_seq",
+    "circular_inference",
+    "clustering"
+  ]
+}

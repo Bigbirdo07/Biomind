@@ -1,0 +1,70 @@
+{
+  "item_id": "BENCH_004_DESEQ2_INPUT_TPM",
+  "category": "differential_expression",
+  "scenario": "A bioinformatician runs Salmon to obtain transcript-level TPMs, sums them to gene-level TPMs, applies log1p, and feeds this matrix directly into DESeq2.",
+  "question": "Explain whether this input is appropriate for DESeq2 and what statistical consequences occur.",
+  "flawed_analysis_present": true,
+  "flaw_type": "transformation_mismatch",
+  "ground_truth_rationale": "DESeq2 requires raw integer counts to fit its negative binomial dispersion model. Supplying pre-normalized log-TPM violates Poisson/Negative Binomial variance assumptions.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "incompatible data type",
+        "DESeq2 requires raw counts",
+        "TPM is normalized"
+      ],
+      "negative_points": [
+        "TPM is recommended for DESeq2"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "negative binomial distribution",
+        "internal size factors",
+        "dispersion estimation corrupted"
+      ],
+      "negative_points": [
+        "DESeq2 expects log counts"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "use tximport with countsFromAbundance or raw counts"
+      ],
+      "negative_points": [
+        "use FPKM instead"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "p-values generated from log-TPM are uncalibrated"
+      ],
+      "negative_points": [
+        "p-values are exact"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "statistical assumptions dictate valid software inputs"
+      ],
+      "negative_points": [
+        "ignore count distribution"
+      ]
+    }
+  },
+  "tags": [
+    "differential_expression",
+    "deseq2",
+    "transformations"
+  ]
+}

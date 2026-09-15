@@ -1,0 +1,72 @@
+{
+  "item_id": "BENCH_011_UNPAIRED_TTEST_ON_MATCHED_TUMORS",
+  "category": "experimental_design",
+  "scenario": "A study collects matched primary tumor and liver metastasis samples from 10 colon cancer patients (20 samples total). An analyst runs an unpaired Welch's t-test comparing primary vs metastasis.",
+  "question": "Explain the statistical shortcoming of this design and propose the appropriate linear modeling specification.",
+  "flawed_analysis_present": true,
+  "flaw_type": "unmodeled_pairing",
+  "ground_truth_rationale": "An unpaired test ignores patient-level baseline correlation between matched primary and metastatic lesions from the same patient. A paired t-test or linear model with patient blocking factors (~ patient + site) must be used.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "unpaired test on matched samples",
+        "loss of statistical power",
+        "inter-patient variability"
+      ],
+      "negative_points": [
+        "unpaired test is optimal"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "matched samples share genetic background",
+        "unpaired test inflates residual variance",
+        "higher type II error"
+      ],
+      "negative_points": [
+        "samples are independent"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "paired model",
+        "design ~ patient + tissue_site",
+        "repeated measures / blocking factor"
+      ],
+      "negative_points": [
+        "run Mann-Whitney unpaired"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "small sample size N=10 requires maximizing power"
+      ],
+      "negative_points": [
+        "guaranteed discovery"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "experimental design structure must match the statistical formula"
+      ],
+      "negative_points": [
+        "pairing is irrelevant"
+      ]
+    }
+  },
+  "tags": [
+    "experimental_design",
+    "paired_design",
+    "differential_expression"
+  ]
+}

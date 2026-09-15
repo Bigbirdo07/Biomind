@@ -1,0 +1,50 @@
+{
+  "aggregate_metrics": {
+    "total_items": 1,
+    "mean_composite_score": 0.45,
+    "mean_flaw_detection_score": 0.75,
+    "mean_explanation_score": 0.0,
+    "mean_correction_score": 0.0,
+    "mean_calibration_score": 1.0,
+    "mean_interpretation_score": 0.5,
+    "flaw_detection_accuracy": 1.0
+  },
+  "individual_scores": [
+    {
+      "item_id": "BENCH_001_SCRNA_PSEUDOREPLICATION",
+      "flaw_detection_score": 0.75,
+      "explanation_score": 0.0,
+      "correction_score": 0.0,
+      "calibration_score": 1.0,
+      "interpretation_score": 0.5,
+      "composite_score": 0.45,
+      "flaw_detected_binary": true,
+      "comments": "Flaw matched: True, Composite: 0.450"
+    }
+  ],
+  "predictions": [
+    {
+      "item_id": "BENCH_001_SCRNA_PSEUDOREPLICATION",
+      "prompt": "You are BioReason, a biology-native scientific reasoning AI.\nEvaluate the following scientific scenario and proposed analysis with maximum methodological rigor.\n\nSCENARIO:\nAn investigator compares single-cell RNA-seq from 3 control mice (15,000 cells) against 3 knockout mice (15,000 cells). They run a cell-level Mann-Whitney U test across all 30,000 individual cells and identify 6,000 significant genes with p < 1e-15.\n\nQUESTION:\nIs the reported differential expression analysis statistically valid? Identify the primary methodological flaw and propose a defensible alternative workflow.\n\nYou must respond in valid JSON format with the following keys:\n{\n  \"flaw_detected\": true/false,\n  \"flaw_type\": \"name of flaw if present or null\",\n  \"scientific_rationale\": \"detailed explanation of biological, statistical, or ML validity\",\n  \"proposed_correction\": \"statistically and biologically defensible alternative\",\n  \"limitations\": [\"list\", \"of\", \"limitations\"]\n}\n",
+      "raw_response": "{\n  \"flaw_detected\": true,\n  \"flaw_type\": \"detected_methodological_flaw\",\n  \"scientific_rationale\": \"The proposed analysis violates core statistical and biological assumptions.\",\n  \"proposed_correction\": \"Re-architect workflow using proper biological replication and nested training pipelines.\",\n  \"limitations\": [\n    \"Requires external cohort validation.\",\n    \"Association does not imply causality.\"\n  ]\n}",
+      "parsed_json": {
+        "flaw_detected": true,
+        "flaw_type": "detected_methodological_flaw",
+        "scientific_rationale": "The proposed analysis violates core statistical and biological assumptions.",
+        "proposed_correction": "Re-architect workflow using proper biological replication and nested training pipelines.",
+        "limitations": [
+          "Requires external cohort validation.",
+          "Association does not imply causality."
+        ]
+      },
+      "flaw_detected": true,
+      "flaw_type": "detected_methodological_flaw",
+      "scientific_rationale": "The proposed analysis violates core statistical and biological assumptions.",
+      "proposed_correction": "Re-architect workflow using proper biological replication and nested training pipelines.",
+      "limitations_noted": [
+        "Requires external cohort validation.",
+        "Association does not imply causality."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "episode_id": "EP_006_MULTIPLE_TESTING_GENOMIC_SCALE",
+  "domain": "transcriptomics_statistics",
+  "question": "In a microarray study of 25,000 probes across 20 cancer and 20 normal samples, 1,250 probes show p < 0.05 by unadjusted Student's t-test. The author concludes all 1,250 genes are cancer biomarkers. Evaluate this conclusion.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "samples": 40,
+    "groups": [
+      {
+        "name": "Tumor",
+        "sample_count": 20
+      },
+      {
+        "name": "Normal",
+        "sample_count": 20
+      }
+    ],
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression"
+  },
+  "proposed_analysis": "Use raw p-value threshold (p < 0.05) across 25,000 independent t-tests without FDR adjustment.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": false,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Apply Benjamini-Hochberg FDR control or Storey's q-value to report adjusted p-values / FDR (e.g., FDR < 0.05).",
+  "reasoning_summary": "At alpha = 0.05 across 25,000 tests, 1,250 false positives (25,000 * 0.05 = 1,250) are expected purely by chance under the null hypothesis.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "1,250 probes had nominal p < 0.05.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "All 1,250 probes are true positive biological biomarkers.",
+        "level": "BIOLOGICAL_INTERPRETATION"
+      }
+    ],
+    "limitations": [
+      "Unadjusted multiple testing produces massive false discovery rates."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Benjamini & Hochberg (1995) JRSS B 57:289-300"
+  ]
+}

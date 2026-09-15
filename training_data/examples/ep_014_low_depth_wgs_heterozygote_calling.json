@@ -1,0 +1,45 @@
+{
+  "episode_id": "EP_014_LOW_DEPTH_WGS_HETEROZYGOTE_CALLING",
+  "domain": "wgs_genomics",
+  "question": "A researcher attempts to confidently call heterozygous non-coding single-nucleotide variants from 3x mean coverage whole-genome sequencing data. Evaluate.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "wgs",
+    "experimental_unit": "patient",
+    "samples": 10,
+    "input_data_type": "bam_cram",
+    "objective": "variant_calling"
+  },
+  "proposed_analysis": "Call confident individual heterozygous genotypes at 3x depth.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": false,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": false
+  },
+  "preferred_analysis": "Use 30x+ coverage for confident individual variant calling, or perform population-level statistical imputation (e.g. GLIMPSE / Beagle) if low-pass sequencing is required.",
+  "reasoning_summary": "At 3x coverage, the probability of sampling both alleles for a true heterozygote is only 1 - (0.5)^3 - (0.5)^3 = 0.75, causing widespread allelic dropout and false homozygote calls.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Genome was sequenced at 3x mean depth.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Individual heterozygous genotypes can be called with high confidence.",
+        "level": "STATISTICAL_INFERENCE"
+      }
+    ],
+    "limitations": [
+      "Severe allelic dropout prevents reliable individual genotyping at 3x depth."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Nielsen et al. (2011) Genotype and SNP calling from next-generation sequencing data. Nature Reviews Genetics 12:443-451"
+  ]
+}

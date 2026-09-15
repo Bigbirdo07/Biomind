@@ -1,0 +1,59 @@
+{
+  "episode_id": "EP_008_PREDICTIVE_IMPORTANCE_VS_CAUSALITY",
+  "domain": "biological_ml_interpretation",
+  "question": "A Random Forest model classifies Alzheimer's disease brain samples with high accuracy. Gene X has the highest Gini feature importance. The authors state 'Gene X causes Alzheimer's pathogenesis.' Critique this assertion.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "samples": 180,
+    "groups": [
+      {
+        "name": "AD",
+        "sample_count": 90
+      },
+      {
+        "name": "Control",
+        "sample_count": 90
+      }
+    ],
+    "input_data_type": "normalized_counts",
+    "objective": "supervised_classification"
+  },
+  "proposed_analysis": "Infer biological causation directly from Random Forest feature importance ranking.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Classify Gene X importance as predictive association. Formulate a biological hypothesis and require functional genetic perturbation (CRISPR KO, overexpression) for causal claims.",
+  "reasoning_summary": "Predictive feature importance reflects statistical association and correlation structures in observational data, not biological causation or directional mechanistic necessity.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Gene X expression is strongly associated with AD status in this cohort.",
+        "level": "STATISTICAL_INFERENCE"
+      },
+      {
+        "statement": "Gene X may be a candidate biomarker or involved in disease processes.",
+        "level": "BIOLOGICAL_INTERPRETATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Gene X causes Alzheimer's pathogenesis.",
+        "level": "CAUSAL_CLAIM"
+      }
+    ],
+    "limitations": [
+      "Observational machine learning cannot establish causal directionality without interventional experiments."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Pearl, J. (2009) Causality: Models, Reasoning, and Inference. Cambridge Univ Press."
+  ]
+}

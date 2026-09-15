@@ -1,0 +1,71 @@
+{
+  "item_id": "BENCH_015_LOOKAHEAD_TIME_BIAS",
+  "category": "data_leakage",
+  "scenario": "A model predicting 3-year cancer recurrence from electronic health records incorporates total cumulative dose of second-line chemotherapy administered in Year 2 as a baseline feature at diagnosis.",
+  "question": "Identify the critical temporal flaw and its impact on survival estimation.",
+  "flawed_analysis_present": true,
+  "flaw_type": "immortal_time_bias",
+  "ground_truth_rationale": "Conditioning on events that occur in Year 2 introduces lookahead leakage / immortal time bias. Patients receiving Year 2 therapy must have survived recurrence-free or lived until Year 2 by definition.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "immortal time bias",
+        "lookahead leakage",
+        "future feature at baseline"
+      ],
+      "negative_points": [
+        "valid survival feature"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "requires patient to survive until Year 2",
+        "artificially guarantees survival",
+        "temporal confounding"
+      ],
+      "negative_points": [
+        "chemotherapy dose is fixed at baseline"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "restrict baseline features strictly to diagnosis date",
+        "use time-dependent Cox model"
+      ],
+      "negative_points": [
+        "normalize dose by weight"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "survival estimates are falsely inflated"
+      ],
+      "negative_points": [
+        "proven prognostic benefit"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "temporal ordering must be strictly preserved in clinical prediction"
+      ],
+      "negative_points": [
+        "timing does not matter"
+      ]
+    }
+  },
+  "tags": [
+    "data_leakage",
+    "survival_analysis",
+    "clinical_ml"
+  ]
+}

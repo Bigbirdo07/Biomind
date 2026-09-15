@@ -1,0 +1,59 @@
+{
+  "episode_id": "EP_012_UNMODELED_PAIRED_DESIGN",
+  "domain": "statistical_genomics",
+  "question": "Pre-treatment and post-treatment tumor biopsies were obtained from 15 patients (30 samples total). An analyst performs an unpaired two-sample t-test between pre- and post-groups. Evaluate.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "samples": 15,
+    "total_observations": 30,
+    "groups": [
+      {
+        "name": "Pre",
+        "sample_count": 15
+      },
+      {
+        "name": "Post",
+        "sample_count": 15
+      }
+    ],
+    "covariates": [
+      "patient_id"
+    ],
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression"
+  },
+  "proposed_analysis": "Perform unpaired differential expression testing (design = ~ treatment).",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Specify a paired multi-factor design (e.g. In DESeq2: design = ~ patient_id + treatment) to control for baseline patient-to-patient variance.",
+  "reasoning_summary": "Ignoring paired structure inflates residual error with inter-patient baseline differences, dramatically reducing statistical power to detect consistent treatment-induced changes.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Paired pre- and post-treatment biopsies were collected from 15 subjects.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Unpaired analysis captures the true treatment effect with optimal power.",
+        "level": "STATISTICAL_INFERENCE"
+      }
+    ],
+    "limitations": [
+      "Failing to account for subject pairing increases type II error."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Law et al. (2014) voom: Precision weights unlock linear model analysis tools for RNA-seq. Genome Biology 15:R29"
+  ]
+}

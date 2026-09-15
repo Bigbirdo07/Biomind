@@ -1,0 +1,55 @@
+{
+  "episode_id": "EP_010_IMPUTATION_DATA_LEAKAGE",
+  "domain": "biological_ml",
+  "question": "Missing proteomics protein abundances were imputed using k-Nearest Neighbors (k-NN) fitted on the combined train and test dataset prior to cross-validation. Evaluate.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "proteomics",
+    "experimental_unit": "patient",
+    "samples": 100,
+    "groups": [
+      {
+        "name": "Tumor",
+        "sample_count": 50
+      },
+      {
+        "name": "Normal",
+        "sample_count": 50
+      }
+    ],
+    "input_data_type": "continuous_intensity",
+    "objective": "supervised_classification"
+  },
+  "proposed_analysis": "Fit k-NN imputer on the full dataset before splitting into train/test sets.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": true,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Fit the imputation model exclusively on training folds, and apply the learned donor values to impute validation/test folds.",
+  "reasoning_summary": "Global imputation borrows information across partitions, contaminating test folds with training profiles and artificially boosting validation metrics.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Missing values were imputed via global k-NN.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Validation metrics represent true out-of-sample performance.",
+        "level": "STATISTICAL_INFERENCE"
+      }
+    ],
+    "limitations": [
+      "Imputation leakage produces optimistic evaluation bias."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Hastie et al. (2009) Elements of Statistical Learning"
+  ]
+}

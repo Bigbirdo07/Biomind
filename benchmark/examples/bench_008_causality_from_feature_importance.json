@@ -1,0 +1,71 @@
+{
+  "item_id": "BENCH_008_CAUSALITY_FROM_FEATURE_IMPORTANCE",
+  "category": "result_interpretation",
+  "scenario": "An XGBoost model trained on bulk transcriptomics of diabetic vs healthy kidney biopsies identifies SLC12A1 as the top feature by SHAP importance. The manuscript title is 'SLC12A1 Causes Diabetic Nephropathy Progression.'",
+  "question": "Evaluate whether the scientific claim in the title is supported by the machine learning methodology.",
+  "flawed_analysis_present": true,
+  "flaw_type": "causal_overclaim",
+  "ground_truth_rationale": "Machine learning feature importance and SHAP values quantify predictive association in observational data, not biological causality. A causal claim requires mechanistic, interventional experiments (knockout, knockdown, rescue).",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "causal overclaiming",
+        "association is not causation",
+        "SHAP does not prove cause"
+      ],
+      "negative_points": [
+        "title is accurate"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "observational data",
+        "predictive importance != biological causality",
+        "confounding / reverse causation possible"
+      ],
+      "negative_points": [
+        "SHAP proves causation"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "reframe claim as association or hypothesis",
+        "mandate functional biological perturbation experiments"
+      ],
+      "negative_points": [
+        "use Random Forest instead"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "explicitly categorize as biological interpretation or hypothesis"
+      ],
+      "negative_points": [
+        "causality confirmed"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "strict adherence to the scientific claim hierarchy"
+      ],
+      "negative_points": [
+        "predictive importance = mechanism"
+      ]
+    }
+  },
+  "tags": [
+    "result_interpretation",
+    "causality",
+    "shap"
+  ]
+}

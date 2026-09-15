@@ -1,0 +1,29 @@
+workflow_id: WF_002_FLAWED_GLOBAL_LEAKAGE
+assay: scrna_seq
+organism: Mercenaria mercenaria
+target: neoplasia
+prediction_task: binary_classification
+experimental_unit_level: animal
+split:
+  outer_cv: random_kfold
+  folds: 5
+  nested_inner_cv: false
+preprocessing:
+  normalization: standard_scaler
+  transformation: none
+  fit_scope: full_dataset
+feature_selection:
+  method: select_k_best
+  target_feature_count: 50
+  fit_scope: full_dataset
+models:
+  - random_forest
+  - mlp
+metrics:
+  - roc_auc
+interpretability:
+  bootstrap_feature_stability: false
+  permutation_importance: false
+  shap_analysis: false
+  sparsity_enforced: false
+notes: "Flawed workflow with global feature selection, global preprocessing, and un-grouped splits on animal units."

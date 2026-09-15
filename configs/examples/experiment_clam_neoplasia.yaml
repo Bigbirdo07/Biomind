@@ -1,0 +1,25 @@
+organism: Mercenaria mercenaria
+assay: scrna_seq
+experimental_unit: animal
+samples: 20
+total_observations: 50000
+groups:
+- name: Neoplastic
+  sample_count: 10
+  cell_count: 25000
+  description: Disseminated clam neoplasia
+- name: Healthy
+  sample_count: 10
+  cell_count: 25000
+  description: Healthy control clams
+covariates:
+- sampling_site
+- shell_length
+batch_structure:
+  batch_variable: collection_date
+  batch_count: 4
+  confounded_with_group: false
+  notes: Balanced collection across dates
+input_data_type: raw_counts
+objective: supervised_classification
+description: Single-cell transcriptomics of hard-shell clam hemocyte neoplasia.

@@ -1,0 +1,35 @@
+workflow_id: WF_001_CLAM_NEOPLASIA_GROUPED
+assay: scrna_seq
+organism: Mercenaria mercenaria
+target: neoplasia
+prediction_task: binary_classification
+experimental_unit_level: animal
+split:
+  outer_cv: stratified_group_kfold
+  folds: 5
+  group_by: animal_id
+  nested_inner_cv: true
+preprocessing:
+  normalization: appropriate_for_assay
+  transformation: log1p
+  fit_scope: training_only
+feature_selection:
+  method: lasso
+  target_feature_count: 50
+  fit_scope: training_only
+models:
+  - sparse_logistic_regression
+  - elastic_net
+  - linear_svm
+metrics:
+  - roc_auc
+  - pr_auc
+  - balanced_accuracy
+  - sensitivity
+  - specificity
+interpretability:
+  bootstrap_feature_stability: true
+  permutation_importance: true
+  shap_analysis: false
+  sparsity_enforced: true
+notes: "Grouped stratified CV isolating clam animals across folds with nested sparse feature selection."

@@ -1,0 +1,68 @@
+{
+  "episode_id": "EP_001_SCRNA_PSEUDOREPLICATION",
+  "domain": "single_cell_transcriptomics",
+  "question": "A researcher has 40,000 cells from one diseased mouse and 30,000 cells from one healthy control mouse. They run a two-sample t-test comparing gene expression across the 70,000 cells to find disease-associated genes. Evaluate this analysis.",
+  "experiment": {
+    "organism": "Mus musculus",
+    "assay": "scrna_seq",
+    "experimental_unit": "animal",
+    "samples": 2,
+    "total_observations": 70000,
+    "groups": [
+      {
+        "name": "Diseased",
+        "sample_count": 1,
+        "cell_count": 40000
+      },
+      {
+        "name": "Healthy",
+        "sample_count": 1,
+        "cell_count": 30000
+      }
+    ],
+    "covariates": [
+      "sequencing_depth",
+      "mitochondrial_percent"
+    ],
+    "batch_structure": {
+      "batch_variable": "run_date",
+      "batch_count": 2,
+      "confounded_with_group": true
+    },
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression"
+  },
+  "proposed_analysis": "Perform cell-level Student's t-test or Wilcoxon rank-sum test across 70,000 cells treating each cell as an independent sample (N=70,000).",
+  "scientific_checks": {
+    "replication_valid": false,
+    "confounding_detected": true,
+    "leakage_detected": false,
+    "transformation_valid": false,
+    "multiple_testing_controlled": false,
+    "sample_size_adequate": false
+  },
+  "preferred_analysis": "Collect at least 3-5 biological replicate animals per group. Aggregate counts to sample-level pseudobulk per cell type, and test with DESeq2/edgeR or fit a GLMM with animal random effects.",
+  "reasoning_summary": "Treating 70,000 cells from N=2 animals as independent replicates constitutes severe pseudoreplication. The effective sample size is N=1 per group, providing zero degrees of freedom to estimate inter-individual biological variance.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Cellular expression profiles were measured from two individual animals.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Differentially expressed genes reflect generalizable disease biology.",
+        "level": "BIOLOGICAL_INTERPRETATION"
+      }
+    ],
+    "limitations": [
+      "N=1 per condition gives zero statistical power for biological inference.",
+      "Observed differences reflect individual animal idiosyncrasies or batch artifacts."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Squair et al. (2021) Nature Communications 12:5692"
+  ]
+}

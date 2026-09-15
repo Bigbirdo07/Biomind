@@ -1,0 +1,45 @@
+{
+  "episode_id": "EP_016_SURVIVAL_LOOKAHEAD_BIAS",
+  "domain": "clinical_ml",
+  "question": "A model predicts 5-year patient survival using post-recurrence chemotherapy response data measured 18 months after diagnosis as a baseline predictor. Diagnose the flaw.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "other",
+    "experimental_unit": "patient",
+    "samples": 250,
+    "input_data_type": "tabular_features",
+    "objective": "supervised_regression"
+  },
+  "proposed_analysis": "Include future post-diagnosis therapy response as a baseline covariate.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": true,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Use time-dependent covariates in a Cox proportional hazards model or restrict baseline predictors strictly to information available at diagnosis.",
+  "reasoning_summary": "Conditioning on events occurring after the baseline landmark introduces immortal time bias / lookahead leakage, falsely guaranteeing survival up to the measurement timepoint.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Model performance was calculated using future response features.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The model provides an accurate prognostic tool at time of diagnosis.",
+        "level": "STATISTICAL_INFERENCE"
+      }
+    ],
+    "limitations": [
+      "Lookahead leakage invalidates prognostic timing."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Yadav & Lewis (2021) Immortal Time Bias in Observational Studies. JAMA 325(7):686-687"
+  ]
+}

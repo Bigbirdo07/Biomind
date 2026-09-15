@@ -1,0 +1,62 @@
+{
+  "episode_id": "EP_003_CLAM_NEOPLASIA_GROUP_LEAKAGE",
+  "domain": "single_cell_transcriptomics_ml",
+  "question": "In a study on hard-shell clam (Mercenaria mercenaria) hemocyte neoplasia, 50,000 single-cell transcriptomes from 10 diseased and 10 healthy clams were randomly shuffled into 5-fold CV. The model achieved 0.9999 CV AUC, but only 0.58 on an external cohort. Explain the discrepancy.",
+  "experiment": {
+    "organism": "Mercenaria mercenaria",
+    "assay": "scrna_seq",
+    "experimental_unit": "animal",
+    "samples": 20,
+    "total_observations": 50000,
+    "groups": [
+      {
+        "name": "Neoplastic",
+        "sample_count": 10,
+        "cell_count": 25000
+      },
+      {
+        "name": "Healthy",
+        "sample_count": 10,
+        "cell_count": 25000
+      }
+    ],
+    "covariates": [
+      "sampling_site"
+    ],
+    "input_data_type": "raw_counts",
+    "objective": "supervised_classification"
+  },
+  "proposed_analysis": "Randomly partition 50,000 cells across 5 cross-validation folds using standard StratifiedKFold.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": true,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Use StratifiedGroupKFold grouped strictly by individual clam ID, ensuring all cells from an individual clam are placed solely in either train or test in any fold.",
+  "reasoning_summary": "Random cell-level splitting leaks animal-specific transcriptional profiles across folds. The model memorizes individual animal signatures rather than generalized neoplasia markers, explaining the collapse on external animals.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Model achieved 0.9999 CV AUC on randomly shuffled cells and 0.58 on external clams.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The model has learned a generalizable cellular signature of bivalve neoplasia.",
+        "level": "BIOLOGICAL_INTERPRETATION"
+      }
+    ],
+    "limitations": [
+      "Random splitting violates observation independence across animal units.",
+      "External validation collapse confirms animal identity leakage."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Little et al. (2017) Perspectives in Science 10:100-110"
+  ]
+}

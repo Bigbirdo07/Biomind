@@ -1,0 +1,72 @@
+{
+  "item_id": "BENCH_005_MULTIPLE_TESTING_MICROARRAY",
+  "category": "statistical_reasoning",
+  "scenario": "A researcher tests 30,000 genes for association with patient survival using Cox proportional hazards models. They report 1,500 genes with nominal p < 0.05 and claim a massive discovery.",
+  "question": "What is the expected number of false positive discoveries under the complete null hypothesis, and what statistical correction is required?",
+  "flawed_analysis_present": true,
+  "flaw_type": "multiple_testing_problem",
+  "ground_truth_rationale": "Under the null hypothesis, alpha = 0.05 on 30,000 tests yields 1,500 expected false positives purely by random chance (30,000 * 0.05 = 1,500). Benjamini-Hochberg FDR correction must be applied.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "multiple testing",
+        "false discovery rate",
+        "null expectation"
+      ],
+      "negative_points": [
+        "no flaw present"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "1500 false positives expected under null",
+        "30000 * 0.05",
+        "nominal p-value inadequacy"
+      ],
+      "negative_points": [
+        "1500 true positives"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "Benjamini-Hochberg FDR",
+        "q-values",
+        "adjusted p-values"
+      ],
+      "negative_points": [
+        "use p < 0.01 without FDR"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "nominal significance is not real significance"
+      ],
+      "negative_points": [
+        "guaranteed biomarkers"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "multiple testing control is essential for high-throughput omics"
+      ],
+      "negative_points": [
+        "all 1500 are biological"
+      ]
+    }
+  },
+  "tags": [
+    "statistical_reasoning",
+    "fdr",
+    "multiple_testing"
+  ]
+}

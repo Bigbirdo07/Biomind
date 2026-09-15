@@ -1,0 +1,60 @@
+{
+  "episode_id": "EP_002_FEATURE_SELECTION_LEAKAGE",
+  "domain": "biological_ml",
+  "question": "A team selects the top 50 genes correlated with cancer recurrence using all 150 patient samples, then performs 5-fold cross-validation with an SVM, reporting 98% accuracy. Is this result scientifically valid?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "samples": 150,
+    "groups": [
+      {
+        "name": "Recurrent",
+        "sample_count": 50
+      },
+      {
+        "name": "NonRecurrent",
+        "sample_count": 100
+      }
+    ],
+    "covariates": [
+      "age",
+      "stage"
+    ],
+    "input_data_type": "normalized_counts",
+    "objective": "supervised_classification"
+  },
+  "proposed_analysis": "Select top 50 features on the complete dataset (N=150), then evaluate an RBF SVM using standard 5-fold cross-validation.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": true,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Embed feature selection strictly within each training fold using an end-to-end sklearn Pipeline or nested cross-validation.",
+  "reasoning_summary": "Global feature selection before cross-validation leaks test partition label information into training, creating catastrophic selection bias and artificially inflated performance.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "The pipeline achieved 98% CV accuracy under a flawed protocol.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The 50 selected genes form a validated prognostic biomarker signature.",
+        "level": "BIOLOGICAL_INTERPRETATION"
+      }
+    ],
+    "limitations": [
+      "Severe selection bias invalidates the reported 98% accuracy.",
+      "Must be re-evaluated using strictly nested cross-validation."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Ambroise & McLachlan (2002) PNAS 99(10):6562-6566"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "episode_id": "EP_013_GATK_GERMLINE_VARIANT_RECALIBRATION",
+  "domain": "genomics_variant_calling",
+  "question": "A whole-exome sequencing pipeline calls germline SNPs using raw HaplotypeCaller output without applying VQSR (Variant Quality Score Recalibration) or hard filtering. Evaluate variant call reliability.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "wes",
+    "experimental_unit": "patient",
+    "samples": 30,
+    "input_data_type": "bam_cram",
+    "objective": "variant_calling"
+  },
+  "proposed_analysis": "Output raw VCF directly from GATK HaplotypeCaller without recalibration or filtering.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": false,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Apply GATK VQSR (or CNNScoreVariants / GATK standard hard-filtering on QD, FS, MQ, MQRankSum, ReadPosRankSum) before downstream analysis.",
+  "reasoning_summary": "Raw variant calls contain substantial false positives from sequencing errors, strand bias, and mapping artifacts. Recalibration is mandatory for high-confidence genotyping.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Raw candidate variants were identified by local de novo assembly.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "All raw variant calls represent true germline genetic polymorphisms.",
+        "level": "STATISTICAL_INFERENCE"
+      }
+    ],
+    "limitations": [
+      "Unfiltered variant calls exhibit high false discovery rates."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Van der Auwera & O'Connor (2020) Genomics in the Cloud: GATK Best Practices. O'Reilly."
+  ]
+}

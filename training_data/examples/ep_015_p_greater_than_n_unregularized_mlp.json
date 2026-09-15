@@ -1,0 +1,55 @@
+{
+  "episode_id": "EP_015_P_GREATER_THAN_N_UNREGULARIZED_MLP",
+  "domain": "biological_ml",
+  "question": "A deep neural network (3 hidden layers, 500,000 parameters) is trained on 80 transcriptomic samples (20,000 genes) without regularization. Training loss reaches 0.0001, but test loss explodes. Diagnose.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "samples": 80,
+    "groups": [
+      {
+        "name": "Class1",
+        "sample_count": 40
+      },
+      {
+        "name": "Class2",
+        "sample_count": 40
+      }
+    ],
+    "input_data_type": "normalized_counts",
+    "objective": "supervised_classification"
+  },
+  "proposed_analysis": "Train high-capacity unregularized MLP on p >> n transcriptomics.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": false
+  },
+  "preferred_analysis": "Use sparse regularized linear models (LASSO, Elastic Net) or enforce heavy weight decay / dropout / biological pathway dimensionality reduction.",
+  "reasoning_summary": "With p=20,000 and n=80, an unconstrained neural network easily memorizes sample-specific noise (extreme overparameterization), yielding zero generalization capability.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "The model achieved near-zero training loss and high test error.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The neural network discovered true nonlinear biological disease dynamics.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "Catastrophic overfitting due to p >> n parameterization."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Hastie, Tibshirani & Friedman (2009) Elements of Statistical Learning"
+  ]
+}

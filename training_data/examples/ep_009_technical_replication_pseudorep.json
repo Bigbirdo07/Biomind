@@ -1,0 +1,58 @@
+{
+  "episode_id": "EP_009_TECHNICAL_REPLICATION_PSEUDOREP",
+  "domain": "bulk_rnaseq",
+  "question": "RNA from 2 treated mice was split across 5 sequencing lanes each, yielding 10 FASTQ files. The analyst performs DESeq2 differential expression treating N=10 vs N=10 controls. Evaluate.",
+  "experiment": {
+    "organism": "Mus musculus",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "animal",
+    "samples": 4,
+    "groups": [
+      {
+        "name": "Treated",
+        "sample_count": 2
+      },
+      {
+        "name": "Control",
+        "sample_count": 2
+      }
+    ],
+    "covariates": [
+      "sequencing_lane"
+    ],
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression"
+  },
+  "proposed_analysis": "Treat the 10 technical lane replicates as 10 independent biological samples in DESeq2.",
+  "scientific_checks": {
+    "replication_valid": false,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": false
+  },
+  "preferred_analysis": "Collapse technical replicates per animal (using DESeq2::collapseReplicates) before differential expression testing.",
+  "reasoning_summary": "Technical replicates measure technical assay precision, not biological variability between animals. Treating technical replicates as independent inflates degrees of freedom.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Technical sequencing replicates were generated across 5 lanes.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Differential expression p-values accurately reflect biological population variance.",
+        "level": "STATISTICAL_INFERENCE"
+      }
+    ],
+    "limitations": [
+      "True biological replication is N=2, insufficient for robust dispersion estimation."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Blainey et al. (2014) Points of Significance: Replication. Nature Methods 11:879-880"
+  ]
+}

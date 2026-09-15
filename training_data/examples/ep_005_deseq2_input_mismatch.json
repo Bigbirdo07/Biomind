@@ -1,0 +1,58 @@
+{
+  "episode_id": "EP_005_DESEQ2_INPUT_MISMATCH",
+  "domain": "bulk_rnaseq",
+  "question": "A researcher normalizes RNA-seq counts to TPM (Transcripts Per Million), applies log2(TPM + 1), and feeds this matrix into DESeq2(design = ~ condition). Evaluate this pipeline.",
+  "experiment": {
+    "organism": "Mus musculus",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "animal",
+    "samples": 12,
+    "groups": [
+      {
+        "name": "Treated",
+        "sample_count": 6
+      },
+      {
+        "name": "Control",
+        "sample_count": 6
+      }
+    ],
+    "covariates": [
+      "sex"
+    ],
+    "input_data_type": "tpm_fpkm_rpkm",
+    "objective": "differential_expression"
+  },
+  "proposed_analysis": "Pass log2(TPM + 1) normalized matrix directly to DESeqDataSetFromMatrix.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": false,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Supply raw un-normalized integer count matrix to DESeqDataSetFromMatrix. If only TPM/lengths are available, use tximport to import estimated counts with offset matrices.",
+  "reasoning_summary": "DESeq2 models discrete count variance via the Negative Binomial distribution and estimates library size factors internally. Passing log-transformed or normalized TPM invalidates its statistical model.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Input data was transformed to log2(TPM+1).",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "P-values from DESeq2 on log-TPM are statistically valid.",
+        "level": "STATISTICAL_INFERENCE"
+      }
+    ],
+    "limitations": [
+      "Violation of count distribution assumptions invalidates dispersion shrinkage and p-values."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Love et al. (2014) Genome Biology 15:550"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "episode_id": "EP_007_BIOMARKER_SPARSITY_VS_COMPLEXITY",
+  "domain": "biomarker_discovery",
+  "question": "For clinical blood-based biomarker discovery, Model A (XGBoost on 2,000 genes) achieves 0.96 AUC. Model B (Sparse Logistic Regression on 12 genes) achieves 0.94 AUC. Which model should be prioritized for wet-lab clinical assay development?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "samples": 200,
+    "groups": [
+      {
+        "name": "Responder",
+        "sample_count": 80
+      },
+      {
+        "name": "NonResponder",
+        "sample_count": 120
+      }
+    ],
+    "input_data_type": "normalized_counts",
+    "objective": "biomarker_discovery"
+  },
+  "proposed_analysis": "Select Model A solely based on highest cross-validation AUC (0.96 vs 0.94).",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Prioritize Model B for validation. A 12-gene sparse panel is clinically actionable via multiplex RT-qPCR/targeted panels, less prone to overfitting, and offers superior interpretability and experimental validation feasibility.",
+  "reasoning_summary": "In biomarker discovery, minor gains in predictive metrics on complex models often reflect overfitting to non-essential variance. Sparse models with high stability offer vastly greater clinical and experimental utility.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Model A achieved 0.96 AUC and Model B achieved 0.94 AUC on validation data.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Model A's 2,000 genes represent a validated causal biomarker network.",
+        "level": "HYPOTHESIS"
+      }
+    ],
+    "limitations": [
+      "High feature counts hinder wet-lab translation and increase risk of distribution shift failure."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Meinshausen & B\u00fchlmann (2010) Stability Selection. JRSS B 72:417-473"
+  ]
+}

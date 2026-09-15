@@ -1,0 +1,55 @@
+{
+  "episode_id": "EP_011_CIRCULAR_BIOMARKER_VALIDATION",
+  "domain": "biomarker_discovery",
+  "question": "A 10-gene signature was discovered by differential expression on Cohort A (N=50). The same Cohort A was then used to train and evaluate a logistic regression model, achieving 95% sensitivity. The paper claims clinical readiness.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "samples": 50,
+    "groups": [
+      {
+        "name": "Cases",
+        "sample_count": 25
+      },
+      {
+        "name": "Controls",
+        "sample_count": 25
+      }
+    ],
+    "input_data_type": "raw_counts",
+    "objective": "biomarker_discovery"
+  },
+  "proposed_analysis": "Validate biomarker diagnostic performance on the identical discovery cohort.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": true,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": false
+  },
+  "preferred_analysis": "Evaluate the 10-gene signature on a completely independent, blinded external validation cohort from separate clinical centers.",
+  "reasoning_summary": "Evaluating discovered biomarkers on the discovery cohort is circular reasoning. Apparent performance reflects discovery overfitting rather than clinical validity.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "The 10 genes discriminated cases from controls in the discovery cohort.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The biomarker panel is clinically validated and ready for diagnostic use.",
+        "level": "CAUSAL_CLAIM"
+      }
+    ],
+    "limitations": [
+      "Lack of external cohort validation precludes clinical readiness claims."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Simon, R. (2005) Roadmap for developing and validating therapeutic biomarkers. Clin Cancer Res 11:3044-3051"
+  ]
+}

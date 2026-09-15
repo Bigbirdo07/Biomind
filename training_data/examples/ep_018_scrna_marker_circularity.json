@@ -1,0 +1,52 @@
+{
+  "episode_id": "EP_018_SCRNA_MARKER_CIRCULARITY",
+  "domain": "single_cell_transcriptomics",
+  "question": "Cells were clustered using Leiden clustering on 2,000 highly variable genes. Differential expression between cluster 1 and cluster 2 yielded 400 genes with p < 1e-50. The authors claim strong proof of distinct cell types.",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "scrna_seq",
+    "experimental_unit": "patient",
+    "samples": 6,
+    "total_observations": 15000,
+    "groups": [
+      {
+        "name": "Cohort",
+        "sample_count": 6
+      }
+    ],
+    "input_data_type": "raw_counts",
+    "objective": "clustering_cell_typing"
+  },
+  "proposed_analysis": "Compute standard p-values between clusters identified on the same expression data without accounting for post-clustering selection.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": true,
+    "transformation_valid": true,
+    "multiple_testing_controlled": false,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Recognize that clustering algorithms partition data by maximizing separation, guaranteeing extreme nominal p-values under the null. Use selective inference (e.g., countsplit) or orthogonal biological validation (marker staining).",
+  "reasoning_summary": "Hypothesis testing on clusters derived from the same data creates double-dipping / circular inference, producing p-values that are orders of magnitude too optimistic.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Leiden clustering separated cells into distinct transcriptional clusters.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "Nominal p-values prove statistical significance of the clustering separation.",
+        "level": "STATISTICAL_INFERENCE"
+      }
+    ],
+    "limitations": [
+      "Post-clustering double-dipping invalidates classic null hypothesis testing."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Gao et al. (2022) Selective inference for single-cell RNA-seq clustering. Biostatistics 23(3):717-734"
+  ]
+}

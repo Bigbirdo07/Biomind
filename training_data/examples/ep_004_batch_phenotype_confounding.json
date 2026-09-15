@@ -1,0 +1,64 @@
+{
+  "episode_id": "EP_004_BATCH_PHENOTYPE_CONFOUNDING",
+  "domain": "functional_genomics",
+  "question": "All 20 wild-type samples were sequenced in January (Flowcell 1) and all 20 knockout samples were sequenced in March (Flowcell 2). Differential expression reveals 4,500 significant genes. Can we conclude these genes are regulated by the knockout?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "cell_culture_dish",
+    "samples": 40,
+    "groups": [
+      {
+        "name": "WildType",
+        "sample_count": 20
+      },
+      {
+        "name": "Knockout",
+        "sample_count": 20
+      }
+    ],
+    "covariates": [
+      "flowcell",
+      "library_prep_date"
+    ],
+    "batch_structure": {
+      "batch_variable": "flowcell_date",
+      "batch_count": 2,
+      "confounded_with_group": true
+    },
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression"
+  },
+  "proposed_analysis": "Run DESeq2 with ~ condition and apply ComBat or limma::removeBatchEffect to remove the batch effect.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": true,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Acknowledge that batch and genotype are mathematically collinear. Computational batch correction cannot uncouple collinear variables. Re-sequence in a balanced randomized block design.",
+  "reasoning_summary": "When condition and batch are 100% collinear, variance attributed to genotype is completely confounded with technical flowcell variations. No statistical algorithm can separate them.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "4,500 genes showed significant expression differences between the two sequencing runs.",
+        "level": "OBSERVATION"
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The 4,500 genes are biologically downstream of the knockout gene.",
+        "level": "CAUSAL_CLAIM"
+      }
+    ],
+    "limitations": [
+      "Complete confounding between batch and genotype prevents causal biological attribution."
+    ]
+  },
+  "validation_status": "expert_validated",
+  "sources": [
+    "Leek et al. (2010) Nature Reviews Genetics 11:733-739"
+  ]
+}

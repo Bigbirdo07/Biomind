@@ -1,0 +1,72 @@
+{
+  "item_id": "BENCH_020_NESTED_VS_NON_NESTED_CV",
+  "category": "cross_validation",
+  "scenario": "A data scientist tunes the regularization parameter (C) and gamma of an RBF-SVM using 5-fold cross-validation, picks the hyperparameters yielding the highest test score, and reports that cross-validation score as the unbiased model performance.",
+  "question": "Is this single-loop cross-validation score an unbiased estimate of generalization error? Explain nested cross-validation.",
+  "flawed_analysis_present": true,
+  "flaw_type": "hyperparameter_tuning_leakage",
+  "ground_truth_rationale": "Selecting hyperparameters to maximize the cross-validation score overfits the validation split, introducing optimistic bias. Nested cross-validation (outer loop for performance evaluation, inner loop for hyperparameter tuning) is required for unbiased error estimation.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "hyperparameter tuning bias",
+        "optimistic CV score",
+        "non-nested evaluation"
+      ],
+      "negative_points": [
+        "single CV loop is perfectly unbiased"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "hyperparameters chosen to maximize CV test score",
+        "optimism bias",
+        "need separate evaluation partition"
+      ],
+      "negative_points": [
+        "hyperparameter search cannot leak"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "nested cross-validation",
+        "inner loop for hyperparameter search",
+        "outer loop for evaluation"
+      ],
+      "negative_points": [
+        "tune on test set"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "true generalization error will be higher than tuned CV score"
+      ],
+      "negative_points": [
+        "tuned score is exact"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "separate model selection from model evaluation"
+      ],
+      "negative_points": [
+        "ignore nested tuning"
+      ]
+    }
+  },
+  "tags": [
+    "cross_validation",
+    "hyperparameter_tuning",
+    "machine_learning"
+  ]
+}

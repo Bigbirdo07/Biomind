@@ -1,0 +1,74 @@
+{
+  "item_id": "BENCH_001_SCRNA_PSEUDOREPLICATION",
+  "category": "scrna_seq",
+  "scenario": "An investigator compares single-cell RNA-seq from 3 control mice (15,000 cells) against 3 knockout mice (15,000 cells). They run a cell-level Mann-Whitney U test across all 30,000 individual cells and identify 6,000 significant genes with p < 1e-15.",
+  "question": "Is the reported differential expression analysis statistically valid? Identify the primary methodological flaw and propose a defensible alternative workflow.",
+  "flawed_analysis_present": true,
+  "flaw_type": "pseudoreplication",
+  "ground_truth_rationale": "Treating 30,000 cells from N=6 mice as independent replicates constitutes pseudoreplication. Cells from the same mouse are non-independent. Pseudobulk aggregation per mouse (N=3 vs N=3) with DESeq2/edgeR or mixed models must be used.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "pseudoreplication",
+        "non-independent cells",
+        "inflated sample size"
+      ],
+      "negative_points": [
+        "analysis is valid"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "effective sample size is N=3 per group",
+        "underestimation of variance",
+        "inflated false positive rate"
+      ],
+      "negative_points": [
+        "30000 independent samples"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "pseudobulk aggregation",
+        "sum counts per mouse",
+        "DESeq2 or edgeR or GLMM"
+      ],
+      "negative_points": [
+        "run t-test instead"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "N=3 provides modest statistical power",
+        "requires validation"
+      ],
+      "negative_points": [
+        "definitive proof"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "distinguish association from causation",
+        "cell-level p-values are uncalibrated"
+      ],
+      "negative_points": [
+        "6000 true biomarkers"
+      ]
+    }
+  },
+  "tags": [
+    "scrna_seq",
+    "pseudoreplication",
+    "experimental_design"
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0995_INSEPARABLE_BATCH_PHENOTYPE_GLIOBLASTOMA",
+  "episode_type": "UNCERTAINTY_CASE",
+  "domain": "bulk_rnaseq",
+  "subdomain": "bulk_rna_seq_glioblastoma",
+  "question": "In a glioblastoma study utilizing bulk rna seq, All 30 disease samples were sequenced in 2022 on Illumina NovaSeq (Batch 1), while all 30 control samples were sequenced in 2024 on Element AVITI (Batch 2). The PI asks: 'Can we apply ComBat to cleanly extract true disease biology?' How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": true,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: All 30 disease samples were sequenced in 2022 on Illumina NovaSeq (Batch 1), while all 30 control samples were sequenced in 2024 on Element AVITI (Batch 2). The PI asks: 'Can we apply ComBat to cleanly extract true disease biology?'",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": true,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Statistically indeterminate / mathematically inseparable: Because biological condition is 100% collinear with sequencing platform and year, no statistical batch correction algorithm (ComBat, limma, Combat-seq) can separate biological differential expression from technical batch artifacts without independent control replicates.",
+  "reasoning_summary": "Rigorous scientific assessment for glioblastoma: Statistically indeterminate / mathematically inseparable: Because biological condition is 100% collinear with sequencing platform and year, no statistical batch correction algorithm (ComBat, limma, Combat-seq) can separate biological differential expression from technical batch artifacts without independent control replicates.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for glioblastoma was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in glioblastoma.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of inseparable_confounding_uncertainty."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "inseparable_confounding_uncertainty",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "differential_expression",
+    "failure_mode": "inseparable_confounding_uncertainty"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

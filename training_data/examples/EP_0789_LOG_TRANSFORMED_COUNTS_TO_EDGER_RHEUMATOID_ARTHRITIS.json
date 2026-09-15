@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0789_LOG_TRANSFORMED_COUNTS_TO_EDGER_RHEUMATOID_ARTHRITIS",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "bulk_rnaseq",
+  "subdomain": "bulk_rna_seq_rheumatoid_arthritis",
+  "question": "In a rheumatoid arthritis study utilizing bulk rna seq, An analyst log2-transforms count data `log2(counts + 1)` and feeds the continuous values into edgeR `exactTest()`. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Mus musculus",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "tissue_sample",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 12,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: An analyst log2-transforms count data `log2(counts + 1)` and feeds the continuous values into edgeR `exactTest()`.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "edgeR models discrete count distributions via negative binomial GLMs. Feeding continuous log-transformed data violates the discrete likelihood function. limma-voom or DESeq2 with raw integer counts should be used instead.",
+  "reasoning_summary": "Rigorous scientific assessment for rheumatoid_arthritis: edgeR models discrete count distributions via negative binomial GLMs. Feeding continuous log-transformed data violates the discrete likelihood function. limma-voom or DESeq2 with raw integer counts should be used instead.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for rheumatoid_arthritis was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in rheumatoid_arthritis.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of log_counts_to_edger."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "log_counts_to_edger",
+    "experimental_unit": "tissue_sample",
+    "observational_unit": "tissue_sample",
+    "analysis": "differential_expression",
+    "failure_mode": "log_counts_to_edger"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

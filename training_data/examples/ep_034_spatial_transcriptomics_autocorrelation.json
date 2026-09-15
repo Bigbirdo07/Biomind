@@ -2,14 +2,23 @@
   "episode_id": "EP_034_SPATIAL_TRANSCRIPTOMICS_AUTOCORRELATION",
   "episode_type": "FLAWED_WORKFLOW",
   "domain": "spatial_transcriptomics",
+  "subdomain": null,
   "question": "Analyzing 10,000 spatial Visium spots as independent biological replicates without accounting for spatial autocorrelation and tissue morphology.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "other",
     "experimental_unit": "tissue_sample",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 2,
+    "total_observations": null,
+    "groups": [],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "tabular_features",
-    "objective": "differential_expression"
+    "objective": "differential_expression",
+    "description": null
   },
   "proposed_analysis": "Execution of workflow described in scenario: Analyzing 10,000 spatial Visium spots as independent biological replicates without accounting for spatial autocorrelation and tissue morphology.",
   "scientific_checks": {
@@ -26,13 +35,15 @@
     "supported_claims": [
       {
         "statement": "Analysis performed in accordance with stated scientific principles.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "Causal assertions without perturbation experiments.",
-        "level": "HYPOTHESIS"
+        "level": "HYPOTHESIS",
+        "justification": null
       }
     ],
     "limitations": [
@@ -43,13 +54,19 @@
     "assay": "other",
     "problem": "spatial_transcriptomics",
     "experimental_unit": "tissue_sample",
+    "observational_unit": "same",
     "analysis": "differential_expression",
     "failure_mode": "methodological_flaw"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "BioReason Scientific Working Group"
+    "citation": "BioReason Scientific Working Group",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Peer-reviewed standard methods"

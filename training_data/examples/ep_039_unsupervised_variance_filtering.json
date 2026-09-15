@@ -2,14 +2,23 @@
   "episode_id": "EP_039_UNSUPERVISED_VARIANCE_FILTERING",
   "episode_type": "CORRECT_WORKFLOW",
   "domain": "biological_ml",
+  "subdomain": null,
   "question": "Removing bottom 50% lowest variance genes across all samples without utilizing target labels before cross-validation (unsupervised variance filtering is valid).",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "bulk_rna_seq",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 100,
+    "total_observations": null,
+    "groups": [],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "raw_counts",
-    "objective": "supervised_classification"
+    "objective": "supervised_classification",
+    "description": null
   },
   "proposed_analysis": "Execution of workflow described in scenario: Removing bottom 50% lowest variance genes across all samples without utilizing target labels before cross-validation (unsupervised variance filtering is valid).",
   "scientific_checks": {
@@ -26,13 +35,15 @@
     "supported_claims": [
       {
         "statement": "Analysis performed in accordance with stated scientific principles.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "Causal assertions without perturbation experiments.",
-        "level": "HYPOTHESIS"
+        "level": "HYPOTHESIS",
+        "justification": null
       }
     ],
     "limitations": [
@@ -43,13 +54,19 @@
     "assay": "bulk_rna_seq",
     "problem": "biological_ml",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "supervised_classification",
     "failure_mode": "none"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "BioReason Scientific Working Group"
+    "citation": "BioReason Scientific Working Group",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Peer-reviewed standard methods"

@@ -1,0 +1,127 @@
+{
+  "item_id": "BENCH_0306_INTERACTION_TERM_SYNERGY_DATA_LEAKAGE",
+  "domain": "bulk_rnaseq",
+  "subdomain": "bulk_rna_seq_ipsc_derived_neurons",
+  "difficulty": "ADVANCED",
+  "category": "data_leakage",
+  "scenario": "A translational oncology team studying ipsc derived neurons performs the following experiment: A 2x2 factorial study tests Drug A, Drug B, Combination, and Vehicle (N=4 per group). The analyst specifies the model formula `~ genotype + drug + genotype:drug` to test whether the drug effect varies by genotype. They collect samples and execute computational modeling.",
+  "question": "Critique the methodology of this ipsc derived neurons study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.",
+  "flawed_analysis_present": false,
+  "flaw_type": null,
+  "ground_truth_rationale": "Authoritative scientific rationale: Valid factorial modeling: The interaction term `genotype:drug` directly tests for differential drug response across genetic backgrounds, avoiding the flawed practice of comparing separate p-value thresholds across subsets. In ipsc_derived_neurons biology, failing to account for this leads to erroneous translational conclusions.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "workflow validity",
+        "sound experimental design"
+      ],
+      "negative_points": [
+        "falsely claiming fatal error"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "biological variance",
+        "degrees of freedom",
+        "statistical model assumptions"
+      ],
+      "negative_points": [
+        "code execution proves scientific validity",
+        "tpm is identical to raw counts"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "proper design formula"
+      ],
+      "negative_points": [
+        "run same analysis again",
+        "ignore batch"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "explicitly bound uncertainty",
+        "external cohort validation required"
+      ],
+      "negative_points": [
+        "results are definitively 100% true",
+        "proven causal mechanism without functional validation"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "association does not equal causation",
+        "predictive feature != mechanism"
+      ],
+      "negative_points": [
+        "shap proves causality",
+        "p-value proves clinical utility"
+      ]
+    },
+    "experimental_unit_reasoning": null
+  },
+  "expected_decision": {
+    "primary_issue": "none",
+    "secondary_issues": [],
+    "severity": "INFO",
+    "acceptable_methods": [
+      "Valid factorial modeling: The interaction term `genotype:drug` directly tests for differential drug response across genetic backgrounds, avoiding the flawed practice of comparing separate p-value thresholds across subsets."
+    ],
+    "unacceptable_methods": [],
+    "supported_claims": [
+      "Experimental measurements were collected."
+    ],
+    "unsupported_claims": []
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "methodological validity"
+    ],
+    "should_identify": [
+      "statistical assumptions",
+      "replication structure"
+    ],
+    "critical_errors": [
+      "cells are independent replicates",
+      "shap proves causality",
+      "leakage is harmless"
+    ],
+    "partial_credit": [
+      "noting sample size limitations"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "bench_sound",
+    "experimental_unit": "cell_culture_dish",
+    "observational_unit": "cell_culture_dish",
+    "analysis": "differential_expression",
+    "failure_mode": "none"
+  },
+  "provenance": {
+    "source_type": "benchmark_curated",
+    "citation": "BioReason Benchmark Suite v0.1",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "tags": [
+    "data_leakage",
+    "ADVANCED",
+    "bulk_rnaseq",
+    "ipsc_derived_neurons"
+  ]
+}

@@ -2,14 +2,23 @@
   "episode_id": "EP_036_FLOW_CYTOMETRY_COMPENSATION",
   "episode_type": "FLAWED_WORKFLOW",
   "domain": "immunology",
+  "subdomain": null,
   "question": "Analyzing 14-color flow cytometry panel without applying single-stain fluorophore compensation matrix.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "flow_cytometry",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 20,
+    "total_observations": null,
+    "groups": [],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "tabular_features",
-    "objective": "clustering_cell_typing"
+    "objective": "clustering_cell_typing",
+    "description": null
   },
   "proposed_analysis": "Execution of workflow described in scenario: Analyzing 14-color flow cytometry panel without applying single-stain fluorophore compensation matrix.",
   "scientific_checks": {
@@ -26,13 +35,15 @@
     "supported_claims": [
       {
         "statement": "Analysis performed in accordance with stated scientific principles.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "Causal assertions without perturbation experiments.",
-        "level": "HYPOTHESIS"
+        "level": "HYPOTHESIS",
+        "justification": null
       }
     ],
     "limitations": [
@@ -43,13 +54,19 @@
     "assay": "flow_cytometry",
     "problem": "immunology",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "clustering_cell_typing",
     "failure_mode": "none"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "BioReason Scientific Working Group"
+    "citation": "BioReason Scientific Working Group",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Peer-reviewed standard methods"

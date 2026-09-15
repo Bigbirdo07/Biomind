@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0554_UNMATCHED_TUMOR_CALLING_T_CELL_EXHAUSTION",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "cancer_genomics",
+  "subdomain": "wes_t_cell_exhaustion",
+  "question": "In a t cell exhaustion study utilizing wes, A clinical lab sequences tumor biopsies from 50 cancer patients without matched germline blood samples, calls variants using Mutect2 in tumor-only mode, and labels all non-synonymous variants as somatic oncogenic drivers. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "wes",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "normalized_counts",
+    "objective": "variant_calling",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: A clinical lab sequences tumor biopsies from 50 cancer patients without matched germline blood samples, calls variants using Mutect2 in tumor-only mode, and labels all non-synonymous variants as somatic oncogenic drivers.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Without matched normal sequencing, rare private germline polymorphisms cannot be distinguished from somatic mutations. High tumor-only variant counts conflate benign inherited variation with tumor mutations.",
+  "reasoning_summary": "Rigorous scientific assessment for t_cell_exhaustion: Without matched normal sequencing, rare private germline polymorphisms cannot be distinguished from somatic mutations. High tumor-only variant counts conflate benign inherited variation with tumor mutations.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for t_cell_exhaustion was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in t_cell_exhaustion.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of germline_contamination_unmatched_tumor."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "wes",
+    "problem": "germline_contamination_unmatched_tumor",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "variant_calling",
+    "failure_mode": "germline_contamination_unmatched_tumor"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

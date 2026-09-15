@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0977_TPM_INPUT_TO_DESEQ2_GLIOBLASTOMA",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "bulk_rnaseq",
+  "subdomain": "bulk_rna_seq_glioblastoma",
+  "question": "In a glioblastoma study utilizing bulk rna seq, An investigator inputs TPM (Transcripts Per Million) abundance matrices directly into DESeq2 `DESeqDataSetFromMatrix()` function. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Mus musculus",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "tissue_sample",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 12,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: An investigator inputs TPM (Transcripts Per Million) abundance matrices directly into DESeq2 `DESeqDataSetFromMatrix()` function.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": false,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "DESeq2 requires raw un-normalized integer counts because its parametric dispersion estimation relies directly on the Poisson-Negative Binomial sampling noise model. Passing library-normalized TPMs violates dispersion model assumptions.",
+  "reasoning_summary": "Rigorous scientific assessment for glioblastoma: DESeq2 requires raw un-normalized integer counts because its parametric dispersion estimation relies directly on the Poisson-Negative Binomial sampling noise model. Passing library-normalized TPMs violates dispersion model assumptions.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for glioblastoma was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in glioblastoma.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of tpm_count_matrix_misuse."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "tpm_count_matrix_misuse",
+    "experimental_unit": "tissue_sample",
+    "observational_unit": "tissue_sample",
+    "analysis": "differential_expression",
+    "failure_mode": "tpm_count_matrix_misuse"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

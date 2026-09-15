@@ -1,0 +1,127 @@
+{
+  "item_id": "BENCH_0121_DONOR_HELD_OUT_CELL_CLASSIFIER_STATISTICAL_REASONING",
+  "domain": "single_cell_transcriptomics",
+  "subdomain": "scrna_seq_colorectal_cancer",
+  "difficulty": "ADVANCED",
+  "category": "statistical_reasoning",
+  "scenario": "A translational oncology team studying colorectal cancer performs the following experiment: A team trains a neural network cell-type classifier using 10 donors for training, 3 distinct donors for validation, and 5 distinct donors for testing, ensuring no cells from the same patient appear in multiple splits. They collect samples and execute computational modeling.",
+  "question": "Critique the methodology of this colorectal cancer study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.",
+  "flawed_analysis_present": false,
+  "flaw_type": null,
+  "ground_truth_rationale": "Authoritative scientific rationale: Rigorous donor-stratified cross-validation: Ensures the classifier learns invariant cell-type biology rather than donor-specific batch or transcriptional artifacts. In colorectal_cancer biology, failing to account for this leads to erroneous translational conclusions.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "workflow validity",
+        "sound experimental design"
+      ],
+      "negative_points": [
+        "falsely claiming fatal error"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "biological variance",
+        "degrees of freedom",
+        "statistical model assumptions"
+      ],
+      "negative_points": [
+        "code execution proves scientific validity",
+        "tpm is identical to raw counts"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "proper design formula"
+      ],
+      "negative_points": [
+        "run same analysis again",
+        "ignore batch"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "explicitly bound uncertainty",
+        "external cohort validation required"
+      ],
+      "negative_points": [
+        "results are definitively 100% true",
+        "proven causal mechanism without functional validation"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "association does not equal causation",
+        "predictive feature != mechanism"
+      ],
+      "negative_points": [
+        "shap proves causality",
+        "p-value proves clinical utility"
+      ]
+    },
+    "experimental_unit_reasoning": null
+  },
+  "expected_decision": {
+    "primary_issue": "none",
+    "secondary_issues": [],
+    "severity": "INFO",
+    "acceptable_methods": [
+      "Rigorous donor-stratified cross-validation: Ensures the classifier learns invariant cell-type biology rather than donor-specific batch or transcriptional artifacts."
+    ],
+    "unacceptable_methods": [],
+    "supported_claims": [
+      "Experimental measurements were collected."
+    ],
+    "unsupported_claims": []
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "methodological validity"
+    ],
+    "should_identify": [
+      "statistical assumptions",
+      "replication structure"
+    ],
+    "critical_errors": [
+      "cells are independent replicates",
+      "shap proves causality",
+      "leakage is harmless"
+    ],
+    "partial_credit": [
+      "noting sample size limitations"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "bench_sound",
+    "experimental_unit": "patient",
+    "observational_unit": "cell",
+    "analysis": "supervised_classification",
+    "failure_mode": "none"
+  },
+  "provenance": {
+    "source_type": "benchmark_curated",
+    "citation": "BioReason Benchmark Suite v0.1",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "tags": [
+    "statistical_reasoning",
+    "ADVANCED",
+    "single_cell_transcriptomics",
+    "colorectal_cancer"
+  ]
+}

@@ -2,14 +2,23 @@
   "episode_id": "EP_041_REPEATED_MEASURES_GLMM_VALID",
   "episode_type": "CORRECT_WORKFLOW",
   "domain": "single_cell_transcriptomics",
+  "subdomain": null,
   "question": "Fitting GLMM with subject random intercepts across 50,000 cells from 12 patients, appropriately modeling hierarchical variance.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "scrna_seq",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 12,
+    "total_observations": null,
+    "groups": [],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "raw_counts",
-    "objective": "differential_expression"
+    "objective": "differential_expression",
+    "description": null
   },
   "proposed_analysis": "Execution of workflow described in scenario: Fitting GLMM with subject random intercepts across 50,000 cells from 12 patients, appropriately modeling hierarchical variance.",
   "scientific_checks": {
@@ -26,13 +35,15 @@
     "supported_claims": [
       {
         "statement": "Analysis performed in accordance with stated scientific principles.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "Causal assertions without perturbation experiments.",
-        "level": "HYPOTHESIS"
+        "level": "HYPOTHESIS",
+        "justification": null
       }
     ],
     "limitations": [
@@ -43,13 +54,19 @@
     "assay": "scrna_seq",
     "problem": "single_cell_transcriptomics",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "differential_expression",
     "failure_mode": "none"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "BioReason Scientific Working Group"
+    "citation": "BioReason Scientific Working Group",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Peer-reviewed standard methods"

@@ -38,6 +38,22 @@ class ClaimLevel(str, Enum):
     CAUSAL_CLAIM = "CAUSAL_CLAIM"
 
 
+class BiomarkerEvidenceLevel(str, Enum):
+    """
+    Structured biomarker evidence hierarchy.
+    Crucial scientific principle: No single biomarker evidence level automatically proves
+    biological causality or mechanistic necessity.
+    """
+    LEVEL_0_CANDIDATE_FEATURE = "LEVEL_0: Candidate predictive feature"
+    LEVEL_1_INTERNALLY_STABLE = "LEVEL_1: Internally stable feature"
+    LEVEL_2_CV_STABLE_SIGNATURE = "LEVEL_2: Cross-validation stable signature"
+    LEVEL_3_EXTERNAL_COHORT = "LEVEL_3: Independent external cohort replication"
+    LEVEL_4_ORTHOGONAL_ASSAY = "LEVEL_4: Orthogonal assay validation"
+    LEVEL_5_PROSPECTIVE_VALIDATION = "LEVEL_5: Prospective validation"
+    LEVEL_6_CLINICAL_UTILITY = "LEVEL_6: Clinical utility / deployment evidence"
+
+
+
 class ScientificClaim(BaseModel):
     statement: str = Field(description="The scientific statement or assertion")
     level: ClaimLevel = Field(description="Strict epistemic classification of the claim")

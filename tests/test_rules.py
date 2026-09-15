@@ -225,3 +225,50 @@ def test_deseq2_transformation_rule():
     res = rule.evaluate_experiment(exp)
     assert not res.passed
     assert res.rule_id == "TRANS_001"
+
+
+def test_power_001_heuristic_warning_not_proven_lack_of_power():
+    """Verify POWER_001 explicitly distinguishes heuristic warning from formal power calculation."""
+    from bioreason.rules.statistical_power import StatisticalPowerRule, FormalPowerAnalysisRule
+    rule = StatisticalPowerRule(low_n_threshold=3)
+    exp = ExperimentSpec(
+        organism="Homo sapiens",
+        assay=AssayType.BULK_RNA_SEQ,
+        experimental_unit=ExperimentalUnitLevel.PATIENT,
+        samples=4,
+        groups=[SampleGroup(name="Tumor", sample_count=2), SampleGroup(name="Normal", sample_count=2)],
+        input_data_type=DataType.RAW_COUNTS,
+        objective=AnalysisObjective.DIFFERENTIAL_EXPRESSION,
+    )
+    res = rule.evaluate_experiment(exp)
+    assert not res.passed
+    assert res.rule_id == "POWER_001"
+    assert res.rule_name == "LOW_INDEPENDENT_REPLICATION_WARNING"
+    # Ensure explanation explicitly states low N != formal power analysis
+    assert "NOT equivalent to a formal statistical power calculation" in res.explanation
+    assert "delta/sigma" in res.explanation
+    assert "POWER_002" in res.explanation
+
+    # Verify configurable threshold
+    lenient_rule = StatisticalPowerRule(low_n_threshold=2)
+    lenient_res = lenient_rule.evaluate_experiment(exp)
+    assert lenient_res.passed
+
+
+def test_power_002_formal_power_analysis_architecture():
+    """Verify POWER_002 placeholder is available for future simulation/analytic power calculators."""
+    from bioreason.rules.statistical_power import FormalPowerAnalysisRule
+    rule = FormalPowerAnalysisRule()
+    exp = ExperimentSpec(
+        organism="Homo sapiens",
+        assay=AssayType.BULK_RNA_SEQ,
+        experimental_unit=ExperimentalUnitLevel.PATIENT,
+        samples=10,
+        groups=[SampleGroup(name="Treated", sample_count=5), SampleGroup(name="Vehicle", sample_count=5)],
+        input_data_type=DataType.RAW_COUNTS,
+        objective=AnalysisObjective.DIFFERENTIAL_EXPRESSION,
+    )
+    res = rule.evaluate_experiment(exp)
+    assert res.passed
+    assert res.rule_id == "POWER_002"
+

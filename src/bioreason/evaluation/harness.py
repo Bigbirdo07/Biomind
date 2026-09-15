@@ -10,8 +10,8 @@ from .rubric import ScientificRubricScorer
 from .metrics import compute_aggregate_benchmark_metrics
 
 
-PROMPT_TEMPLATE = """You are BioReason, a biology-native scientific reasoning AI.
-Evaluate the following scientific scenario and proposed analysis with maximum methodological rigor.
+PROMPT_TEMPLATE = """You are evaluating a biological and scientific data analysis with rigorous methodological standards.
+Identify methodological problems, explain them concisely, recommend defensible corrections, and distinguish supported from unsupported conclusions.
 
 SCENARIO:
 {scenario}
@@ -19,15 +19,17 @@ SCENARIO:
 QUESTION:
 {question}
 
-You must respond in valid JSON format with the following keys:
+Provide your evaluation strictly as a valid JSON object matching this schema:
 {{
-  "flaw_detected": true/false,
-  "flaw_type": "name of flaw if present or null",
-  "scientific_rationale": "detailed explanation of biological, statistical, or ML validity",
-  "proposed_correction": "statistically and biologically defensible alternative",
-  "limitations": ["list", "of", "limitations"]
+  "primary_assessment": "<concise summary of scientific assessment>",
+  "identified_issues": ["<issue 1>", "<issue 2>"],
+  "recommended_actions": ["<defensible correction 1>", "<action 2>"],
+  "supported_claims": ["<claims warranted by design and data>"],
+  "unsupported_claims": ["<claims exceeding evidence or causal overclaims>"],
+  "confidence": "LOW" | "MEDIUM" | "HIGH"
 }}
 """
+
 
 
 class BioReasonEvaluationHarness:

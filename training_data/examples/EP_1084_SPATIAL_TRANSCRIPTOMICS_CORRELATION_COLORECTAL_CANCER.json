@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_1084_SPATIAL_TRANSCRIPTOMICS_CORRELATION_COLORECTAL_CANCER",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "spatial_transcriptomics",
+  "subdomain": "microarray_colorectal_cancer",
+  "question": "In a colorectal cancer study utilizing microarray, An analyst tests for differential gene expression between adjacent tissue regions by treating 4,000 Visium capture spots on a single coronal brain slice as independent observations. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Mus musculus",
+    "assay": "microarray",
+    "experimental_unit": "tissue_sample",
+    "observational_unit": "technical_replicate",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "technical",
+    "samples": 12,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "normalized_counts",
+    "objective": "exploratory_analysis",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: An analyst tests for differential gene expression between adjacent tissue regions by treating 4,000 Visium capture spots on a single coronal brain slice as independent observations.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Spatial transcriptomics spots exhibit strong spatial autocorrelation and are technical sub-observations of a single biological slice (N=1). Treating spots as independent yields massive type I error; spatial mixed models or multi-slice pseudobulk are necessary.",
+  "reasoning_summary": "Rigorous scientific assessment for colorectal_cancer: Spatial transcriptomics spots exhibit strong spatial autocorrelation and are technical sub-observations of a single biological slice (N=1). Treating spots as independent yields massive type I error; spatial mixed models or multi-slice pseudobulk are necessary.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for colorectal_cancer was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in colorectal_cancer.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of spatial_autocorrelation_ignored."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "microarray",
+    "problem": "spatial_autocorrelation_ignored",
+    "experimental_unit": "tissue_sample",
+    "observational_unit": "technical_replicate",
+    "analysis": "exploratory_analysis",
+    "failure_mode": "spatial_autocorrelation_ignored"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

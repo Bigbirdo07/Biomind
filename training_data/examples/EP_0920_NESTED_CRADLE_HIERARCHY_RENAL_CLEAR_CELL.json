@@ -1,0 +1,92 @@
+{
+  "episode_id": "EP_0920_NESTED_CRADLE_HIERARCHY_RENAL_CLEAR_CELL",
+  "episode_type": "CORRECT_WORKFLOW",
+  "domain": "single_cell_transcriptomics",
+  "subdomain": "scrna_seq_renal_clear_cell",
+  "question": "In a renal clear cell study utilizing scrna seq, A study profiles 8 mice per condition across 3 litters, collecting 5,000 cells per mouse. The analyst sums counts to mouse-level pseudobulk and fits a linear mixed model with litter as a random block effect and condition as fixed effect. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Mus musculus",
+    "assay": "scrna_seq",
+    "experimental_unit": "animal",
+    "observational_unit": "cell",
+    "analysis_unit": "cell",
+    "replicate_type": "biological",
+    "samples": 12,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: A study profiles 8 mice per condition across 3 litters, collecting 5,000 cells per mouse. The analyst sums counts to mouse-level pseudobulk and fits a linear mixed model with litter as a random block effect and condition as fixed effect.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Correct hierarchical modeling: Aggregating to the true biological experimental unit (mouse) and modeling litter-level nesting rigorously controls pseudoreplication and inter-litter environmental variance.",
+  "reasoning_summary": "Rigorous scientific assessment for renal_clear_cell: Correct hierarchical modeling: Aggregating to the true biological experimental unit (mouse) and modeling litter-level nesting rigorously controls pseudoreplication and inter-litter environmental variance.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for renal_clear_cell was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [],
+    "limitations": [
+      "External cohort validation remains essential."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "sound_workflow",
+    "experimental_unit": "animal",
+    "observational_unit": "cell",
+    "analysis": "differential_expression",
+    "failure_mode": "none"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

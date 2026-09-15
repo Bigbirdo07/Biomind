@@ -17,12 +17,16 @@
       {
         "name": "Diseased",
         "sample_count": 1,
-        "cell_count": 40000
+        "cell_count": 40000,
+        "technical_replicates_per_sample": 1,
+        "description": null
       },
       {
         "name": "Healthy",
         "sample_count": 1,
-        "cell_count": 30000
+        "cell_count": 30000,
+        "technical_replicates_per_sample": 1,
+        "description": null
       }
     ],
     "covariates": [
@@ -31,10 +35,12 @@
     "batch_structure": {
       "batch_variable": "run_date",
       "batch_count": 2,
-      "confounded_with_group": true
+      "confounded_with_group": true,
+      "notes": null
     },
     "input_data_type": "raw_counts",
-    "objective": "differential_expression"
+    "objective": "differential_expression",
+    "description": null
   },
   "proposed_analysis": "Perform cell-level Student's t-test or Wilcoxon rank-sum test across 70,000 cells treating each cell as an independent sample (N=70,000).",
   "scientific_checks": {
@@ -51,13 +57,15 @@
     "supported_claims": [
       {
         "statement": "Cellular expression profiles were measured from two individual animals.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "Differentially expressed genes reflect generalizable disease biology.",
-        "level": "BIOLOGICAL_INTERPRETATION"
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
       }
     ],
     "limitations": [
@@ -76,7 +84,12 @@
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Squair et al. (2021) Nature Communications 12:5692"
+    "citation": "Squair et al. (2021) Nature Communications 12:5692",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Squair et al. (2021) Nature Communications 12:5692"

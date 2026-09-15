@@ -1,0 +1,164 @@
+{
+  "version": "BioReasonBench-v0.1",
+  "frozen_timestamp": "2026-09-15T17:38:15.477388+00:00",
+  "git_commit": "c7dadc170a87d0057e4aec83a59265736c320a6b",
+  "sha256": "ae2d65aa71f735c24c7781ffac74fe8fe0c97a972b20cc781e75dea42ff2cfad",
+  "total_items": 340,
+  "dev_items_count": 289,
+  "final_test_items_count": 51,
+  "split_ratio": {
+    "dev": 0.85,
+    "final_test": 0.15
+  },
+  "difficulty_distribution": {
+    "FOUNDATIONAL": {
+      "total": 24,
+      "dev": 24,
+      "final_test": 0,
+      "percentage": 7.06
+    },
+    "INTERMEDIATE": {
+      "total": 71,
+      "dev": 62,
+      "final_test": 9,
+      "percentage": 20.88
+    },
+    "ADVANCED": {
+      "total": 209,
+      "dev": 172,
+      "final_test": 37,
+      "percentage": 61.47
+    },
+    "ADVERSARIAL": {
+      "total": 36,
+      "dev": 31,
+      "final_test": 5,
+      "percentage": 10.59
+    }
+  },
+  "category_distribution": {
+    "experimental_design": {
+      "total": 29,
+      "dev": 25,
+      "final_test": 4
+    },
+    "biological_replication": {
+      "total": 1,
+      "dev": 1,
+      "final_test": 0
+    },
+    "statistical_reasoning": {
+      "total": 29,
+      "dev": 25,
+      "final_test": 4
+    },
+    "batch_effects": {
+      "total": 2,
+      "dev": 2,
+      "final_test": 0
+    },
+    "bulk_rnaseq": {
+      "total": 25,
+      "dev": 21,
+      "final_test": 4
+    },
+    "scrna_seq": {
+      "total": 27,
+      "dev": 22,
+      "final_test": 5
+    },
+    "wgs_wes": {
+      "total": 27,
+      "dev": 23,
+      "final_test": 4
+    },
+    "fastq_bam_vcf": {
+      "total": 1,
+      "dev": 1,
+      "final_test": 0
+    },
+    "gatk_workflows": {
+      "total": 1,
+      "dev": 1,
+      "final_test": 0
+    },
+    "differential_expression": {
+      "total": 1,
+      "dev": 1,
+      "final_test": 0
+    },
+    "ml_design": {
+      "total": 28,
+      "dev": 24,
+      "final_test": 4
+    },
+    "data_leakage": {
+      "total": 29,
+      "dev": 24,
+      "final_test": 5
+    },
+    "cross_validation": {
+      "total": 1,
+      "dev": 1,
+      "final_test": 0
+    },
+    "feature_selection": {
+      "total": 1,
+      "dev": 1,
+      "final_test": 0
+    },
+    "model_selection": {
+      "total": 1,
+      "dev": 1,
+      "final_test": 0
+    },
+    "biomarker_discovery": {
+      "total": 27,
+      "dev": 22,
+      "final_test": 5
+    },
+    "interpretability": {
+      "total": 24,
+      "dev": 21,
+      "final_test": 3
+    },
+    "overfitting": {
+      "total": 1,
+      "dev": 1,
+      "final_test": 0
+    },
+    "result_interpretation": {
+      "total": 2,
+      "dev": 2,
+      "final_test": 0
+    },
+    "reproducibility": {
+      "total": 26,
+      "dev": 22,
+      "final_test": 4
+    },
+    "adversarial_flawed_analysis": {
+      "total": 30,
+      "dev": 25,
+      "final_test": 5
+    },
+    "ambiguous_judgment": {
+      "total": 27,
+      "dev": 23,
+      "final_test": 4
+    }
+  },
+  "domain_distribution": {
+    "unspecified": 45,
+    "biological_ml": 65,
+    "bulk_rnaseq": 77,
+    "statistical_reasoning": 11,
+    "single_cell_transcriptomics": 66,
+    "clinical_genomics": 11,
+    "spatial_transcriptomics": 11,
+    "pathway_analysis": 11,
+    "cancer_genomics": 11,
+    "genomics_variant_calling": 22,
+    "biomarker_discovery": 10
+  }
+}

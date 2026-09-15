@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_1064_AMBIENT_RNA_CONTAMINATION_DE_PANCREATIC_DUCTAL_ADENOCARCINOMA",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "single_cell_transcriptomics",
+  "subdomain": "scrna_seq_pancreatic_ductal_adenocarcinoma",
+  "question": "In a pancreatic ductal adenocarcinoma study utilizing scrna seq, In a single-nucleus RNA-seq brain dataset, an analyst discovers high hemoglobin gene expression across all neuronal clusters and claims cortical neurons synthesize hemoglobin in Alzheimer's disease. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "scrna_seq",
+    "experimental_unit": "patient",
+    "observational_unit": "cell",
+    "analysis_unit": "cell",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: In a single-nucleus RNA-seq brain dataset, an analyst discovers high hemoglobin gene expression across all neuronal clusters and claims cortical neurons synthesize hemoglobin in Alzheimer's disease.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Ambient RNA (cell-free soup from lysed erythrocytes during dissociation) contaminates droplet partitions. High hemoglobin across disparate clusters represents ambient background, not endogenous neuronal transcription.",
+  "reasoning_summary": "Rigorous scientific assessment for pancreatic_ductal_adenocarcinoma: Ambient RNA (cell-free soup from lysed erythrocytes during dissociation) contaminates droplet partitions. High hemoglobin across disparate clusters represents ambient background, not endogenous neuronal transcription.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for pancreatic_ductal_adenocarcinoma was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in pancreatic_ductal_adenocarcinoma.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of soup_ambient_contamination."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "soup_ambient_contamination",
+    "experimental_unit": "patient",
+    "observational_unit": "cell",
+    "analysis": "differential_expression",
+    "failure_mode": "soup_ambient_contamination"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

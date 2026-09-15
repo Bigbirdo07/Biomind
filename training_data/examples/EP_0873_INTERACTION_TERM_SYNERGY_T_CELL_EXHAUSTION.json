@@ -1,0 +1,92 @@
+{
+  "episode_id": "EP_0873_INTERACTION_TERM_SYNERGY_T_CELL_EXHAUSTION",
+  "episode_type": "CORRECT_WORKFLOW",
+  "domain": "bulk_rnaseq",
+  "subdomain": "bulk_rna_seq_t_cell_exhaustion",
+  "question": "In a t cell exhaustion study utilizing bulk rna seq, A 2x2 factorial study tests Drug A, Drug B, Combination, and Vehicle (N=4 per group). The analyst specifies the model formula `~ genotype + drug + genotype:drug` to test whether the drug effect varies by genotype. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Mus musculus",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "cell_culture_dish",
+    "observational_unit": "cell_culture_dish",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 12,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: A 2x2 factorial study tests Drug A, Drug B, Combination, and Vehicle (N=4 per group). The analyst specifies the model formula `~ genotype + drug + genotype:drug` to test whether the drug effect varies by genotype.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Valid factorial modeling: The interaction term `genotype:drug` directly tests for differential drug response across genetic backgrounds, avoiding the flawed practice of comparing separate p-value thresholds across subsets.",
+  "reasoning_summary": "Rigorous scientific assessment for t_cell_exhaustion: Valid factorial modeling: The interaction term `genotype:drug` directly tests for differential drug response across genetic backgrounds, avoiding the flawed practice of comparing separate p-value thresholds across subsets.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for t_cell_exhaustion was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [],
+    "limitations": [
+      "External cohort validation remains essential."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "sound_workflow",
+    "experimental_unit": "cell_culture_dish",
+    "observational_unit": "cell_culture_dish",
+    "analysis": "differential_expression",
+    "failure_mode": "none"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

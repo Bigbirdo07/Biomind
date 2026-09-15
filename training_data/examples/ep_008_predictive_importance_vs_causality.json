@@ -2,24 +2,38 @@
   "episode_id": "EP_008_PREDICTIVE_IMPORTANCE_VS_CAUSALITY",
   "episode_type": "ASSESS_CLAIM",
   "domain": "biological_ml_interpretation",
+  "subdomain": null,
   "question": "A Random Forest model classifies Alzheimer's disease brain samples with high accuracy. Gene X has the highest Gini feature importance. The authors state 'Gene X causes Alzheimer's pathogenesis.' Critique this assertion.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "bulk_rna_seq",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 180,
+    "total_observations": null,
     "groups": [
       {
         "name": "AD",
-        "sample_count": 90
+        "sample_count": 90,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       },
       {
         "name": "Control",
-        "sample_count": 90
+        "sample_count": 90,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       }
     ],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "normalized_counts",
-    "objective": "supervised_classification"
+    "objective": "supervised_classification",
+    "description": null
   },
   "proposed_analysis": "Infer biological causation directly from Random Forest feature importance ranking.",
   "scientific_checks": {
@@ -36,17 +50,20 @@
     "supported_claims": [
       {
         "statement": "Gene X expression is strongly associated with AD status in this cohort.",
-        "level": "STATISTICAL_INFERENCE"
+        "level": "STATISTICAL_INFERENCE",
+        "justification": null
       },
       {
         "statement": "Gene X may be a candidate biomarker or involved in disease processes.",
-        "level": "BIOLOGICAL_INTERPRETATION"
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "Gene X causes Alzheimer's pathogenesis.",
-        "level": "CAUSAL_CLAIM"
+        "level": "CAUSAL_CLAIM",
+        "justification": null
       }
     ],
     "limitations": [
@@ -57,13 +74,19 @@
     "assay": "bulk_rna_seq",
     "problem": "causal_overclaim",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "supervised_classification",
     "failure_mode": "feature_importance_as_causation"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Pearl (2009) Causality"
+    "citation": "Pearl (2009) Causality",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Pearl (2009) Causality"

@@ -1,0 +1,133 @@
+{
+  "item_id": "BENCH_0296_COMPOUND_P_GREATER_N_SMOTE_GLOBAL_SELECTION_REPRODUCIBILITY",
+  "domain": "biological_ml",
+  "subdomain": "bulk_rna_seq_renal_clear_cell",
+  "difficulty": "ADVERSARIAL",
+  "category": "reproducibility",
+  "scenario": "A translational oncology team studying renal clear cell performs the following experiment: In a study of 30 patients (10 progressive, 20 stable) with 20,000 gene expression features, the team applies SMOTE globally to reach 20 vs 20, runs t-tests to pick the top 50 genes across all 40 samples, fits a deep neural network with 10-fold CV, and reports 100% test accuracy with zero misclassifications. They collect samples and execute computational modeling.",
+  "question": "Critique the methodology of this renal clear cell study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.",
+  "flawed_analysis_present": true,
+  "flaw_type": "compound_p_greater_n_selection_bias",
+  "ground_truth_rationale": "Authoritative scientific rationale: Triply flawed compound methodology: 1) Global SMOTE synthetically leaks test instances into training; 2) Global feature selection on all samples introduces catastrophic selection bias; 3) Training a deep neural network with $p=20,000$ and $N=30$ without strict regularization results in extreme overfitting. Reported 100% accuracy is entirely an artifact of leakage. In renal_clear_cell biology, failing to account for this leads to erroneous translational conclusions.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "compound p greater n selection bias"
+      ],
+      "negative_points": [
+        "flawed protocol is valid",
+        "no problems exist"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "biological variance",
+        "degrees of freedom",
+        "statistical model assumptions"
+      ],
+      "negative_points": [
+        "code execution proves scientific validity",
+        "tpm is identical to raw counts"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "proper design formula"
+      ],
+      "negative_points": [
+        "run same analysis again",
+        "ignore batch"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "explicitly bound uncertainty",
+        "external cohort validation required"
+      ],
+      "negative_points": [
+        "results are definitively 100% true",
+        "proven causal mechanism without functional validation"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "association does not equal causation",
+        "predictive feature != mechanism"
+      ],
+      "negative_points": [
+        "shap proves causality",
+        "p-value proves clinical utility"
+      ]
+    },
+    "experimental_unit_reasoning": null
+  },
+  "expected_decision": {
+    "primary_issue": "compound_p_greater_n_selection_bias",
+    "secondary_issues": [
+      "uncalibrated_causal_claim"
+    ],
+    "severity": "CRITICAL",
+    "acceptable_methods": [
+      "Triply flawed compound methodology: 1) Global SMOTE synthetically leaks test instances into training; 2) Global feature selection on all samples introduces catastrophic selection bias; 3) Training a deep neural network with $p=20,000$ and $N=30$ without strict regularization results in extreme overfitting. Reported 100% accuracy is entirely an artifact of leakage."
+    ],
+    "unacceptable_methods": [
+      "In a study of 30 patients (10 progressive, 20 stable) with 20,000 gene expression features, the team applies SMOTE globally to reach 20 vs 20, runs t-tests to pick the top 50 genes across all 40 samples, fits a deep neural network with 10-fold CV, and reports 100% test accuracy with zero misclassifications."
+    ],
+    "supported_claims": [
+      "Experimental measurements were collected."
+    ],
+    "unsupported_claims": [
+      "Definitive causal therapy mechanism established."
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "compound p greater n selection bias"
+    ],
+    "should_identify": [
+      "statistical assumptions",
+      "replication structure"
+    ],
+    "critical_errors": [
+      "cells are independent replicates",
+      "shap proves causality",
+      "leakage is harmless"
+    ],
+    "partial_credit": [
+      "noting sample size limitations"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "bench_compound_p_greater_n_selection_bias",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "supervised_classification",
+    "failure_mode": "compound_p_greater_n_selection_bias"
+  },
+  "provenance": {
+    "source_type": "benchmark_curated",
+    "citation": "BioReason Benchmark Suite v0.1",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "tags": [
+    "reproducibility",
+    "ADVERSARIAL",
+    "biological_ml",
+    "renal_clear_cell"
+  ]
+}

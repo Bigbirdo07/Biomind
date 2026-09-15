@@ -2,24 +2,38 @@
   "episode_id": "EP_024_SMOTE_OVERSAMPLING_LEAKAGE",
   "episode_type": "FLAWED_WORKFLOW",
   "domain": "biological_ml",
+  "subdomain": null,
   "question": "A researcher applies SMOTE (Synthetic Minority Over-sampling Technique) to the entire 100-sample dataset to balance a 90:10 class ratio, and then runs 5-fold cross-validation, reporting 96% AUC. Evaluate.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "bulk_rna_seq",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 100,
+    "total_observations": null,
     "groups": [
       {
         "name": "Minority",
-        "sample_count": 10
+        "sample_count": 10,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       },
       {
         "name": "Majority",
-        "sample_count": 90
+        "sample_count": 90,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       }
     ],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "normalized_counts",
-    "objective": "supervised_classification"
+    "objective": "supervised_classification",
+    "description": null
   },
   "proposed_analysis": "Apply SMOTE globally to entire dataset prior to cross-validation partitioning.",
   "scientific_checks": {
@@ -36,13 +50,15 @@
     "supported_claims": [
       {
         "statement": "SMOTE balanced training feature dimensions under global application.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "96% AUC reflects true generalization on unobserved minority cases.",
-        "level": "STATISTICAL_INFERENCE"
+        "level": "STATISTICAL_INFERENCE",
+        "justification": null
       }
     ],
     "limitations": [
@@ -53,13 +69,19 @@
     "assay": "bulk_rna_seq",
     "problem": "data_leakage",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "supervised_classification",
     "failure_mode": "smote_before_splitting"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Vandewiele et al. (2021) Journal of Biomedical Informatics 117:103744"
+    "citation": "Vandewiele et al. (2021) Journal of Biomedical Informatics 117:103744",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Vandewiele et al. (2021) Journal of Biomedical Informatics 117:103744"

@@ -1,0 +1,92 @@
+{
+  "episode_id": "EP_0061_LOW_COUNT_FILTERING_IN_DESEQ2_MELANOMA",
+  "episode_type": "CORRECT_WORKFLOW",
+  "domain": "bulk_rnaseq",
+  "subdomain": "bulk_rna_seq_melanoma",
+  "question": "In a melanoma study utilizing bulk rna seq, Prior to running DESeq2, an analyst filters out genes with fewer than 10 counts across at least 4 samples (the smallest group size), reducing the total tested genes from 35,000 to 18,000. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Mus musculus",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "tissue_sample",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 12,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: Prior to running DESeq2, an analyst filters out genes with fewer than 10 counts across at least 4 samples (the smallest group size), reducing the total tested genes from 35,000 to 18,000.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Standard rigorous practice: Pre-filtering low-count genes reduces the multiple-testing penalty in Benjamini-Hochberg FDR correction and removes uninformative high-noise Poisson background.",
+  "reasoning_summary": "Rigorous scientific assessment for melanoma: Standard rigorous practice: Pre-filtering low-count genes reduces the multiple-testing penalty in Benjamini-Hochberg FDR correction and removes uninformative high-noise Poisson background.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for melanoma was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [],
+    "limitations": [
+      "External cohort validation remains essential."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "sound_workflow",
+    "experimental_unit": "tissue_sample",
+    "observational_unit": "tissue_sample",
+    "analysis": "differential_expression",
+    "failure_mode": "none"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

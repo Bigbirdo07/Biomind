@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0287_SMOTE_BEFORE_SPLIT_LEAKAGE_RENAL_CLEAR_CELL",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "biological_ml",
+  "subdomain": "microarray_renal_clear_cell",
+  "question": "In a renal clear cell study utilizing microarray, In a rare disease dataset of 20 cases and 200 controls, an analyst applies SMOTE across all 220 samples to balance the classes to 200 vs 200, then runs 10-fold cross-validation with an XGBoost classifier, reporting 99.4% ROC-AUC. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "microarray",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "normalized_counts",
+    "objective": "supervised_classification",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: In a rare disease dataset of 20 cases and 200 controls, an analyst applies SMOTE across all 220 samples to balance the classes to 200 vs 200, then runs 10-fold cross-validation with an XGBoost classifier, reporting 99.4% ROC-AUC.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": true,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Applying SMOTE globally before cross-validation synthesizes minority samples that interpolate between test and train folds, leaking exact test manifold topology into training. SMOTE must only be fit within training folds.",
+  "reasoning_summary": "Rigorous scientific assessment for renal_clear_cell: Applying SMOTE globally before cross-validation synthesizes minority samples that interpolate between test and train folds, leaking exact test manifold topology into training. SMOTE must only be fit within training folds.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for renal_clear_cell was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in renal_clear_cell.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of synthetic_oversampling_leakage."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "microarray",
+    "problem": "synthetic_oversampling_leakage",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "supervised_classification",
+    "failure_mode": "synthetic_oversampling_leakage"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

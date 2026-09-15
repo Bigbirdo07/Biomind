@@ -2,14 +2,23 @@
   "episode_id": "EP_019_FASTQ_QC_TRIMMING_OMISSION",
   "episode_type": "FLAWED_WORKFLOW",
   "domain": "bioinformatics_qc",
+  "subdomain": null,
   "question": "A researcher aligns raw FASTQ files containing 35% Illumina adapter read-through and degraded 3' base qualities (Q < 10) directly to GRCh38 with BWA-MEM without trimming. Evaluate impact.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "wgs",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 8,
+    "total_observations": null,
+    "groups": [],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "fastq",
-    "objective": "variant_calling"
+    "objective": "variant_calling",
+    "description": null
   },
   "proposed_analysis": "Direct alignment of contaminated raw reads without adapter or quality trimming.",
   "scientific_checks": {
@@ -26,13 +35,15 @@
     "supported_claims": [
       {
         "statement": "Raw FASTQ reads had adapter content and low tail Phred scores.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "Downstream variant calls from unclipped reads are reliable.",
-        "level": "STATISTICAL_INFERENCE"
+        "level": "STATISTICAL_INFERENCE",
+        "justification": null
       }
     ],
     "limitations": [
@@ -43,13 +54,19 @@
     "assay": "wgs",
     "problem": "quality_control",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "alignment_variant_calling",
     "failure_mode": "omitting_adapter_trimming"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Chen et al. (2018) Bioinformatics 34(17):i884-i890"
+    "citation": "Chen et al. (2018) Bioinformatics 34(17):i884-i890",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Chen et al. (2018) Bioinformatics 34(17):i884-i890"

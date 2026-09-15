@@ -1,0 +1,92 @@
+{
+  "episode_id": "EP_0444_PSEUDOBULK_PER_CELLTYPE_DESEQ2_COLORECTAL_CANCER",
+  "episode_type": "CORRECT_WORKFLOW",
+  "domain": "single_cell_transcriptomics",
+  "subdomain": "scrna_seq_colorectal_cancer",
+  "question": "In a colorectal cancer study utilizing scrna seq, In a study of 12 lupus patients and 12 controls, the analyst subsets CD14+ monocytes, sums raw counts per patient, and tests for differential expression using DESeq2. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "scrna_seq",
+    "experimental_unit": "patient",
+    "observational_unit": "cell",
+    "analysis_unit": "cell",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "differential_expression",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: In a study of 12 lupus patients and 12 controls, the analyst subsets CD14+ monocytes, sums raw counts per patient, and tests for differential expression using DESeq2.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Gold standard workflow: Cell-type-specific pseudobulk aggregation preserves donor-level biological replication (N=12 vs 12), enables robust dispersion estimation, and avoids single-cell pseudoreplication.",
+  "reasoning_summary": "Rigorous scientific assessment for colorectal_cancer: Gold standard workflow: Cell-type-specific pseudobulk aggregation preserves donor-level biological replication (N=12 vs 12), enables robust dispersion estimation, and avoids single-cell pseudoreplication.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for colorectal_cancer was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [],
+    "limitations": [
+      "External cohort validation remains essential."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "sound_workflow",
+    "experimental_unit": "patient",
+    "observational_unit": "cell",
+    "analysis": "differential_expression",
+    "failure_mode": "none"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

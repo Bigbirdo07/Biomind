@@ -104,17 +104,53 @@ class HuggingFaceModelAdapter(BaseModelAdapter):
         response_text = self.generate(prompt, config)
         parsed = self._extract_json(response_text)
 
+        flaw_detected = None
+        flaw_type = None
+        scientific_rationale = None
+        proposed_correction = None
+        limitations_noted = []
+        primary_assessment = None
+        identified_issues = []
+        recommended_actions = []
+        supported_claims = []
+        unsupported_claims = []
+        confidence = "MEDIUM"
+
+        if parsed:
+            primary_assessment = parsed.get("primary_assessment")
+            identified_issues = parsed.get("identified_issues", [])
+            recommended_actions = parsed.get("recommended_actions", [])
+            supported_claims = parsed.get("supported_claims", [])
+            unsupported_claims = parsed.get("unsupported_claims", [])
+            confidence = parsed.get("confidence", "MEDIUM")
+
+            flaw_detected = parsed.get("flaw_detected")
+            if flaw_detected is None and identified_issues:
+                flaw_detected = any(i.lower() not in ["none", "no issues", "valid", "no flaw"] for i in identified_issues)
+
+            flaw_type = parsed.get("flaw_type") or (" ".join(identified_issues) if identified_issues else None)
+            scientific_rationale = parsed.get("scientific_rationale") or primary_assessment
+            proposed_correction = parsed.get("proposed_correction") or (" ".join(recommended_actions) if recommended_actions else None)
+            limitations_noted = parsed.get("limitations", unsupported_claims)
+
         return ModelPrediction(
             item_id=item_id,
             prompt=prompt,
             raw_response=response_text,
             parsed_json=parsed,
-            flaw_detected=parsed.get("flaw_detected") if parsed else None,
-            flaw_type=parsed.get("flaw_type") if parsed else None,
-            scientific_rationale=parsed.get("scientific_rationale") if parsed else None,
-            proposed_correction=parsed.get("proposed_correction") if parsed else None,
-            limitations_noted=parsed.get("limitations", []) if parsed else [],
+            primary_assessment=primary_assessment,
+            identified_issues=identified_issues,
+            recommended_actions=recommended_actions,
+            supported_claims=supported_claims,
+            unsupported_claims=unsupported_claims,
+            confidence=confidence,
+            flaw_detected=flaw_detected,
+            flaw_type=flaw_type,
+            scientific_rationale=scientific_rationale,
+            proposed_correction=proposed_correction,
+            limitations_noted=limitations_noted,
         )
+
 
     def _extract_json(self, text: str) -> Optional[Dict[str, Any]]:
         # Find JSON code block or outermost curly braces

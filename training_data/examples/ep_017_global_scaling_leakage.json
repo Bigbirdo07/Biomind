@@ -2,14 +2,23 @@
   "episode_id": "EP_017_GLOBAL_SCALING_LEAKAGE",
   "episode_type": "FLAWED_WORKFLOW",
   "domain": "biological_ml",
+  "subdomain": null,
   "question": "A pipeline fits StandardScaler and PCA on all 300 samples before splitting into 80/20 train/test sets. Evaluate validity.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "bulk_rna_seq",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 300,
+    "total_observations": null,
+    "groups": [],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "raw_counts",
-    "objective": "supervised_classification"
+    "objective": "supervised_classification",
+    "description": null
   },
   "proposed_analysis": "Global StandardScaler and PCA prior to train/test partitioning.",
   "scientific_checks": {
@@ -26,13 +35,15 @@
     "supported_claims": [
       {
         "statement": "Global preprocessing was applied prior to splitting.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "Test set performance is entirely independent of training transformations.",
-        "level": "STATISTICAL_INFERENCE"
+        "level": "STATISTICAL_INFERENCE",
+        "justification": null
       }
     ],
     "limitations": [
@@ -43,13 +54,19 @@
     "assay": "bulk_rna_seq",
     "problem": "data_leakage",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "supervised_classification",
     "failure_mode": "global_scaler_and_pca"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Varoquaux (2018) NeuroImage 180:68-77"
+    "citation": "Varoquaux (2018) NeuroImage 180:68-77",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Varoquaux (2018) NeuroImage 180:68-77"

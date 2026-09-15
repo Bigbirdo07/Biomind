@@ -1,0 +1,133 @@
+{
+  "item_id": "BENCH_0118_DOUBLET_CONTAMINATION_TRAJECTORY_ADVERSARIAL_FLAWED_ANALYSIS",
+  "domain": "single_cell_transcriptomics",
+  "subdomain": "scrna_seq_colorectal_cancer",
+  "difficulty": "ADVANCED",
+  "category": "adversarial_flawed_analysis",
+  "scenario": "A translational oncology team studying colorectal cancer performs the following experiment: An analyst runs Monocle3 pseudotime trajectory inference on 20,000 PBMC cells without doublet removal, identifying a novel intermediate transition state between T cells and B cells. They collect samples and execute computational modeling.",
+  "question": "Critique the methodology of this colorectal cancer study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.",
+  "flawed_analysis_present": true,
+  "flaw_type": "doublet_induced_artificial_branch",
+  "ground_truth_rationale": "Authoritative scientific rationale: Heterotypic doublets (co-encapsulated T and B cells) express hybrid marker profiles that trajectory algorithms misinterpret as continuous differentiation bridges. Running doublet detection (e.g. DoubletFinder/Scrublet) is essential. In colorectal_cancer biology, failing to account for this leads to erroneous translational conclusions.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "doublet induced artificial branch"
+      ],
+      "negative_points": [
+        "flawed protocol is valid",
+        "no problems exist"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "biological variance",
+        "degrees of freedom",
+        "statistical model assumptions"
+      ],
+      "negative_points": [
+        "code execution proves scientific validity",
+        "tpm is identical to raw counts"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "proper design formula"
+      ],
+      "negative_points": [
+        "run same analysis again",
+        "ignore batch"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "explicitly bound uncertainty",
+        "external cohort validation required"
+      ],
+      "negative_points": [
+        "results are definitively 100% true",
+        "proven causal mechanism without functional validation"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "association does not equal causation",
+        "predictive feature != mechanism"
+      ],
+      "negative_points": [
+        "shap proves causality",
+        "p-value proves clinical utility"
+      ]
+    },
+    "experimental_unit_reasoning": null
+  },
+  "expected_decision": {
+    "primary_issue": "doublet_induced_artificial_branch",
+    "secondary_issues": [
+      "uncalibrated_causal_claim"
+    ],
+    "severity": "CRITICAL",
+    "acceptable_methods": [
+      "Heterotypic doublets (co-encapsulated T and B cells) express hybrid marker profiles that trajectory algorithms misinterpret as continuous differentiation bridges. Running doublet detection (e.g. DoubletFinder/Scrublet) is essential."
+    ],
+    "unacceptable_methods": [
+      "An analyst runs Monocle3 pseudotime trajectory inference on 20,000 PBMC cells without doublet removal, identifying a novel intermediate transition state between T cells and B cells."
+    ],
+    "supported_claims": [
+      "Experimental measurements were collected."
+    ],
+    "unsupported_claims": [
+      "Definitive causal therapy mechanism established."
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "doublet induced artificial branch"
+    ],
+    "should_identify": [
+      "statistical assumptions",
+      "replication structure"
+    ],
+    "critical_errors": [
+      "cells are independent replicates",
+      "shap proves causality",
+      "leakage is harmless"
+    ],
+    "partial_credit": [
+      "noting sample size limitations"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "bench_doublet_induced_artificial_branch",
+    "experimental_unit": "patient",
+    "observational_unit": "cell",
+    "analysis": "trajectory_inference",
+    "failure_mode": "doublet_induced_artificial_branch"
+  },
+  "provenance": {
+    "source_type": "benchmark_curated",
+    "citation": "BioReason Benchmark Suite v0.1",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "tags": [
+    "adversarial_flawed_analysis",
+    "ADVANCED",
+    "single_cell_transcriptomics",
+    "colorectal_cancer"
+  ]
+}

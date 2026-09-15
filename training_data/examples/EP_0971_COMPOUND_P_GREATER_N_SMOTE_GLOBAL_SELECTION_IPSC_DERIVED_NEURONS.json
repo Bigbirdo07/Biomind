@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0971_COMPOUND_P_GREATER_N_SMOTE_GLOBAL_SELECTION_IPSC_DERIVED_NEURONS",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "biological_ml",
+  "subdomain": "bulk_rna_seq_ipsc_derived_neurons",
+  "question": "In a ipsc derived neurons study utilizing bulk rna seq, In a study of 30 patients (10 progressive, 20 stable) with 20,000 gene expression features, the team applies SMOTE globally to reach 20 vs 20, runs t-tests to pick the top 50 genes across all 40 samples, fits a deep neural network with 10-fold CV, and reports 100% test accuracy with zero misclassifications. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "supervised_classification",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: In a study of 30 patients (10 progressive, 20 stable) with 20,000 gene expression features, the team applies SMOTE globally to reach 20 vs 20, runs t-tests to pick the top 50 genes across all 40 samples, fits a deep neural network with 10-fold CV, and reports 100% test accuracy with zero misclassifications.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Triply flawed compound methodology: 1) Global SMOTE synthetically leaks test instances into training; 2) Global feature selection on all samples introduces catastrophic selection bias; 3) Training a deep neural network with $p=20,000$ and $N=30$ without strict regularization results in extreme overfitting. Reported 100% accuracy is entirely an artifact of leakage.",
+  "reasoning_summary": "Rigorous scientific assessment for ipsc_derived_neurons: Triply flawed compound methodology: 1) Global SMOTE synthetically leaks test instances into training; 2) Global feature selection on all samples introduces catastrophic selection bias; 3) Training a deep neural network with $p=20,000$ and $N=30$ without strict regularization results in extreme overfitting. Reported 100% accuracy is entirely an artifact of leakage.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for ipsc_derived_neurons was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in ipsc_derived_neurons.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of compound_p_greater_n_selection_bias."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "compound_p_greater_n_selection_bias",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "supervised_classification",
+    "failure_mode": "compound_p_greater_n_selection_bias"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

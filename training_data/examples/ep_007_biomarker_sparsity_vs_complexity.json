@@ -2,24 +2,38 @@
   "episode_id": "EP_007_BIOMARKER_SPARSITY_VS_COMPLEXITY",
   "episode_type": "SELECT_MODEL",
   "domain": "biomarker_discovery",
+  "subdomain": null,
   "question": "For clinical blood-based biomarker discovery, Model A (XGBoost on 2,000 genes) achieves 0.96 AUC. Model B (Sparse Logistic Regression on 12 genes) achieves 0.94 AUC. Which model should be prioritized for wet-lab clinical assay development?",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "bulk_rna_seq",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 200,
+    "total_observations": null,
     "groups": [
       {
         "name": "Responder",
-        "sample_count": 80
+        "sample_count": 80,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       },
       {
         "name": "NonResponder",
-        "sample_count": 120
+        "sample_count": 120,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       }
     ],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "normalized_counts",
-    "objective": "biomarker_discovery"
+    "objective": "biomarker_discovery",
+    "description": null
   },
   "proposed_analysis": "Select Model A solely based on highest cross-validation AUC (0.96 vs 0.94).",
   "scientific_checks": {
@@ -36,13 +50,15 @@
     "supported_claims": [
       {
         "statement": "Model A achieved 0.96 AUC and Model B achieved 0.94 AUC on validation data.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "Model A's 2,000 genes represent a validated causal biomarker network.",
-        "level": "HYPOTHESIS"
+        "level": "HYPOTHESIS",
+        "justification": null
       }
     ],
     "limitations": [
@@ -53,13 +69,19 @@
     "assay": "bulk_rna_seq",
     "problem": "model_selection",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "biomarker_discovery",
     "failure_mode": "ignoring_parsimony_and_translation"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Meinshausen & B\u00fchlmann (2010) JRSS B 72:417-473"
+    "citation": "Meinshausen & B\u00fchlmann (2010) JRSS B 72:417-473",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Meinshausen & B\u00fchlmann (2010) JRSS B 72:417-473"

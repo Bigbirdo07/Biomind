@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0070_CADD_SCORE_CAUSAL_LEAP_MELANOMA",
+  "episode_type": "ASSESS_CLAIM",
+  "domain": "genomics_variant_calling",
+  "subdomain": "wgs_melanoma",
+  "question": "In a melanoma study utilizing wgs, An investigator discovers a missense variant in a neurodevelopmental cohort with CADD PHRED score = 28, and asserts in the paper conclusion that this variant is the established causal etiology of the patient's autism. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "wgs",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "normalized_counts",
+    "objective": "variant_annotation",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: An investigator discovers a missense variant in a neurodevelopmental cohort with CADD PHRED score = 28, and asserts in the paper conclusion that this variant is the established causal etiology of the patient's autism.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "In silico pathogenicity predictors (CADD, REVEL, AlphaMissense) estimate sequence constraint and biochemical disruption, not proven clinical causality. Establishing clinical causality requires segregation analysis, functional assays, or ACMG criteria.",
+  "reasoning_summary": "Rigorous scientific assessment for melanoma: In silico pathogenicity predictors (CADD, REVEL, AlphaMissense) estimate sequence constraint and biochemical disruption, not proven clinical causality. Establishing clinical causality requires segregation analysis, functional assays, or ACMG criteria.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for melanoma was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in melanoma.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of in_silico_pathogenicity_causal_leap."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "wgs",
+    "problem": "in_silico_pathogenicity_causal_leap",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "variant_annotation",
+    "failure_mode": "in_silico_pathogenicity_causal_leap"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

@@ -2,24 +2,38 @@
   "episode_id": "EP_020_IMBALANCED_ACCURACY_FALLACY",
   "episode_type": "SELECT_MODEL",
   "domain": "biological_ml_metrics",
+  "subdomain": null,
   "question": "A diagnostic classifier for a rare genetic disease (prevalence 1%) predicts 'Healthy' for every patient. The team reports 99% accuracy and concludes the model is highly effective. Critique.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "wgs",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 10000,
+    "total_observations": null,
     "groups": [
       {
         "name": "Disease",
-        "sample_count": 100
+        "sample_count": 100,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       },
       {
         "name": "Healthy",
-        "sample_count": 9900
+        "sample_count": 9900,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       }
     ],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "tabular_features",
-    "objective": "supervised_classification"
+    "objective": "supervised_classification",
+    "description": null
   },
   "proposed_analysis": "Evaluate classifier on 1% rare disease cohort using raw accuracy metric.",
   "scientific_checks": {
@@ -36,13 +50,15 @@
     "supported_claims": [
       {
         "statement": "The majority-class prediction achieved 99% raw accuracy.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "The model has high diagnostic utility for detecting the rare disease.",
-        "level": "BIOLOGICAL_INTERPRETATION"
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
       }
     ],
     "limitations": [
@@ -53,13 +69,19 @@
     "assay": "tabular_features",
     "problem": "evaluation_metrics",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "supervised_classification",
     "failure_mode": "accuracy_on_imbalanced_data"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Saito & Rehmsmeier (2015) PLOS ONE 10(3):e0118432"
+    "citation": "Saito & Rehmsmeier (2015) PLOS ONE 10(3):e0118432",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Saito & Rehmsmeier (2015) PLOS ONE 10(3):e0118432"

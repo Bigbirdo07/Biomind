@@ -1,0 +1,133 @@
+{
+  "item_id": "BENCH_0170_GSEA_VS_ORA_BACKGROUND_BIAS_BULK_RNASEQ",
+  "domain": "pathway_analysis",
+  "subdomain": "bulk_rna_seq_alzheimers_cortex",
+  "difficulty": "ADVANCED",
+  "category": "bulk_rnaseq",
+  "scenario": "A translational oncology team studying alzheimers cortex performs the following experiment: An analyst takes the top 200 differentially expressed genes from a targeted microfluidic panel (500 genes total) and performs Over-Representation Analysis (ORA) against the entire human genome (20,000 genes) in MSigDB. They collect samples and execute computational modeling.",
+  "question": "Critique the methodology of this alzheimers cortex study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.",
+  "flawed_analysis_present": true,
+  "flaw_type": "uncalibrated_ora_background",
+  "ground_truth_rationale": "Authoritative scientific rationale: ORA background must strictly reflect the tested gene universe (the 500 panel genes). Using the whole genome artificially inflates overlap significance for pathway genes present on the targeted panel. In alzheimers_cortex biology, failing to account for this leads to erroneous translational conclusions.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "uncalibrated ora background"
+      ],
+      "negative_points": [
+        "flawed protocol is valid",
+        "no problems exist"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "biological variance",
+        "degrees of freedom",
+        "statistical model assumptions"
+      ],
+      "negative_points": [
+        "code execution proves scientific validity",
+        "tpm is identical to raw counts"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "proper design formula"
+      ],
+      "negative_points": [
+        "run same analysis again",
+        "ignore batch"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "explicitly bound uncertainty",
+        "external cohort validation required"
+      ],
+      "negative_points": [
+        "results are definitively 100% true",
+        "proven causal mechanism without functional validation"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "association does not equal causation",
+        "predictive feature != mechanism"
+      ],
+      "negative_points": [
+        "shap proves causality",
+        "p-value proves clinical utility"
+      ]
+    },
+    "experimental_unit_reasoning": null
+  },
+  "expected_decision": {
+    "primary_issue": "uncalibrated_ora_background",
+    "secondary_issues": [
+      "uncalibrated_causal_claim"
+    ],
+    "severity": "CRITICAL",
+    "acceptable_methods": [
+      "ORA background must strictly reflect the tested gene universe (the 500 panel genes). Using the whole genome artificially inflates overlap significance for pathway genes present on the targeted panel."
+    ],
+    "unacceptable_methods": [
+      "An analyst takes the top 200 differentially expressed genes from a targeted microfluidic panel (500 genes total) and performs Over-Representation Analysis (ORA) against the entire human genome (20,000 genes) in MSigDB."
+    ],
+    "supported_claims": [
+      "Experimental measurements were collected."
+    ],
+    "unsupported_claims": [
+      "Definitive causal therapy mechanism established."
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "uncalibrated ora background"
+    ],
+    "should_identify": [
+      "statistical assumptions",
+      "replication structure"
+    ],
+    "critical_errors": [
+      "cells are independent replicates",
+      "shap proves causality",
+      "leakage is harmless"
+    ],
+    "partial_credit": [
+      "noting sample size limitations"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "bench_uncalibrated_ora_background",
+    "experimental_unit": "other",
+    "observational_unit": "other",
+    "analysis": "pathway_enrichment",
+    "failure_mode": "uncalibrated_ora_background"
+  },
+  "provenance": {
+    "source_type": "benchmark_curated",
+    "citation": "BioReason Benchmark Suite v0.1",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "tags": [
+    "bulk_rnaseq",
+    "ADVANCED",
+    "pathway_analysis",
+    "alzheimers_cortex"
+  ]
+}

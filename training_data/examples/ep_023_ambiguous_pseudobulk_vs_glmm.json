@@ -2,26 +2,38 @@
   "episode_id": "EP_023_AMBIGUOUS_PSEUDOBULK_VS_GLMM",
   "episode_type": "COMPARE_METHODS",
   "domain": "single_cell_transcriptomics",
+  "subdomain": null,
   "question": "An investigator asks whether to use sample-level pseudobulk aggregation with DESeq2 or a cell-level Generalized Linear Mixed Model (GLMM with patient random effects) for single-cell differential expression with 15 patients per group. Evaluate both options.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "scrna_seq",
     "experimental_unit": "patient",
     "observational_unit": "cell",
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 30,
     "total_observations": 90000,
     "groups": [
       {
         "name": "Disease",
-        "sample_count": 15
+        "sample_count": 15,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       },
       {
         "name": "Control",
-        "sample_count": 15
+        "sample_count": 15,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       }
     ],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "raw_counts",
-    "objective": "differential_expression"
+    "objective": "differential_expression",
+    "description": null
   },
   "proposed_analysis": "Compare pseudobulk DESeq2 vs GLMM with patient random intercepts.",
   "scientific_checks": {
@@ -38,13 +50,15 @@
     "supported_claims": [
       {
         "statement": "Both methods properly account for non-independence of cells from the same patient.",
-        "level": "STATISTICAL_INFERENCE"
+        "level": "STATISTICAL_INFERENCE",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "Pseudobulk is always inferior to GLMM.",
-        "level": "HYPOTHESIS"
+        "level": "HYPOTHESIS",
+        "justification": null
       }
     ],
     "limitations": [
@@ -62,7 +76,12 @@
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Squair et al. (2021) Nature Communications 12:5692"
+    "citation": "Squair et al. (2021) Nature Communications 12:5692",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Squair et al. (2021) Nature Communications 12:5692"

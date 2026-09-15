@@ -1,0 +1,133 @@
+{
+  "item_id": "BENCH_0324_PAIRED_TISSUE_IGNORED_EXPERIMENTAL_DESIGN",
+  "domain": "bulk_rnaseq",
+  "subdomain": "bulk_rna_seq_glioblastoma",
+  "difficulty": "ADVANCED",
+  "category": "experimental_design",
+  "scenario": "A translational oncology team studying glioblastoma performs the following experiment: A study measures tumor and matched normal adjacent tissue from 30 lung cancer patients. The analyst runs an unpaired 2-sample t-test treating tumor (N=30) and normal (N=30) as independent cohorts. They collect samples and execute computational modeling.",
+  "question": "Critique the methodology of this glioblastoma study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.",
+  "flawed_analysis_present": true,
+  "flaw_type": "paired_structure_ignored",
+  "ground_truth_rationale": "Authoritative scientific rationale: Unpaired analysis fails to account for intra-patient correlation, discarding substantial statistical power and confounding patient-specific baseline expression with tumor-specific changes. Correct approach is a paired design formula `~ patient + condition` in DESeq2/edgeR or a mixed-effects model. In glioblastoma biology, failing to account for this leads to erroneous translational conclusions.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "paired structure ignored"
+      ],
+      "negative_points": [
+        "flawed protocol is valid",
+        "no problems exist"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "biological variance",
+        "degrees of freedom",
+        "statistical model assumptions"
+      ],
+      "negative_points": [
+        "code execution proves scientific validity",
+        "tpm is identical to raw counts"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "proper design formula"
+      ],
+      "negative_points": [
+        "run same analysis again",
+        "ignore batch"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "explicitly bound uncertainty",
+        "external cohort validation required"
+      ],
+      "negative_points": [
+        "results are definitively 100% true",
+        "proven causal mechanism without functional validation"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "association does not equal causation",
+        "predictive feature != mechanism"
+      ],
+      "negative_points": [
+        "shap proves causality",
+        "p-value proves clinical utility"
+      ]
+    },
+    "experimental_unit_reasoning": null
+  },
+  "expected_decision": {
+    "primary_issue": "paired_structure_ignored",
+    "secondary_issues": [
+      "uncalibrated_causal_claim"
+    ],
+    "severity": "CRITICAL",
+    "acceptable_methods": [
+      "Unpaired analysis fails to account for intra-patient correlation, discarding substantial statistical power and confounding patient-specific baseline expression with tumor-specific changes. Correct approach is a paired design formula `~ patient + condition` in DESeq2/edgeR or a mixed-effects model."
+    ],
+    "unacceptable_methods": [
+      "A study measures tumor and matched normal adjacent tissue from 30 lung cancer patients. The analyst runs an unpaired 2-sample t-test treating tumor (N=30) and normal (N=30) as independent cohorts."
+    ],
+    "supported_claims": [
+      "Experimental measurements were collected."
+    ],
+    "unsupported_claims": [
+      "Definitive causal therapy mechanism established."
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "paired structure ignored"
+    ],
+    "should_identify": [
+      "statistical assumptions",
+      "replication structure"
+    ],
+    "critical_errors": [
+      "cells are independent replicates",
+      "shap proves causality",
+      "leakage is harmless"
+    ],
+    "partial_credit": [
+      "noting sample size limitations"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "bench_paired_structure_ignored",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "differential_expression",
+    "failure_mode": "paired_structure_ignored"
+  },
+  "provenance": {
+    "source_type": "benchmark_curated",
+    "citation": "BioReason Benchmark Suite v0.1",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "tags": [
+    "experimental_design",
+    "ADVANCED",
+    "bulk_rnaseq",
+    "glioblastoma"
+  ]
+}

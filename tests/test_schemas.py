@@ -2,6 +2,7 @@
 Unit tests for BioReason Pydantic schemas.
 """
 
+from pathlib import Path
 import pytest
 from pydantic import ValidationError
 from bioreason.schemas.experiment import ExperimentSpec, AssayType, ExperimentalUnitLevel, DataType, AnalysisObjective, SampleGroup
@@ -61,3 +62,31 @@ def test_workflow_plan_schema():
     )
     assert wf.workflow_id == "WF_TEST"
     assert wf.split.outer_cv == SplitType.GROUPED_KFOLD
+
+
+def test_biomarker_evidence_level_hierarchy():
+    from bioreason.schemas.episode import BiomarkerEvidenceLevel
+    assert BiomarkerEvidenceLevel.LEVEL_0_CANDIDATE_FEATURE.value.startswith("LEVEL_0")
+    assert BiomarkerEvidenceLevel.LEVEL_3_EXTERNAL_COHORT.value.startswith("LEVEL_3")
+    assert BiomarkerEvidenceLevel.LEVEL_6_CLINICAL_UTILITY.value.startswith("LEVEL_6")
+
+
+def test_quality_gates_validator():
+    from bioreason.validators.quality_gates import validate_episode_quality_gates, validate_benchmark_quality_gates
+    from bioreason.datasets.loader import load_episode, load_benchmark_item
+    
+    episodes = list(Path("training_data/examples").glob("*.json"))
+    if episodes:
+        ep = load_episode(episodes[0])
+        issues = validate_episode_quality_gates(ep)
+        # Verify no fatal errors on valid dataset
+        errors = [i for i in issues if i.severity == "ERROR"]
+        assert len(errors) == 0
+
+    bench_items = list(Path("benchmark/examples").glob("*.json"))
+    if bench_items:
+        b = load_benchmark_item(bench_items[0])
+        b_issues = validate_benchmark_quality_gates(b)
+        b_errors = [i for i in b_issues if i.severity == "ERROR"]
+        assert len(b_errors) == 0
+

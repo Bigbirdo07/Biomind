@@ -1,0 +1,133 @@
+{
+  "item_id": "BENCH_0221_TPM_INPUT_TO_DESEQ2_ML_DESIGN",
+  "domain": "bulk_rnaseq",
+  "subdomain": "bulk_rna_seq_t_cell_exhaustion",
+  "difficulty": "INTERMEDIATE",
+  "category": "ml_design",
+  "scenario": "A translational oncology team studying t cell exhaustion performs the following experiment: An investigator inputs TPM (Transcripts Per Million) abundance matrices directly into DESeq2 `DESeqDataSetFromMatrix()` function. They collect samples and execute computational modeling.",
+  "question": "Critique the methodology of this t cell exhaustion study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.",
+  "flawed_analysis_present": true,
+  "flaw_type": "tpm_count_matrix_misuse",
+  "ground_truth_rationale": "Authoritative scientific rationale: DESeq2 requires raw un-normalized integer counts because its parametric dispersion estimation relies directly on the Poisson-Negative Binomial sampling noise model. Passing library-normalized TPMs violates dispersion model assumptions. In t_cell_exhaustion biology, failing to account for this leads to erroneous translational conclusions.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "tpm count matrix misuse"
+      ],
+      "negative_points": [
+        "flawed protocol is valid",
+        "no problems exist"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "biological variance",
+        "degrees of freedom",
+        "statistical model assumptions"
+      ],
+      "negative_points": [
+        "code execution proves scientific validity",
+        "tpm is identical to raw counts"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "proper design formula"
+      ],
+      "negative_points": [
+        "run same analysis again",
+        "ignore batch"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "explicitly bound uncertainty",
+        "external cohort validation required"
+      ],
+      "negative_points": [
+        "results are definitively 100% true",
+        "proven causal mechanism without functional validation"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "association does not equal causation",
+        "predictive feature != mechanism"
+      ],
+      "negative_points": [
+        "shap proves causality",
+        "p-value proves clinical utility"
+      ]
+    },
+    "experimental_unit_reasoning": null
+  },
+  "expected_decision": {
+    "primary_issue": "tpm_count_matrix_misuse",
+    "secondary_issues": [
+      "uncalibrated_causal_claim"
+    ],
+    "severity": "WARNING",
+    "acceptable_methods": [
+      "DESeq2 requires raw un-normalized integer counts because its parametric dispersion estimation relies directly on the Poisson-Negative Binomial sampling noise model. Passing library-normalized TPMs violates dispersion model assumptions."
+    ],
+    "unacceptable_methods": [
+      "An investigator inputs TPM (Transcripts Per Million) abundance matrices directly into DESeq2 `DESeqDataSetFromMatrix()` function."
+    ],
+    "supported_claims": [
+      "Experimental measurements were collected."
+    ],
+    "unsupported_claims": [
+      "Definitive causal therapy mechanism established."
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "tpm count matrix misuse"
+    ],
+    "should_identify": [
+      "statistical assumptions",
+      "replication structure"
+    ],
+    "critical_errors": [
+      "cells are independent replicates",
+      "shap proves causality",
+      "leakage is harmless"
+    ],
+    "partial_credit": [
+      "noting sample size limitations"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "bench_tpm_count_matrix_misuse",
+    "experimental_unit": "tissue_sample",
+    "observational_unit": "tissue_sample",
+    "analysis": "differential_expression",
+    "failure_mode": "tpm_count_matrix_misuse"
+  },
+  "provenance": {
+    "source_type": "benchmark_curated",
+    "citation": "BioReason Benchmark Suite v0.1",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "tags": [
+    "ml_design",
+    "INTERMEDIATE",
+    "bulk_rnaseq",
+    "t_cell_exhaustion"
+  ]
+}

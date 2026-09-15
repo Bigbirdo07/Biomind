@@ -2,14 +2,23 @@
   "episode_id": "EP_016_SURVIVAL_LOOKAHEAD_BIAS",
   "episode_type": "FLAWED_WORKFLOW",
   "domain": "clinical_ml",
+  "subdomain": null,
   "question": "A model predicts 5-year patient survival using post-recurrence chemotherapy response data measured 18 months after diagnosis as a baseline predictor. Diagnose the flaw.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "other",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 250,
+    "total_observations": null,
+    "groups": [],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "tabular_features",
-    "objective": "supervised_regression"
+    "objective": "supervised_regression",
+    "description": null
   },
   "proposed_analysis": "Include future post-diagnosis therapy response as a baseline covariate.",
   "scientific_checks": {
@@ -26,13 +35,15 @@
     "supported_claims": [
       {
         "statement": "Model performance was calculated using future response features.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "The model provides an accurate prognostic tool at time of diagnosis.",
-        "level": "STATISTICAL_INFERENCE"
+        "level": "STATISTICAL_INFERENCE",
+        "justification": null
       }
     ],
     "limitations": [
@@ -43,13 +54,19 @@
     "assay": "clinical",
     "problem": "immortal_time_bias",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "survival_prediction",
     "failure_mode": "future_feature_as_baseline"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Yadav & Lewis (2021) JAMA 325(7):686-687"
+    "citation": "Yadav & Lewis (2021) JAMA 325(7):686-687",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Yadav & Lewis (2021) JAMA 325(7):686-687"

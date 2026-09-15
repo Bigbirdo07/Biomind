@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0051_SAMPLE_SIZE_ALONE_CANNOT_DETERMINE_POWER_BREAST_INVASIVE_CARCINOMA",
+  "episode_type": "UNCERTAINTY_CASE",
+  "domain": "statistical_reasoning",
+  "subdomain": "proteomics_breast_invasive_carcinoma",
+  "question": "In a breast invasive carcinoma study utilizing proteomics, A reviewer critiques an N=6 per group organoid drug-screening experiment as 'scientifically invalid because power is mathematically impossible with N < 10'. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "proteomics",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "normalized_counts",
+    "objective": "exploratory_analysis",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: A reviewer critiques an N=6 per group organoid drug-screening experiment as 'scientifically invalid because power is mathematically impossible with N < 10'.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": false
+  },
+  "preferred_analysis": "Scientifically flawed reviewer assertion: As codified in POWER_001, biological sample size is a heuristic risk indicator, NOT a formal power analysis. If the biological effect size is massive (e.g. Cohen's d > 3.0, 10-fold induction) and technical assay variance is minimal, N=6 can achieve >95% power. Power requires effect size, variance, and alpha parameters.",
+  "reasoning_summary": "Rigorous scientific assessment for breast_invasive_carcinoma: Scientifically flawed reviewer assertion: As codified in POWER_001, biological sample size is a heuristic risk indicator, NOT a formal power analysis. If the biological effect size is massive (e.g. Cohen's d > 3.0, 10-fold induction) and technical assay variance is minimal, N=6 can achieve >95% power. Power requires effect size, variance, and alpha parameters.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for breast_invasive_carcinoma was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in breast_invasive_carcinoma.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of power_requires_effect_size_and_variance."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "proteomics",
+    "problem": "power_requires_effect_size_and_variance",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "exploratory_analysis",
+    "failure_mode": "power_requires_effect_size_and_variance"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

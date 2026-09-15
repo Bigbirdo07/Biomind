@@ -25,6 +25,13 @@ class ModelPrediction(BaseModel):
     scientific_rationale: Optional[str] = None
     proposed_correction: Optional[str] = None
     limitations_noted: List[str] = Field(default_factory=list)
+    primary_assessment: Optional[str] = None
+    identified_issues: List[str] = Field(default_factory=list)
+    recommended_actions: List[str] = Field(default_factory=list)
+    supported_claims: List[str] = Field(default_factory=list)
+    unsupported_claims: List[str] = Field(default_factory=list)
+    confidence: Optional[str] = "MEDIUM"  # "LOW", "MEDIUM", "HIGH"
+
 
 
 class BaseModelAdapter(ABC):

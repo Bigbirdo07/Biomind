@@ -2,24 +2,38 @@
   "episode_id": "EP_011_CIRCULAR_BIOMARKER_VALIDATION",
   "episode_type": "DIAGNOSE_FAILURE",
   "domain": "biomarker_discovery",
+  "subdomain": null,
   "question": "A 10-gene signature was discovered by differential expression on Cohort A (N=50). The same Cohort A was then used to train and evaluate a logistic regression model, achieving 95% sensitivity. The paper claims clinical readiness.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "bulk_rna_seq",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 50,
+    "total_observations": null,
     "groups": [
       {
         "name": "Cases",
-        "sample_count": 25
+        "sample_count": 25,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       },
       {
         "name": "Controls",
-        "sample_count": 25
+        "sample_count": 25,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       }
     ],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "raw_counts",
-    "objective": "biomarker_discovery"
+    "objective": "biomarker_discovery",
+    "description": null
   },
   "proposed_analysis": "Validate biomarker diagnostic performance on the identical discovery cohort.",
   "scientific_checks": {
@@ -36,13 +50,15 @@
     "supported_claims": [
       {
         "statement": "The 10 genes discriminated cases from controls in the discovery cohort.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "The biomarker panel is clinically validated and ready for diagnostic use.",
-        "level": "CAUSAL_CLAIM"
+        "level": "CAUSAL_CLAIM",
+        "justification": null
       }
     ],
     "limitations": [
@@ -53,13 +69,19 @@
     "assay": "bulk_rna_seq",
     "problem": "circular_validation",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "biomarker_discovery",
     "failure_mode": "no_external_cohort"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Simon (2005) Clin Cancer Res 11:3044-3051"
+    "citation": "Simon (2005) Clin Cancer Res 11:3044-3051",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Simon (2005) Clin Cancer Res 11:3044-3051"

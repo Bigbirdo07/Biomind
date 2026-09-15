@@ -9,22 +9,31 @@
     "assay": "scrna_seq",
     "experimental_unit": "animal",
     "observational_unit": "cell",
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 20,
     "total_observations": 50000,
     "groups": [
       {
         "name": "Neoplastic",
         "sample_count": 10,
-        "cell_count": 25000
+        "cell_count": 25000,
+        "technical_replicates_per_sample": 1,
+        "description": null
       },
       {
         "name": "Healthy",
         "sample_count": 10,
-        "cell_count": 25000
+        "cell_count": 25000,
+        "technical_replicates_per_sample": 1,
+        "description": null
       }
     ],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "raw_counts",
-    "objective": "supervised_classification"
+    "objective": "supervised_classification",
+    "description": null
   },
   "proposed_analysis": "Randomly partition 50,000 cells across 5 cross-validation folds using standard StratifiedKFold.",
   "scientific_checks": {
@@ -41,13 +50,15 @@
     "supported_claims": [
       {
         "statement": "Model achieved 0.9999 CV AUC on randomly shuffled cells and 0.58 on external clams.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "The model has learned a generalizable cellular signature of bivalve neoplasia.",
-        "level": "BIOLOGICAL_INTERPRETATION"
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
       }
     ],
     "limitations": [
@@ -65,7 +76,12 @@
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Little et al. (2017) Perspectives in Science 10:100-110"
+    "citation": "Little et al. (2017) Perspectives in Science 10:100-110",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Little et al. (2017) Perspectives in Science 10:100-110"

@@ -8,19 +8,32 @@
     "organism": "Mus musculus",
     "assay": "bulk_rna_seq",
     "experimental_unit": "animal",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 12,
+    "total_observations": null,
     "groups": [
       {
         "name": "Treated",
-        "sample_count": 6
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       },
       {
         "name": "Control",
-        "sample_count": 6
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       }
     ],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "tpm_fpkm_rpkm",
-    "objective": "differential_expression"
+    "objective": "differential_expression",
+    "description": null
   },
   "proposed_analysis": "Pass log2(TPM + 1) normalized matrix directly to DESeqDataSetFromMatrix.",
   "scientific_checks": {
@@ -37,13 +50,15 @@
     "supported_claims": [
       {
         "statement": "Input data was transformed to log2(TPM+1).",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "P-values from DESeq2 on log-TPM are statistically valid.",
-        "level": "STATISTICAL_INFERENCE"
+        "level": "STATISTICAL_INFERENCE",
+        "justification": null
       }
     ],
     "limitations": [
@@ -54,13 +69,19 @@
     "assay": "bulk_rna_seq",
     "problem": "transformation_mismatch",
     "experimental_unit": "animal",
+    "observational_unit": "same",
     "analysis": "differential_expression",
     "failure_mode": "normalized_tpm_in_count_model"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Love et al. (2014) Genome Biology 15:550"
+    "citation": "Love et al. (2014) Genome Biology 15:550",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Love et al. (2014) Genome Biology 15:550"

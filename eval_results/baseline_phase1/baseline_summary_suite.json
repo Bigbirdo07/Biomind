@@ -1,0 +1,678 @@
+{
+  "timestamp": "2026-09-15T17:39:34.822869+00:00",
+  "benchmark_set": "benchmark/frozen/bioreasonbench_v0.1/dev",
+  "total_items_evaluated": 289,
+  "smoke_test": false,
+  "models": {
+    "Qwen2.5-7B-Instruct": {
+      "model_metadata": {
+        "name": "Qwen2.5-7B-Instruct",
+        "class": "7B",
+        "params": "7.6B",
+        "hf_repo": "Qwen/Qwen2.5-7B-Instruct"
+      },
+      "wall_time_seconds": 0.02,
+      "tokens_generated_approx": 30594,
+      "throughput_tok_per_sec": 1645092.9,
+      "aggregate_metrics": {
+        "total_items": 289,
+        "mean_composite_score": 0.3806,
+        "mean_flaw_detection_score": 0.5339,
+        "mean_explanation_score": 0.5088,
+        "mean_correction_score": 0.0692,
+        "mean_calibration_score": 0.3747,
+        "mean_interpretation_score": 0.4784,
+        "flaw_detection_accuracy": 0.6159,
+        "critical_failure_rate": 0.1349,
+        "total_critical_failures": 39,
+        "by_difficulty": {
+          "FOUNDATIONAL": {
+            "count": 24,
+            "mean_composite": 0.3478,
+            "flaw_accuracy": 0.375,
+            "critical_failure_rate": 0.0417
+          },
+          "INTERMEDIATE": {
+            "count": 62,
+            "mean_composite": 0.3415,
+            "flaw_accuracy": 0.5,
+            "critical_failure_rate": 0.0161
+          },
+          "ADVANCED": {
+            "count": 172,
+            "mean_composite": 0.4242,
+            "flaw_accuracy": 0.7326,
+            "critical_failure_rate": 0.1047
+          },
+          "ADVERSARIAL": {
+            "count": 31,
+            "mean_composite": 0.242,
+            "flaw_accuracy": 0.3871,
+            "critical_failure_rate": 0.6129
+          }
+        },
+        "failure_taxonomy_counts": {
+          "MISSED_LEAKAGE": 20,
+          "OVERCONFIDENT_CRITICAL_FAILURE": 39,
+          "STATISTICAL_ERROR": 18,
+          "MISSED_PSEUDOREPLICATION": 1
+        }
+      },
+      "domain_breakdown": {
+        "biological_ml": {
+          "count": 54,
+          "mean_composite": 0.3234
+        },
+        "cancer_genomics": {
+          "count": 9,
+          "mean_composite": 0.523
+        },
+        "bulk_rnaseq": {
+          "count": 67,
+          "mean_composite": 0.3946
+        },
+        "single_cell_transcriptomics": {
+          "count": 57,
+          "mean_composite": 0.295
+        },
+        "unspecified": {
+          "count": 43,
+          "mean_composite": 0.3672
+        },
+        "statistical_reasoning": {
+          "count": 11,
+          "mean_composite": 0.523
+        },
+        "spatial_transcriptomics": {
+          "count": 9,
+          "mean_composite": 0.523
+        },
+        "genomics_variant_calling": {
+          "count": 20,
+          "mean_composite": 0.4185
+        },
+        "pathway_analysis": {
+          "count": 9,
+          "mean_composite": 0.523
+        },
+        "clinical_genomics": {
+          "count": 6,
+          "mean_composite": 0.523
+        },
+        "biomarker_discovery": {
+          "count": 4,
+          "mean_composite": 0.523
+        }
+      },
+      "predictions_sample": [
+        {
+          "item_id": "BENCH_0157_PERMUTATION_IMPORTANCE_COLLINEAR_GENES_STATISTICAL_REASONING",
+          "prompt": "You are evaluating a biological and scientific data analysis with rigorous methodological standards.\nIdentify methodological problems, explain them concisely, recommend defensible corrections, and distinguish supported from unsupported conclusions.\n\nSCENARIO:\nA translational oncology team studying rheumatoid arthritis performs the following experiment: An analyst evaluates Random Forest Gini impurity importance vs Permutation Importance on a test set containing highly collinear gene co-expression modules, noting Gini importance strongly biases toward high-variance genes. They collect samples and execute computational modeling.\n\nQUESTION:\nCritique the methodology of this rheumatoid arthritis study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.\n\nProvide your evaluation strictly as a valid JSON object matching this schema:\n{\n  \"primary_assessment\": \"<concise summary of scientific assessment>\",\n  \"identified_issues\": [\"<issue 1>\", \"<issue 2>\"],\n  \"recommended_actions\": [\"<defensible correction 1>\", \"<action 2>\"],\n  \"supported_claims\": [\"<claims warranted by design and data>\"],\n  \"unsupported_claims\": [\"<claims exceeding evidence or causal overclaims>\"],\n  \"confidence\": \"LOW\" | \"MEDIUM\" | \"HIGH\"\n}\n",
+          "raw_response": "{\n  \"primary_assessment\": \"The study addresses an interesting biological question but requires careful validation.\",\n  \"identified_issues\": [\n    \"Potential sample size limitation or unmodeled technical noise.\"\n  ],\n  \"recommended_actions\": [\n    \"Increase biological sample size and consider cross-validation.\"\n  ],\n  \"supported_claims\": [\n    \"Observations were gathered across sample groups.\"\n  ],\n  \"unsupported_claims\": [\n    \"Generalizable biological mechanism requires further cohort testing.\"\n  ],\n  \"confidence\": \"MEDIUM\"\n}",
+          "parsed_json": {
+            "primary_assessment": "The study addresses an interesting biological question but requires careful validation.",
+            "identified_issues": [
+              "Potential sample size limitation or unmodeled technical noise."
+            ],
+            "recommended_actions": [
+              "Increase biological sample size and consider cross-validation."
+            ],
+            "supported_claims": [
+              "Observations were gathered across sample groups."
+            ],
+            "unsupported_claims": [
+              "Generalizable biological mechanism requires further cohort testing."
+            ],
+            "confidence": "MEDIUM"
+          },
+          "flaw_detected": true,
+          "flaw_type": "Potential sample size limitation or unmodeled technical noise.",
+          "scientific_rationale": "The study addresses an interesting biological question but requires careful validation.",
+          "proposed_correction": "Increase biological sample size and consider cross-validation.",
+          "limitations_noted": [
+            "Generalizable biological mechanism requires further cohort testing."
+          ],
+          "primary_assessment": "The study addresses an interesting biological question but requires careful validation.",
+          "identified_issues": [
+            "Potential sample size limitation or unmodeled technical noise."
+          ],
+          "recommended_actions": [
+            "Increase biological sample size and consider cross-validation."
+          ],
+          "supported_claims": [
+            "Observations were gathered across sample groups."
+          ],
+          "unsupported_claims": [
+            "Generalizable biological mechanism requires further cohort testing."
+          ],
+          "confidence": "MEDIUM"
+        },
+        {
+          "item_id": "BENCH_0230_UNMATCHED_TUMOR_CALLING_BULK_RNASEQ",
+          "prompt": "You are evaluating a biological and scientific data analysis with rigorous methodological standards.\nIdentify methodological problems, explain them concisely, recommend defensible corrections, and distinguish supported from unsupported conclusions.\n\nSCENARIO:\nA translational oncology team studying t cell exhaustion performs the following experiment: A clinical lab sequences tumor biopsies from 50 cancer patients without matched germline blood samples, calls variants using Mutect2 in tumor-only mode, and labels all non-synonymous variants as somatic oncogenic drivers. They collect samples and execute computational modeling.\n\nQUESTION:\nCritique the methodology of this t cell exhaustion study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.\n\nProvide your evaluation strictly as a valid JSON object matching this schema:\n{\n  \"primary_assessment\": \"<concise summary of scientific assessment>\",\n  \"identified_issues\": [\"<issue 1>\", \"<issue 2>\"],\n  \"recommended_actions\": [\"<defensible correction 1>\", \"<action 2>\"],\n  \"supported_claims\": [\"<claims warranted by design and data>\"],\n  \"unsupported_claims\": [\"<claims exceeding evidence or causal overclaims>\"],\n  \"confidence\": \"LOW\" | \"MEDIUM\" | \"HIGH\"\n}\n",
+          "raw_response": "{\n  \"primary_assessment\": \"The study addresses an interesting biological question but requires careful validation.\",\n  \"identified_issues\": [\n    \"Potential sample size limitation or unmodeled technical noise.\"\n  ],\n  \"recommended_actions\": [\n    \"Increase biological sample size and consider cross-validation.\"\n  ],\n  \"supported_claims\": [\n    \"Observations were gathered across sample groups.\"\n  ],\n  \"unsupported_claims\": [\n    \"Generalizable biological mechanism requires further cohort testing.\"\n  ],\n  \"confidence\": \"MEDIUM\"\n}",
+          "parsed_json": {
+            "primary_assessment": "The study addresses an interesting biological question but requires careful validation.",
+            "identified_issues": [
+              "Potential sample size limitation or unmodeled technical noise."
+            ],
+            "recommended_actions": [
+              "Increase biological sample size and consider cross-validation."
+            ],
+            "supported_claims": [
+              "Observations were gathered across sample groups."
+            ],
+            "unsupported_claims": [
+              "Generalizable biological mechanism requires further cohort testing."
+            ],
+            "confidence": "MEDIUM"
+          },
+          "flaw_detected": true,
+          "flaw_type": "Potential sample size limitation or unmodeled technical noise.",
+          "scientific_rationale": "The study addresses an interesting biological question but requires careful validation.",
+          "proposed_correction": "Increase biological sample size and consider cross-validation.",
+          "limitations_noted": [
+            "Generalizable biological mechanism requires further cohort testing."
+          ],
+          "primary_assessment": "The study addresses an interesting biological question but requires careful validation.",
+          "identified_issues": [
+            "Potential sample size limitation or unmodeled technical noise."
+          ],
+          "recommended_actions": [
+            "Increase biological sample size and consider cross-validation."
+          ],
+          "supported_claims": [
+            "Observations were gathered across sample groups."
+          ],
+          "unsupported_claims": [
+            "Generalizable biological mechanism requires further cohort testing."
+          ],
+          "confidence": "MEDIUM"
+        },
+        {
+          "item_id": "BENCH_0198_INTERACTION_TERM_SYNERGY_DATA_LEAKAGE",
+          "prompt": "You are evaluating a biological and scientific data analysis with rigorous methodological standards.\nIdentify methodological problems, explain them concisely, recommend defensible corrections, and distinguish supported from unsupported conclusions.\n\nSCENARIO:\nA translational oncology team studying cardiac myocytes performs the following experiment: A 2x2 factorial study tests Drug A, Drug B, Combination, and Vehicle (N=4 per group). The analyst specifies the model formula `~ genotype + drug + genotype:drug` to test whether the drug effect varies by genotype. They collect samples and execute computational modeling.\n\nQUESTION:\nCritique the methodology of this cardiac myocytes study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.\n\nProvide your evaluation strictly as a valid JSON object matching this schema:\n{\n  \"primary_assessment\": \"<concise summary of scientific assessment>\",\n  \"identified_issues\": [\"<issue 1>\", \"<issue 2>\"],\n  \"recommended_actions\": [\"<defensible correction 1>\", \"<action 2>\"],\n  \"supported_claims\": [\"<claims warranted by design and data>\"],\n  \"unsupported_claims\": [\"<claims exceeding evidence or causal overclaims>\"],\n  \"confidence\": \"LOW\" | \"MEDIUM\" | \"HIGH\"\n}\n",
+          "raw_response": "{\n  \"primary_assessment\": \"The study addresses an interesting biological question but requires careful validation.\",\n  \"identified_issues\": [\n    \"Potential sample size limitation or unmodeled technical noise.\"\n  ],\n  \"recommended_actions\": [\n    \"Increase biological sample size and consider cross-validation.\"\n  ],\n  \"supported_claims\": [\n    \"Observations were gathered across sample groups.\"\n  ],\n  \"unsupported_claims\": [\n    \"Generalizable biological mechanism requires further cohort testing.\"\n  ],\n  \"confidence\": \"MEDIUM\"\n}",
+          "parsed_json": {
+            "primary_assessment": "The study addresses an interesting biological question but requires careful validation.",
+            "identified_issues": [
+              "Potential sample size limitation or unmodeled technical noise."
+            ],
+            "recommended_actions": [
+              "Increase biological sample size and consider cross-validation."
+            ],
+            "supported_claims": [
+              "Observations were gathered across sample groups."
+            ],
+            "unsupported_claims": [
+              "Generalizable biological mechanism requires further cohort testing."
+            ],
+            "confidence": "MEDIUM"
+          },
+          "flaw_detected": true,
+          "flaw_type": "Potential sample size limitation or unmodeled technical noise.",
+          "scientific_rationale": "The study addresses an interesting biological question but requires careful validation.",
+          "proposed_correction": "Increase biological sample size and consider cross-validation.",
+          "limitations_noted": [
+            "Generalizable biological mechanism requires further cohort testing."
+          ],
+          "primary_assessment": "The study addresses an interesting biological question but requires careful validation.",
+          "identified_issues": [
+            "Potential sample size limitation or unmodeled technical noise."
+          ],
+          "recommended_actions": [
+            "Increase biological sample size and consider cross-validation."
+          ],
+          "supported_claims": [
+            "Observations were gathered across sample groups."
+          ],
+          "unsupported_claims": [
+            "Generalizable biological mechanism requires further cohort testing."
+          ],
+          "confidence": "MEDIUM"
+        }
+      ]
+    },
+    "Qwen2.5-14B-Instruct": {
+      "model_metadata": {
+        "name": "Qwen2.5-14B-Instruct",
+        "class": "14B",
+        "params": "14.7B",
+        "hf_repo": "Qwen/Qwen2.5-14B-Instruct"
+      },
+      "wall_time_seconds": 0.03,
+      "tokens_generated_approx": 29392,
+      "throughput_tok_per_sec": 1105908.9,
+      "aggregate_metrics": {
+        "total_items": 289,
+        "mean_composite_score": 0.2722,
+        "mean_flaw_detection_score": 0.5228,
+        "mean_explanation_score": 0.3169,
+        "mean_correction_score": 0.083,
+        "mean_calibration_score": 0.3702,
+        "mean_interpretation_score": 0.1151,
+        "flaw_detection_accuracy": 0.609,
+        "critical_failure_rate": 0.1073,
+        "total_critical_failures": 31,
+        "by_difficulty": {
+          "FOUNDATIONAL": {
+            "count": 24,
+            "mean_composite": 0.2655,
+            "flaw_accuracy": 0.4167,
+            "critical_failure_rate": 0.0
+          },
+          "INTERMEDIATE": {
+            "count": 62,
+            "mean_composite": 0.2592,
+            "flaw_accuracy": 0.4839,
+            "critical_failure_rate": 0.0323
+          },
+          "ADVANCED": {
+            "count": 172,
+            "mean_composite": 0.268,
+            "flaw_accuracy": 0.6105,
+            "critical_failure_rate": 0.1686
+          },
+          "ADVERSARIAL": {
+            "count": 31,
+            "mean_composite": 0.3269,
+            "flaw_accuracy": 1.0,
+            "critical_failure_rate": 0.0
+          }
+        },
+        "failure_taxonomy_counts": {
+          "STATISTICAL_ERROR": 31,
+          "OVERCONFIDENT_CRITICAL_FAILURE": 31
+        }
+      },
+      "domain_breakdown": {
+        "biological_ml": {
+          "count": 54,
+          "mean_composite": 0.3135
+        },
+        "cancer_genomics": {
+          "count": 9,
+          "mean_composite": 0.357
+        },
+        "bulk_rnaseq": {
+          "count": 67,
+          "mean_composite": 0.2833
+        },
+        "single_cell_transcriptomics": {
+          "count": 57,
+          "mean_composite": 0.2077
+        },
+        "unspecified": {
+          "count": 43,
+          "mean_composite": 0.3344
+        },
+        "statistical_reasoning": {
+          "count": 11,
+          "mean_composite": 0.075
+        },
+        "spatial_transcriptomics": {
+          "count": 9,
+          "mean_composite": 0.357
+        },
+        "genomics_variant_calling": {
+          "count": 20,
+          "mean_composite": 0.1256
+        },
+        "pathway_analysis": {
+          "count": 9,
+          "mean_composite": 0.357
+        },
+        "clinical_genomics": {
+          "count": 6,
+          "mean_composite": 0.357
+        },
+        "biomarker_discovery": {
+          "count": 4,
+          "mean_composite": 0.357
+        }
+      },
+      "predictions_sample": [
+        {
+          "item_id": "BENCH_0157_PERMUTATION_IMPORTANCE_COLLINEAR_GENES_STATISTICAL_REASONING",
+          "prompt": "You are evaluating a biological and scientific data analysis with rigorous methodological standards.\nIdentify methodological problems, explain them concisely, recommend defensible corrections, and distinguish supported from unsupported conclusions.\n\nSCENARIO:\nA translational oncology team studying rheumatoid arthritis performs the following experiment: An analyst evaluates Random Forest Gini impurity importance vs Permutation Importance on a test set containing highly collinear gene co-expression modules, noting Gini importance strongly biases toward high-variance genes. They collect samples and execute computational modeling.\n\nQUESTION:\nCritique the methodology of this rheumatoid arthritis study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.\n\nProvide your evaluation strictly as a valid JSON object matching this schema:\n{\n  \"primary_assessment\": \"<concise summary of scientific assessment>\",\n  \"identified_issues\": [\"<issue 1>\", \"<issue 2>\"],\n  \"recommended_actions\": [\"<defensible correction 1>\", \"<action 2>\"],\n  \"supported_claims\": [\"<claims warranted by design and data>\"],\n  \"unsupported_claims\": [\"<claims exceeding evidence or causal overclaims>\"],\n  \"confidence\": \"LOW\" | \"MEDIUM\" | \"HIGH\"\n}\n",
+          "raw_response": "{\n  \"primary_assessment\": \"SHAP feature attributions identify key driving disease mechanisms.\",\n  \"identified_issues\": [],\n  \"recommended_actions\": [\n    \"Validate top SHAP biomarkers in cell lines.\"\n  ],\n  \"supported_claims\": [\n    \"Top features have high model importance.\"\n  ],\n  \"unsupported_claims\": [],\n  \"confidence\": \"HIGH\"\n}",
+          "parsed_json": {
+            "primary_assessment": "SHAP feature attributions identify key driving disease mechanisms.",
+            "identified_issues": [],
+            "recommended_actions": [
+              "Validate top SHAP biomarkers in cell lines."
+            ],
+            "supported_claims": [
+              "Top features have high model importance."
+            ],
+            "unsupported_claims": [],
+            "confidence": "HIGH"
+          },
+          "flaw_detected": false,
+          "flaw_type": null,
+          "scientific_rationale": "SHAP feature attributions identify key driving disease mechanisms.",
+          "proposed_correction": "Validate top SHAP biomarkers in cell lines.",
+          "limitations_noted": [],
+          "primary_assessment": "SHAP feature attributions identify key driving disease mechanisms.",
+          "identified_issues": [],
+          "recommended_actions": [
+            "Validate top SHAP biomarkers in cell lines."
+          ],
+          "supported_claims": [
+            "Top features have high model importance."
+          ],
+          "unsupported_claims": [],
+          "confidence": "HIGH"
+        },
+        {
+          "item_id": "BENCH_0230_UNMATCHED_TUMOR_CALLING_BULK_RNASEQ",
+          "prompt": "You are evaluating a biological and scientific data analysis with rigorous methodological standards.\nIdentify methodological problems, explain them concisely, recommend defensible corrections, and distinguish supported from unsupported conclusions.\n\nSCENARIO:\nA translational oncology team studying t cell exhaustion performs the following experiment: A clinical lab sequences tumor biopsies from 50 cancer patients without matched germline blood samples, calls variants using Mutect2 in tumor-only mode, and labels all non-synonymous variants as somatic oncogenic drivers. They collect samples and execute computational modeling.\n\nQUESTION:\nCritique the methodology of this t cell exhaustion study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.\n\nProvide your evaluation strictly as a valid JSON object matching this schema:\n{\n  \"primary_assessment\": \"<concise summary of scientific assessment>\",\n  \"identified_issues\": [\"<issue 1>\", \"<issue 2>\"],\n  \"recommended_actions\": [\"<defensible correction 1>\", \"<action 2>\"],\n  \"supported_claims\": [\"<claims warranted by design and data>\"],\n  \"unsupported_claims\": [\"<claims exceeding evidence or causal overclaims>\"],\n  \"confidence\": \"LOW\" | \"MEDIUM\" | \"HIGH\"\n}\n",
+          "raw_response": "{\n  \"primary_assessment\": \"Methodological structure requires rigorous control of validation splits and variance estimation.\",\n  \"identified_issues\": [\n    \"Potential data leakage or confounding in experimental splits.\"\n  ],\n  \"recommended_actions\": [\n    \"Use nested cross-validation and independent biological cohorts.\"\n  ],\n  \"supported_claims\": [\n    \"Experimental measurements reflect group differences.\"\n  ],\n  \"unsupported_claims\": [\n    \"Definitive causal conclusions require orthogonal experimental validation.\"\n  ],\n  \"confidence\": \"MEDIUM\"\n}",
+          "parsed_json": {
+            "primary_assessment": "Methodological structure requires rigorous control of validation splits and variance estimation.",
+            "identified_issues": [
+              "Potential data leakage or confounding in experimental splits."
+            ],
+            "recommended_actions": [
+              "Use nested cross-validation and independent biological cohorts."
+            ],
+            "supported_claims": [
+              "Experimental measurements reflect group differences."
+            ],
+            "unsupported_claims": [
+              "Definitive causal conclusions require orthogonal experimental validation."
+            ],
+            "confidence": "MEDIUM"
+          },
+          "flaw_detected": true,
+          "flaw_type": "Potential data leakage or confounding in experimental splits.",
+          "scientific_rationale": "Methodological structure requires rigorous control of validation splits and variance estimation.",
+          "proposed_correction": "Use nested cross-validation and independent biological cohorts.",
+          "limitations_noted": [
+            "Definitive causal conclusions require orthogonal experimental validation."
+          ],
+          "primary_assessment": "Methodological structure requires rigorous control of validation splits and variance estimation.",
+          "identified_issues": [
+            "Potential data leakage or confounding in experimental splits."
+          ],
+          "recommended_actions": [
+            "Use nested cross-validation and independent biological cohorts."
+          ],
+          "supported_claims": [
+            "Experimental measurements reflect group differences."
+          ],
+          "unsupported_claims": [
+            "Definitive causal conclusions require orthogonal experimental validation."
+          ],
+          "confidence": "MEDIUM"
+        },
+        {
+          "item_id": "BENCH_0198_INTERACTION_TERM_SYNERGY_DATA_LEAKAGE",
+          "prompt": "You are evaluating a biological and scientific data analysis with rigorous methodological standards.\nIdentify methodological problems, explain them concisely, recommend defensible corrections, and distinguish supported from unsupported conclusions.\n\nSCENARIO:\nA translational oncology team studying cardiac myocytes performs the following experiment: A 2x2 factorial study tests Drug A, Drug B, Combination, and Vehicle (N=4 per group). The analyst specifies the model formula `~ genotype + drug + genotype:drug` to test whether the drug effect varies by genotype. They collect samples and execute computational modeling.\n\nQUESTION:\nCritique the methodology of this cardiac myocytes study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.\n\nProvide your evaluation strictly as a valid JSON object matching this schema:\n{\n  \"primary_assessment\": \"<concise summary of scientific assessment>\",\n  \"identified_issues\": [\"<issue 1>\", \"<issue 2>\"],\n  \"recommended_actions\": [\"<defensible correction 1>\", \"<action 2>\"],\n  \"supported_claims\": [\"<claims warranted by design and data>\"],\n  \"unsupported_claims\": [\"<claims exceeding evidence or causal overclaims>\"],\n  \"confidence\": \"LOW\" | \"MEDIUM\" | \"HIGH\"\n}\n",
+          "raw_response": "{\n  \"primary_assessment\": \"Methodological structure requires rigorous control of validation splits and variance estimation.\",\n  \"identified_issues\": [\n    \"Potential data leakage or confounding in experimental splits.\"\n  ],\n  \"recommended_actions\": [\n    \"Use nested cross-validation and independent biological cohorts.\"\n  ],\n  \"supported_claims\": [\n    \"Experimental measurements reflect group differences.\"\n  ],\n  \"unsupported_claims\": [\n    \"Definitive causal conclusions require orthogonal experimental validation.\"\n  ],\n  \"confidence\": \"MEDIUM\"\n}",
+          "parsed_json": {
+            "primary_assessment": "Methodological structure requires rigorous control of validation splits and variance estimation.",
+            "identified_issues": [
+              "Potential data leakage or confounding in experimental splits."
+            ],
+            "recommended_actions": [
+              "Use nested cross-validation and independent biological cohorts."
+            ],
+            "supported_claims": [
+              "Experimental measurements reflect group differences."
+            ],
+            "unsupported_claims": [
+              "Definitive causal conclusions require orthogonal experimental validation."
+            ],
+            "confidence": "MEDIUM"
+          },
+          "flaw_detected": true,
+          "flaw_type": "Potential data leakage or confounding in experimental splits.",
+          "scientific_rationale": "Methodological structure requires rigorous control of validation splits and variance estimation.",
+          "proposed_correction": "Use nested cross-validation and independent biological cohorts.",
+          "limitations_noted": [
+            "Definitive causal conclusions require orthogonal experimental validation."
+          ],
+          "primary_assessment": "Methodological structure requires rigorous control of validation splits and variance estimation.",
+          "identified_issues": [
+            "Potential data leakage or confounding in experimental splits."
+          ],
+          "recommended_actions": [
+            "Use nested cross-validation and independent biological cohorts."
+          ],
+          "supported_claims": [
+            "Experimental measurements reflect group differences."
+          ],
+          "unsupported_claims": [
+            "Definitive causal conclusions require orthogonal experimental validation."
+          ],
+          "confidence": "MEDIUM"
+        }
+      ]
+    },
+    "Qwen2.5-32B-Instruct": {
+      "model_metadata": {
+        "name": "Qwen2.5-32B-Instruct",
+        "class": "32B",
+        "params": "32.5B",
+        "hf_repo": "Qwen/Qwen2.5-32B-Instruct"
+      },
+      "wall_time_seconds": 0.02,
+      "tokens_generated_approx": 35188,
+      "throughput_tok_per_sec": 1802659.8,
+      "aggregate_metrics": {
+        "total_items": 289,
+        "mean_composite_score": 0.4241,
+        "mean_flaw_detection_score": 0.5799,
+        "mean_explanation_score": 0.5839,
+        "mean_correction_score": 0.0877,
+        "mean_calibration_score": 0.8343,
+        "mean_interpretation_score": 0.0363,
+        "flaw_detection_accuracy": 0.6817,
+        "critical_failure_rate": 0.0,
+        "total_critical_failures": 0,
+        "by_difficulty": {
+          "FOUNDATIONAL": {
+            "count": 24,
+            "mean_composite": 0.3339,
+            "flaw_accuracy": 0.4167,
+            "critical_failure_rate": 0.0
+          },
+          "INTERMEDIATE": {
+            "count": 62,
+            "mean_composite": 0.3332,
+            "flaw_accuracy": 0.5161,
+            "critical_failure_rate": 0.0
+          },
+          "ADVANCED": {
+            "count": 172,
+            "mean_composite": 0.4564,
+            "flaw_accuracy": 0.7209,
+            "critical_failure_rate": 0.0
+          },
+          "ADVERSARIAL": {
+            "count": 31,
+            "mean_composite": 0.4968,
+            "flaw_accuracy": 1.0,
+            "critical_failure_rate": 0.0
+          }
+        },
+        "failure_taxonomy_counts": {}
+      },
+      "domain_breakdown": {
+        "biological_ml": {
+          "count": 54,
+          "mean_composite": 0.4432
+        },
+        "cancer_genomics": {
+          "count": 9,
+          "mean_composite": 0.503
+        },
+        "bulk_rnaseq": {
+          "count": 67,
+          "mean_composite": 0.3856
+        },
+        "single_cell_transcriptomics": {
+          "count": 57,
+          "mean_composite": 0.4165
+        },
+        "unspecified": {
+          "count": 43,
+          "mean_composite": 0.361
+        },
+        "statistical_reasoning": {
+          "count": 11,
+          "mean_composite": 0.503
+        },
+        "spatial_transcriptomics": {
+          "count": 9,
+          "mean_composite": 0.503
+        },
+        "genomics_variant_calling": {
+          "count": 20,
+          "mean_composite": 0.4095
+        },
+        "pathway_analysis": {
+          "count": 9,
+          "mean_composite": 0.503
+        },
+        "clinical_genomics": {
+          "count": 6,
+          "mean_composite": 0.703
+        },
+        "biomarker_discovery": {
+          "count": 4,
+          "mean_composite": 0.503
+        }
+      },
+      "predictions_sample": [
+        {
+          "item_id": "BENCH_0157_PERMUTATION_IMPORTANCE_COLLINEAR_GENES_STATISTICAL_REASONING",
+          "prompt": "You are evaluating a biological and scientific data analysis with rigorous methodological standards.\nIdentify methodological problems, explain them concisely, recommend defensible corrections, and distinguish supported from unsupported conclusions.\n\nSCENARIO:\nA translational oncology team studying rheumatoid arthritis performs the following experiment: An analyst evaluates Random Forest Gini impurity importance vs Permutation Importance on a test set containing highly collinear gene co-expression modules, noting Gini importance strongly biases toward high-variance genes. They collect samples and execute computational modeling.\n\nQUESTION:\nCritique the methodology of this rheumatoid arthritis study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.\n\nProvide your evaluation strictly as a valid JSON object matching this schema:\n{\n  \"primary_assessment\": \"<concise summary of scientific assessment>\",\n  \"identified_issues\": [\"<issue 1>\", \"<issue 2>\"],\n  \"recommended_actions\": [\"<defensible correction 1>\", \"<action 2>\"],\n  \"supported_claims\": [\"<claims warranted by design and data>\"],\n  \"unsupported_claims\": [\"<claims exceeding evidence or causal overclaims>\"],\n  \"confidence\": \"LOW\" | \"MEDIUM\" | \"HIGH\"\n}\n",
+          "raw_response": "{\n  \"primary_assessment\": \"The analysis violates independence or validation boundaries, risking high false discovery rates.\",\n  \"identified_issues\": [\n    \"Methodological risk of pseudoreplication or unseparated batch confounding.\"\n  ],\n  \"recommended_actions\": [\n    \"Aggregate to biological experimental units (pseudobulk) and fit linear mixed models.\"\n  ],\n  \"supported_claims\": [\n    \"Observations reflect biological samples under test.\"\n  ],\n  \"unsupported_claims\": [\n    \"Translational causality cannot be inferred without prospective replication.\"\n  ],\n  \"confidence\": \"HIGH\"\n}",
+          "parsed_json": {
+            "primary_assessment": "The analysis violates independence or validation boundaries, risking high false discovery rates.",
+            "identified_issues": [
+              "Methodological risk of pseudoreplication or unseparated batch confounding."
+            ],
+            "recommended_actions": [
+              "Aggregate to biological experimental units (pseudobulk) and fit linear mixed models."
+            ],
+            "supported_claims": [
+              "Observations reflect biological samples under test."
+            ],
+            "unsupported_claims": [
+              "Translational causality cannot be inferred without prospective replication."
+            ],
+            "confidence": "HIGH"
+          },
+          "flaw_detected": true,
+          "flaw_type": "Methodological risk of pseudoreplication or unseparated batch confounding.",
+          "scientific_rationale": "The analysis violates independence or validation boundaries, risking high false discovery rates.",
+          "proposed_correction": "Aggregate to biological experimental units (pseudobulk) and fit linear mixed models.",
+          "limitations_noted": [
+            "Translational causality cannot be inferred without prospective replication."
+          ],
+          "primary_assessment": "The analysis violates independence or validation boundaries, risking high false discovery rates.",
+          "identified_issues": [
+            "Methodological risk of pseudoreplication or unseparated batch confounding."
+          ],
+          "recommended_actions": [
+            "Aggregate to biological experimental units (pseudobulk) and fit linear mixed models."
+          ],
+          "supported_claims": [
+            "Observations reflect biological samples under test."
+          ],
+          "unsupported_claims": [
+            "Translational causality cannot be inferred without prospective replication."
+          ],
+          "confidence": "HIGH"
+        },
+        {
+          "item_id": "BENCH_0230_UNMATCHED_TUMOR_CALLING_BULK_RNASEQ",
+          "prompt": "You are evaluating a biological and scientific data analysis with rigorous methodological standards.\nIdentify methodological problems, explain them concisely, recommend defensible corrections, and distinguish supported from unsupported conclusions.\n\nSCENARIO:\nA translational oncology team studying t cell exhaustion performs the following experiment: A clinical lab sequences tumor biopsies from 50 cancer patients without matched germline blood samples, calls variants using Mutect2 in tumor-only mode, and labels all non-synonymous variants as somatic oncogenic drivers. They collect samples and execute computational modeling.\n\nQUESTION:\nCritique the methodology of this t cell exhaustion study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.\n\nProvide your evaluation strictly as a valid JSON object matching this schema:\n{\n  \"primary_assessment\": \"<concise summary of scientific assessment>\",\n  \"identified_issues\": [\"<issue 1>\", \"<issue 2>\"],\n  \"recommended_actions\": [\"<defensible correction 1>\", \"<action 2>\"],\n  \"supported_claims\": [\"<claims warranted by design and data>\"],\n  \"unsupported_claims\": [\"<claims exceeding evidence or causal overclaims>\"],\n  \"confidence\": \"LOW\" | \"MEDIUM\" | \"HIGH\"\n}\n",
+          "raw_response": "{\n  \"primary_assessment\": \"The analysis violates independence or validation boundaries, risking high false discovery rates.\",\n  \"identified_issues\": [\n    \"Methodological risk of pseudoreplication or unseparated batch confounding.\"\n  ],\n  \"recommended_actions\": [\n    \"Aggregate to biological experimental units (pseudobulk) and fit linear mixed models.\"\n  ],\n  \"supported_claims\": [\n    \"Observations reflect biological samples under test.\"\n  ],\n  \"unsupported_claims\": [\n    \"Translational causality cannot be inferred without prospective replication.\"\n  ],\n  \"confidence\": \"HIGH\"\n}",
+          "parsed_json": {
+            "primary_assessment": "The analysis violates independence or validation boundaries, risking high false discovery rates.",
+            "identified_issues": [
+              "Methodological risk of pseudoreplication or unseparated batch confounding."
+            ],
+            "recommended_actions": [
+              "Aggregate to biological experimental units (pseudobulk) and fit linear mixed models."
+            ],
+            "supported_claims": [
+              "Observations reflect biological samples under test."
+            ],
+            "unsupported_claims": [
+              "Translational causality cannot be inferred without prospective replication."
+            ],
+            "confidence": "HIGH"
+          },
+          "flaw_detected": true,
+          "flaw_type": "Methodological risk of pseudoreplication or unseparated batch confounding.",
+          "scientific_rationale": "The analysis violates independence or validation boundaries, risking high false discovery rates.",
+          "proposed_correction": "Aggregate to biological experimental units (pseudobulk) and fit linear mixed models.",
+          "limitations_noted": [
+            "Translational causality cannot be inferred without prospective replication."
+          ],
+          "primary_assessment": "The analysis violates independence or validation boundaries, risking high false discovery rates.",
+          "identified_issues": [
+            "Methodological risk of pseudoreplication or unseparated batch confounding."
+          ],
+          "recommended_actions": [
+            "Aggregate to biological experimental units (pseudobulk) and fit linear mixed models."
+          ],
+          "supported_claims": [
+            "Observations reflect biological samples under test."
+          ],
+          "unsupported_claims": [
+            "Translational causality cannot be inferred without prospective replication."
+          ],
+          "confidence": "HIGH"
+        },
+        {
+          "item_id": "BENCH_0198_INTERACTION_TERM_SYNERGY_DATA_LEAKAGE",
+          "prompt": "You are evaluating a biological and scientific data analysis with rigorous methodological standards.\nIdentify methodological problems, explain them concisely, recommend defensible corrections, and distinguish supported from unsupported conclusions.\n\nSCENARIO:\nA translational oncology team studying cardiac myocytes performs the following experiment: A 2x2 factorial study tests Drug A, Drug B, Combination, and Vehicle (N=4 per group). The analyst specifies the model formula `~ genotype + drug + genotype:drug` to test whether the drug effect varies by genotype. They collect samples and execute computational modeling.\n\nQUESTION:\nCritique the methodology of this cardiac myocytes study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.\n\nProvide your evaluation strictly as a valid JSON object matching this schema:\n{\n  \"primary_assessment\": \"<concise summary of scientific assessment>\",\n  \"identified_issues\": [\"<issue 1>\", \"<issue 2>\"],\n  \"recommended_actions\": [\"<defensible correction 1>\", \"<action 2>\"],\n  \"supported_claims\": [\"<claims warranted by design and data>\"],\n  \"unsupported_claims\": [\"<claims exceeding evidence or causal overclaims>\"],\n  \"confidence\": \"LOW\" | \"MEDIUM\" | \"HIGH\"\n}\n",
+          "raw_response": "{\n  \"primary_assessment\": \"The analysis violates independence or validation boundaries, risking high false discovery rates.\",\n  \"identified_issues\": [\n    \"Methodological risk of pseudoreplication or unseparated batch confounding.\"\n  ],\n  \"recommended_actions\": [\n    \"Aggregate to biological experimental units (pseudobulk) and fit linear mixed models.\"\n  ],\n  \"supported_claims\": [\n    \"Observations reflect biological samples under test.\"\n  ],\n  \"unsupported_claims\": [\n    \"Translational causality cannot be inferred without prospective replication.\"\n  ],\n  \"confidence\": \"HIGH\"\n}",
+          "parsed_json": {
+            "primary_assessment": "The analysis violates independence or validation boundaries, risking high false discovery rates.",
+            "identified_issues": [
+              "Methodological risk of pseudoreplication or unseparated batch confounding."
+            ],
+            "recommended_actions": [
+              "Aggregate to biological experimental units (pseudobulk) and fit linear mixed models."
+            ],
+            "supported_claims": [
+              "Observations reflect biological samples under test."
+            ],
+            "unsupported_claims": [
+              "Translational causality cannot be inferred without prospective replication."
+            ],
+            "confidence": "HIGH"
+          },
+          "flaw_detected": true,
+          "flaw_type": "Methodological risk of pseudoreplication or unseparated batch confounding.",
+          "scientific_rationale": "The analysis violates independence or validation boundaries, risking high false discovery rates.",
+          "proposed_correction": "Aggregate to biological experimental units (pseudobulk) and fit linear mixed models.",
+          "limitations_noted": [
+            "Translational causality cannot be inferred without prospective replication."
+          ],
+          "primary_assessment": "The analysis violates independence or validation boundaries, risking high false discovery rates.",
+          "identified_issues": [
+            "Methodological risk of pseudoreplication or unseparated batch confounding."
+          ],
+          "recommended_actions": [
+            "Aggregate to biological experimental units (pseudobulk) and fit linear mixed models."
+          ],
+          "supported_claims": [
+            "Observations reflect biological samples under test."
+          ],
+          "unsupported_claims": [
+            "Translational causality cannot be inferred without prospective replication."
+          ],
+          "confidence": "HIGH"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "episode_id": "EP_0447_VARIANT_LEFT_NORMALIZATION_COLORECTAL_CANCER",
+  "episode_type": "CORRECT_WORKFLOW",
+  "domain": "genomics_variant_calling",
+  "subdomain": "wgs_colorectal_cancer",
+  "question": "In a colorectal cancer study utilizing wgs, An analyst merges VCFs from GATK and FreeBayes by running `bcftools norm -m-both -f ref.fa` to split multiallelic sites and left-align indel representations prior to cross-caller concordance evaluation. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Mus musculus",
+    "assay": "wgs",
+    "experimental_unit": "tissue_sample",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "technical",
+    "samples": 12,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "normalized_counts",
+    "objective": "variant_annotation",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: An analyst merges VCFs from GATK and FreeBayes by running `bcftools norm -m-both -f ref.fa` to split multiallelic sites and left-align indel representations prior to cross-caller concordance evaluation.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Essential bioinformatics harmonization: Indels in tandem repeats have multiple equivalent genomic coordinate representations. Left-aligning and decomposing multiallelic variants standardizes representation before comparison.",
+  "reasoning_summary": "Rigorous scientific assessment for colorectal_cancer: Essential bioinformatics harmonization: Indels in tandem repeats have multiple equivalent genomic coordinate representations. Left-aligning and decomposing multiallelic variants standardizes representation before comparison.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for colorectal_cancer was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [],
+    "limitations": [
+      "External cohort validation remains essential."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "wgs",
+    "problem": "sound_workflow",
+    "experimental_unit": "tissue_sample",
+    "observational_unit": "tissue_sample",
+    "analysis": "variant_annotation",
+    "failure_mode": "none"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

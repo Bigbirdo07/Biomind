@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0236_POOR_CALIBRATION_HIGH_AUC_T_CELL_EXHAUSTION",
+  "episode_type": "DIAGNOSE_FAILURE",
+  "domain": "biological_ml",
+  "subdomain": "microarray_t_cell_exhaustion",
+  "question": "In a t cell exhaustion study utilizing microarray, A sepsis prediction model achieves ROC-AUC = 0.91, but when deployed at a 50% predicted risk threshold, it classifies 85% of non-septic patients as high risk. Brier score is 0.38 and calibration curve shows extreme overconfidence. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "microarray",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "normalized_counts",
+    "objective": "supervised_classification",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: A sepsis prediction model achieves ROC-AUC = 0.91, but when deployed at a 50% predicted risk threshold, it classifies 85% of non-septic patients as high risk. Brier score is 0.38 and calibration curve shows extreme overconfidence.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "High ROC-AUC only measures ranking discrimination, not probability calibration. A model can rank well while outputting severely uncalibrated risk probabilities. Platt scaling, isotonic regression, or decision-curve analysis are required.",
+  "reasoning_summary": "Rigorous scientific assessment for t_cell_exhaustion: High ROC-AUC only measures ranking discrimination, not probability calibration. A model can rank well while outputting severely uncalibrated risk probabilities. Platt scaling, isotonic regression, or decision-curve analysis are required.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for t_cell_exhaustion was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in t_cell_exhaustion.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of uncalibrated_risk_probabilities."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "microarray",
+    "problem": "uncalibrated_risk_probabilities",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "supervised_classification",
+    "failure_mode": "uncalibrated_risk_probabilities"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

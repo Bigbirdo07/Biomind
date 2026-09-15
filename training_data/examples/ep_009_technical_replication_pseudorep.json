@@ -2,28 +2,38 @@
   "episode_id": "EP_009_TECHNICAL_REPLICATION_PSEUDOREP",
   "episode_type": "FLAWED_WORKFLOW",
   "domain": "bulk_rnaseq",
+  "subdomain": null,
   "question": "RNA from 2 treated mice was split across 5 sequencing lanes each, yielding 10 FASTQ files. The analyst performs DESeq2 differential expression treating N=10 vs N=10 controls. Evaluate.",
   "experiment": {
     "organism": "Mus musculus",
     "assay": "bulk_rna_seq",
     "experimental_unit": "animal",
     "observational_unit": "technical_replicate",
+    "analysis_unit": null,
     "replicate_type": "technical",
     "samples": 4,
+    "total_observations": null,
     "groups": [
       {
         "name": "Treated",
         "sample_count": 2,
-        "technical_replicates_per_sample": 5
+        "cell_count": null,
+        "technical_replicates_per_sample": 5,
+        "description": null
       },
       {
         "name": "Control",
         "sample_count": 2,
-        "technical_replicates_per_sample": 5
+        "cell_count": null,
+        "technical_replicates_per_sample": 5,
+        "description": null
       }
     ],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "raw_counts",
-    "objective": "differential_expression"
+    "objective": "differential_expression",
+    "description": null
   },
   "proposed_analysis": "Treat the 10 technical lane replicates as 10 independent biological samples in DESeq2.",
   "scientific_checks": {
@@ -40,13 +50,15 @@
     "supported_claims": [
       {
         "statement": "Technical sequencing replicates were generated across 5 lanes.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "Differential expression p-values accurately reflect biological population variance.",
-        "level": "STATISTICAL_INFERENCE"
+        "level": "STATISTICAL_INFERENCE",
+        "justification": null
       }
     ],
     "limitations": [
@@ -64,7 +76,12 @@
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Blainey et al. (2014) Nature Methods 11:879-880"
+    "citation": "Blainey et al. (2014) Nature Methods 11:879-880",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Blainey et al. (2014) Nature Methods 11:879-880"

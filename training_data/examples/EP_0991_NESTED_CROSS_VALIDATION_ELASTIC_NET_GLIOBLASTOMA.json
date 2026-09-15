@@ -1,0 +1,92 @@
+{
+  "episode_id": "EP_0991_NESTED_CROSS_VALIDATION_ELASTIC_NET_GLIOBLASTOMA",
+  "episode_type": "CORRECT_WORKFLOW",
+  "domain": "biological_ml",
+  "subdomain": "bulk_rna_seq_glioblastoma",
+  "question": "In a glioblastoma study utilizing bulk rna seq, To classify drug sensitivity across 180 patient-derived xenografts, an analyst uses 5-fold outer cross-validation with an inner 5-fold CV loop for hyperparameter tuning and Elastic Net alpha/l1_ratio selection. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "supervised_classification",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: To classify drug sensitivity across 180 patient-derived xenografts, an analyst uses 5-fold outer cross-validation with an inner 5-fold CV loop for hyperparameter tuning and Elastic Net alpha/l1_ratio selection.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Best-practice nested cross-validation: Completely isolates model hyperparameter selection and feature regularization from outer test evaluation folds, yielding unbiased generalization performance estimates.",
+  "reasoning_summary": "Rigorous scientific assessment for glioblastoma: Best-practice nested cross-validation: Completely isolates model hyperparameter selection and feature regularization from outer test evaluation folds, yielding unbiased generalization performance estimates.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for glioblastoma was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [],
+    "limitations": [
+      "External cohort validation remains essential."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "sound_workflow",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "supervised_classification",
+    "failure_mode": "none"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

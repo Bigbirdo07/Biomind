@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0315_UNSTABLE_SIGNATURE_BIOMARKER_LADDER_IPSC_DERIVED_NEURONS",
+  "episode_type": "ASSESS_CLAIM",
+  "domain": "biomarker_discovery",
+  "subdomain": "proteomics_ipsc_derived_neurons",
+  "question": "In a ipsc derived neurons study utilizing proteomics, A team identifies 15 plasma proteins correlated with immunotherapy response in a discovery cohort of N=45 patients (CV AUC=0.88). They declare this signature a 'Level 6 Clinical Utility Ready Diagnostic' without external cohort testing. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "proteomics",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "normalized_counts",
+    "objective": "biomarker_discovery",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: A team identifies 15 plasma proteins correlated with immunotherapy response in a discovery cohort of N=45 patients (CV AUC=0.88). They declare this signature a 'Level 6 Clinical Utility Ready Diagnostic' without external cohort testing.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "According to the BioReason Biomarker Evidence Ladder, this signature is at Level 1 (internally candidate/stable). It has not achieved Level 3 (independent external cohort replication), Level 5 (prospective trial), or Level 6 (demonstrated clinical utility).",
+  "reasoning_summary": "Rigorous scientific assessment for ipsc_derived_neurons: According to the BioReason Biomarker Evidence Ladder, this signature is at Level 1 (internally candidate/stable). It has not achieved Level 3 (independent external cohort replication), Level 5 (prospective trial), or Level 6 (demonstrated clinical utility).",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for ipsc_derived_neurons was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in ipsc_derived_neurons.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of biomarker_evidence_level_overclaim."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "proteomics",
+    "problem": "biomarker_evidence_level_overclaim",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "biomarker_discovery",
+    "failure_mode": "biomarker_evidence_level_overclaim"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

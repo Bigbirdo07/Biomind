@@ -8,24 +8,37 @@
     "organism": "Homo sapiens",
     "assay": "bulk_rna_seq",
     "experimental_unit": "cell_culture_dish",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 40,
+    "total_observations": null,
     "groups": [
       {
         "name": "WildType",
-        "sample_count": 20
+        "sample_count": 20,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       },
       {
         "name": "Knockout",
-        "sample_count": 20
+        "sample_count": 20,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       }
     ],
+    "covariates": [],
     "batch_structure": {
       "batch_variable": "flowcell_date",
       "batch_count": 2,
-      "confounded_with_group": true
+      "confounded_with_group": true,
+      "notes": null
     },
     "input_data_type": "raw_counts",
-    "objective": "differential_expression"
+    "objective": "differential_expression",
+    "description": null
   },
   "proposed_analysis": "Run DESeq2 with ~ condition and apply ComBat or limma::removeBatchEffect to remove the batch effect.",
   "scientific_checks": {
@@ -42,13 +55,15 @@
     "supported_claims": [
       {
         "statement": "4,500 genes showed significant expression differences between the two sequencing runs.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "The 4,500 genes are biologically downstream of the knockout gene.",
-        "level": "CAUSAL_CLAIM"
+        "level": "CAUSAL_CLAIM",
+        "justification": null
       }
     ],
     "limitations": [
@@ -59,13 +74,19 @@
     "assay": "bulk_rna_seq",
     "problem": "confounding",
     "experimental_unit": "cell_culture_dish",
+    "observational_unit": "same",
     "analysis": "differential_expression",
     "failure_mode": "collinear_batch_and_condition"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Leek et al. (2010) Nature Reviews Genetics 11:733-739"
+    "citation": "Leek et al. (2010) Nature Reviews Genetics 11:733-739",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Leek et al. (2010) Nature Reviews Genetics 11:733-739"

@@ -1,0 +1,133 @@
+{
+  "item_id": "BENCH_0284_UNMATCHED_TUMOR_CALLING_REPRODUCIBILITY",
+  "domain": "cancer_genomics",
+  "subdomain": "wes_renal_clear_cell",
+  "difficulty": "ADVANCED",
+  "category": "reproducibility",
+  "scenario": "A translational oncology team studying renal clear cell performs the following experiment: A clinical lab sequences tumor biopsies from 50 cancer patients without matched germline blood samples, calls variants using Mutect2 in tumor-only mode, and labels all non-synonymous variants as somatic oncogenic drivers. They collect samples and execute computational modeling.",
+  "question": "Critique the methodology of this renal clear cell study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.",
+  "flawed_analysis_present": true,
+  "flaw_type": "germline_contamination_unmatched_tumor",
+  "ground_truth_rationale": "Authoritative scientific rationale: Without matched normal sequencing, rare private germline polymorphisms cannot be distinguished from somatic mutations. High tumor-only variant counts conflate benign inherited variation with tumor mutations. In renal_clear_cell biology, failing to account for this leads to erroneous translational conclusions.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "germline contamination unmatched tumor"
+      ],
+      "negative_points": [
+        "flawed protocol is valid",
+        "no problems exist"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "biological variance",
+        "degrees of freedom",
+        "statistical model assumptions"
+      ],
+      "negative_points": [
+        "code execution proves scientific validity",
+        "tpm is identical to raw counts"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "proper design formula"
+      ],
+      "negative_points": [
+        "run same analysis again",
+        "ignore batch"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "explicitly bound uncertainty",
+        "external cohort validation required"
+      ],
+      "negative_points": [
+        "results are definitively 100% true",
+        "proven causal mechanism without functional validation"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "association does not equal causation",
+        "predictive feature != mechanism"
+      ],
+      "negative_points": [
+        "shap proves causality",
+        "p-value proves clinical utility"
+      ]
+    },
+    "experimental_unit_reasoning": null
+  },
+  "expected_decision": {
+    "primary_issue": "germline_contamination_unmatched_tumor",
+    "secondary_issues": [
+      "uncalibrated_causal_claim"
+    ],
+    "severity": "CRITICAL",
+    "acceptable_methods": [
+      "Without matched normal sequencing, rare private germline polymorphisms cannot be distinguished from somatic mutations. High tumor-only variant counts conflate benign inherited variation with tumor mutations."
+    ],
+    "unacceptable_methods": [
+      "A clinical lab sequences tumor biopsies from 50 cancer patients without matched germline blood samples, calls variants using Mutect2 in tumor-only mode, and labels all non-synonymous variants as somatic oncogenic drivers."
+    ],
+    "supported_claims": [
+      "Experimental measurements were collected."
+    ],
+    "unsupported_claims": [
+      "Definitive causal therapy mechanism established."
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "germline contamination unmatched tumor"
+    ],
+    "should_identify": [
+      "statistical assumptions",
+      "replication structure"
+    ],
+    "critical_errors": [
+      "cells are independent replicates",
+      "shap proves causality",
+      "leakage is harmless"
+    ],
+    "partial_credit": [
+      "noting sample size limitations"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "wes",
+    "problem": "bench_germline_contamination_unmatched_tumor",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "variant_calling",
+    "failure_mode": "germline_contamination_unmatched_tumor"
+  },
+  "provenance": {
+    "source_type": "benchmark_curated",
+    "citation": "BioReason Benchmark Suite v0.1",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "tags": [
+    "reproducibility",
+    "ADVANCED",
+    "cancer_genomics",
+    "renal_clear_cell"
+  ]
+}

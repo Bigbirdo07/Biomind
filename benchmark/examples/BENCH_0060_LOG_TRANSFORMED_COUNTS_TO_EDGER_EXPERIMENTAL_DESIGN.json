@@ -1,0 +1,133 @@
+{
+  "item_id": "BENCH_0060_LOG_TRANSFORMED_COUNTS_TO_EDGER_EXPERIMENTAL_DESIGN",
+  "domain": "bulk_rnaseq",
+  "subdomain": "bulk_rna_seq_melanoma",
+  "difficulty": "INTERMEDIATE",
+  "category": "experimental_design",
+  "scenario": "A translational oncology team studying melanoma performs the following experiment: An analyst log2-transforms count data `log2(counts + 1)` and feeds the continuous values into edgeR `exactTest()`. They collect samples and execute computational modeling.",
+  "question": "Critique the methodology of this melanoma study. Identify any fatal methodological flaws, explain the underlying biological and statistical mechanisms, provide rigorous corrections, and establish whether reported biological claims are warranted.",
+  "flawed_analysis_present": true,
+  "flaw_type": "log_counts_to_edger",
+  "ground_truth_rationale": "Authoritative scientific rationale: edgeR models discrete count distributions via negative binomial GLMs. Feeding continuous log-transformed data violates the discrete likelihood function. limma-voom or DESeq2 with raw integer counts should be used instead. In melanoma biology, failing to account for this leads to erroneous translational conclusions.",
+  "scoring_rubric": {
+    "flaw_detection": {
+      "name": "flaw_detection",
+      "weight": 1.0,
+      "key_points": [
+        "log counts to edger"
+      ],
+      "negative_points": [
+        "flawed protocol is valid",
+        "no problems exist"
+      ]
+    },
+    "scientific_explanation": {
+      "name": "scientific_explanation",
+      "weight": 1.0,
+      "key_points": [
+        "biological variance",
+        "degrees of freedom",
+        "statistical model assumptions"
+      ],
+      "negative_points": [
+        "code execution proves scientific validity",
+        "tpm is identical to raw counts"
+      ]
+    },
+    "correction_quality": {
+      "name": "correction_quality",
+      "weight": 1.0,
+      "key_points": [
+        "proper design formula"
+      ],
+      "negative_points": [
+        "run same analysis again",
+        "ignore batch"
+      ]
+    },
+    "uncertainty_calibration": {
+      "name": "uncertainty_calibration",
+      "weight": 1.0,
+      "key_points": [
+        "explicitly bound uncertainty",
+        "external cohort validation required"
+      ],
+      "negative_points": [
+        "results are definitively 100% true",
+        "proven causal mechanism without functional validation"
+      ]
+    },
+    "interpretation_quality": {
+      "name": "interpretation_quality",
+      "weight": 1.0,
+      "key_points": [
+        "association does not equal causation",
+        "predictive feature != mechanism"
+      ],
+      "negative_points": [
+        "shap proves causality",
+        "p-value proves clinical utility"
+      ]
+    },
+    "experimental_unit_reasoning": null
+  },
+  "expected_decision": {
+    "primary_issue": "log_counts_to_edger",
+    "secondary_issues": [
+      "uncalibrated_causal_claim"
+    ],
+    "severity": "WARNING",
+    "acceptable_methods": [
+      "edgeR models discrete count distributions via negative binomial GLMs. Feeding continuous log-transformed data violates the discrete likelihood function. limma-voom or DESeq2 with raw integer counts should be used instead."
+    ],
+    "unacceptable_methods": [
+      "An analyst log2-transforms count data `log2(counts + 1)` and feeds the continuous values into edgeR `exactTest()`."
+    ],
+    "supported_claims": [
+      "Experimental measurements were collected."
+    ],
+    "unsupported_claims": [
+      "Definitive causal therapy mechanism established."
+    ]
+  },
+  "scoring_breakdown": {
+    "must_identify": [
+      "log counts to edger"
+    ],
+    "should_identify": [
+      "statistical assumptions",
+      "replication structure"
+    ],
+    "critical_errors": [
+      "cells are independent replicates",
+      "shap proves causality",
+      "leakage is harmless"
+    ],
+    "partial_credit": [
+      "noting sample size limitations"
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "bench_log_counts_to_edger",
+    "experimental_unit": "tissue_sample",
+    "observational_unit": "tissue_sample",
+    "analysis": "differential_expression",
+    "failure_mode": "log_counts_to_edger"
+  },
+  "provenance": {
+    "source_type": "benchmark_curated",
+    "citation": "BioReason Benchmark Suite v0.1",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "tags": [
+    "experimental_design",
+    "INTERMEDIATE",
+    "bulk_rnaseq",
+    "melanoma"
+  ]
+}

@@ -50,35 +50,54 @@ class ScientificRubricScorer:
 
     def evaluate_prediction(self, benchmark_item: BenchmarkItem, prediction: ModelPrediction) -> EvaluationScore:
         rubric = benchmark_item.scoring_rubric
-        raw_text = f"{prediction.scientific_rationale or ''} {prediction.raw_response or ''}".lower()
+        
+        # Determine flaw detection from either boolean flag or identified_issues list
+        if prediction.flaw_detected is not None:
+            pred_flaw_present = prediction.flaw_detected
+        elif prediction.identified_issues and len(prediction.identified_issues) > 0:
+            pred_flaw_present = any(i.lower() not in ["none", "no issues", "valid", "no flaw"] for i in prediction.identified_issues)
+        else:
+            pred_flaw_present = False
 
-        # 1. Flaw detection
-        pred_flaw_present = prediction.flaw_detected if prediction.flaw_detected is not None else False
         expected_flaw_present = benchmark_item.flawed_analysis_present
         flaw_detected_binary = (pred_flaw_present == expected_flaw_present)
         
+        # Full concatenated text for lexical and semantic checking
+        full_text_parts = [
+            prediction.primary_assessment or "",
+            prediction.scientific_rationale or "",
+            " ".join(prediction.identified_issues),
+            " ".join(prediction.recommended_actions),
+            " ".join(prediction.limitations_noted),
+            " ".join(prediction.unsupported_claims),
+            prediction.raw_response or "",
+        ]
+        raw_text = " ".join(full_text_parts).lower()
+
+        # 1. Flaw detection score
         flaw_detection_score = 1.0 if flaw_detected_binary else 0.0
-        if prediction.flaw_type and benchmark_item.flaw_type:
-            if benchmark_item.flaw_type.lower() in prediction.flaw_type.lower():
+        flaw_type_str = prediction.flaw_type or " ".join(prediction.identified_issues)
+        if flaw_type_str and benchmark_item.flaw_type:
+            if benchmark_item.flaw_type.lower() in flaw_type_str.lower():
                 flaw_detection_score = 1.0
             elif flaw_detected_binary:
-                flaw_detection_score = 0.75
+                flaw_detection_score = 0.85
 
         # 2. Scientific explanation
-        rationale_text = prediction.scientific_rationale or prediction.raw_response
+        rationale_text = f"{prediction.primary_assessment or ''} {prediction.scientific_rationale or ''} {' '.join(prediction.identified_issues)} {prediction.raw_response or ''}"
         explanation_score = self.score_criterion(rationale_text, rubric.scientific_explanation)
 
         # 3. Correction quality
-        correction_text = prediction.proposed_correction or prediction.raw_response
+        correction_text = f"{prediction.proposed_correction or ''} {' '.join(prediction.recommended_actions)} {prediction.raw_response or ''}"
         correction_score = self.score_criterion(correction_text, rubric.correction_quality)
 
         # 4. Uncertainty calibration
-        calib_text = f"{prediction.scientific_rationale or ''} {' '.join(prediction.limitations_noted)}"
-        calibration_score = self.score_criterion(calib_text, rubric.uncertainty_calibration)
+        limitations_combined = f"{' '.join(prediction.limitations_noted)} {' '.join(prediction.unsupported_claims)} {rationale_text}"
+        calibration_score = self.score_criterion(limitations_combined, rubric.uncertainty_calibration)
 
         # 5. Interpretation quality
-        interp_text = f"{prediction.scientific_rationale or ''} {' '.join(prediction.limitations_noted)}"
-        interpretation_score = self.score_criterion(interp_text, rubric.interpretation_quality)
+        interp_combined = f"{' '.join(prediction.supported_claims)} {' '.join(prediction.unsupported_claims)} {rationale_text}"
+        interpretation_score = self.score_criterion(interp_combined, rubric.interpretation_quality)
 
         # 6. Critical failure and taxonomy evaluation
         critical_failure = False
@@ -95,7 +114,7 @@ class ScientificRubricScorer:
                     identified_failure_modes.append("MISSED_LEAKAGE")
                 elif "confound" in ft or "batch" in ft:
                     identified_failure_modes.append("MISSED_CONFOUNDING")
-                elif "transform" in ft or "count" in ft:
+                elif "transform" in ft or "count" in ft or "tpm" in ft:
                     identified_failure_modes.append("INVALID_TRANSFORMATION")
                 else:
                     identified_failure_modes.append("STATISTICAL_ERROR")
@@ -112,7 +131,18 @@ class ScientificRubricScorer:
             for ce in benchmark_item.scoring_breakdown.critical_errors:
                 if ce.lower() in raw_text:
                     critical_failure = True
-                    identified_failure_modes.append("CRITICAL_ASSERTION_VIOLATION")
+                    if "CRITICAL_ASSERTION_VIOLATION" not in identified_failure_modes:
+                        identified_failure_modes.append("CRITICAL_ASSERTION_VIOLATION")
+
+        # Confidence Calibration Penalty / Reward
+        conf = (prediction.confidence or "MEDIUM").upper()
+        if critical_failure and conf == "HIGH":
+            # Severe overconfidence penalty for endorsing critical scientific error
+            calibration_score = max(0.0, calibration_score - 0.4)
+            if "OVERCONFIDENT_CRITICAL_FAILURE" not in identified_failure_modes:
+                identified_failure_modes.append("OVERCONFIDENT_CRITICAL_FAILURE")
+        elif not critical_failure and conf in ["HIGH", "MEDIUM"] and flaw_detected_binary:
+            calibration_score = min(1.0, calibration_score + 0.1)
 
         # Composite weighted score
         weights = [
@@ -133,7 +163,8 @@ class ScientificRubricScorer:
 
         # Heavy penalty if critical failure occurred
         if critical_failure:
-            composite = max(0.0, composite * 0.5)
+            composite = max(0.0, composite * 0.45)
+
 
         return EvaluationScore(
             item_id=benchmark_item.item_id,

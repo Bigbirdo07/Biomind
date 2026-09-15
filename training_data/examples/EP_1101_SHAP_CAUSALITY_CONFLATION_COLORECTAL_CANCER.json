@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_1101_SHAP_CAUSALITY_CONFLATION_COLORECTAL_CANCER",
+  "episode_type": "ASSESS_CLAIM",
+  "domain": "biological_ml",
+  "subdomain": "bulk_rna_seq_colorectal_cancer",
+  "question": "In a colorectal cancer study utilizing bulk rna seq, A Random Forest model predicts cardiovascular mortality with 80% accuracy. The top SHAP feature is alkaline phosphatase (ALKP). The authors conclude: 'ALKP is the master causal regulator driving cardiac death and must be pharmacologically inhibited.' How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "exploratory_analysis",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: A Random Forest model predicts cardiovascular mortality with 80% accuracy. The top SHAP feature is alkaline phosphatase (ALKP). The authors conclude: 'ALKP is the master causal regulator driving cardiac death and must be pharmacologically inhibited.'",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Conflation of predictive attribution with biological causality: SHAP values quantify how much a feature shifted model output given correlated inputs, not biochemical causality. ALKP may be an indirect non-causal marker of hepatic or vascular stress.",
+  "reasoning_summary": "Rigorous scientific assessment for colorectal_cancer: Conflation of predictive attribution with biological causality: SHAP values quantify how much a feature shifted model output given correlated inputs, not biochemical causality. ALKP may be an indirect non-causal marker of hepatic or vascular stress.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for colorectal_cancer was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in colorectal_cancer.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of shap_feature_importance_causal_conflation."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "shap_feature_importance_causal_conflation",
+    "experimental_unit": "patient",
+    "observational_unit": "tissue_sample",
+    "analysis": "exploratory_analysis",
+    "failure_mode": "shap_feature_importance_causal_conflation"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

@@ -2,29 +2,43 @@
   "episode_id": "EP_025_COMPOUND_BATCH_AND_LEAKAGE",
   "episode_type": "DIAGNOSE_FAILURE",
   "domain": "biological_ml_compound",
+  "subdomain": null,
   "question": "A clinical study has 10 drug-resistant patients sequenced in Center A and 10 drug-sensitive patients sequenced in Center B. An analyst selects top 100 genes on all 20 samples and trains an SVM with 5-fold CV, reporting 100% accuracy. Diagnose all methodological errors.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "bulk_rna_seq",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 20,
+    "total_observations": null,
     "groups": [
       {
         "name": "Resistant",
-        "sample_count": 10
+        "sample_count": 10,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       },
       {
         "name": "Sensitive",
-        "sample_count": 10
+        "sample_count": 10,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       }
     ],
+    "covariates": [],
     "batch_structure": {
       "batch_variable": "clinical_center",
       "batch_count": 2,
-      "confounded_with_group": true
+      "confounded_with_group": true,
+      "notes": null
     },
     "input_data_type": "raw_counts",
-    "objective": "supervised_classification"
+    "objective": "supervised_classification",
+    "description": null
   },
   "proposed_analysis": "Global feature selection followed by standard cross-validation on center-confounded data.",
   "scientific_checks": {
@@ -41,17 +55,20 @@
     "supported_claims": [
       {
         "statement": "The pipeline reported 100% accuracy under a doubly-flawed design.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "The 100 genes represent a validated resistance biomarker panel.",
-        "level": "BIOLOGICAL_INTERPRETATION"
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
       },
       {
         "statement": "The genes cause drug resistance in clinical populations.",
-        "level": "CAUSAL_CLAIM"
+        "level": "CAUSAL_CLAIM",
+        "justification": null
       }
     ],
     "limitations": [
@@ -63,13 +80,19 @@
     "assay": "bulk_rna_seq",
     "problem": "compound_error",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "supervised_classification",
     "failure_mode": "batch_confounding_plus_selection_leakage"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Leek et al. (2010) and Ambroise & McLachlan (2002)"
+    "citation": "Leek et al. (2010) and Ambroise & McLachlan (2002)",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Leek et al. (2010)",

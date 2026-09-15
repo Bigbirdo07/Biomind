@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0521_GSEA_VS_ORA_BACKGROUND_BIAS_CARDIAC_MYOCYTES",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "pathway_analysis",
+  "subdomain": "bulk_rna_seq_cardiac_myocytes",
+  "question": "In a cardiac myocytes study utilizing bulk rna seq, An analyst takes the top 200 differentially expressed genes from a targeted microfluidic panel (500 genes total) and performs Over-Representation Analysis (ORA) against the entire human genome (20,000 genes) in MSigDB. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Mus musculus",
+    "assay": "bulk_rna_seq",
+    "experimental_unit": "other",
+    "observational_unit": "other",
+    "analysis_unit": "tissue_sample",
+    "replicate_type": "technical",
+    "samples": 12,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 6,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "pathway_enrichment",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: An analyst takes the top 200 differentially expressed genes from a targeted microfluidic panel (500 genes total) and performs Over-Representation Analysis (ORA) against the entire human genome (20,000 genes) in MSigDB.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "ORA background must strictly reflect the tested gene universe (the 500 panel genes). Using the whole genome artificially inflates overlap significance for pathway genes present on the targeted panel.",
+  "reasoning_summary": "Rigorous scientific assessment for cardiac_myocytes: ORA background must strictly reflect the tested gene universe (the 500 panel genes). Using the whole genome artificially inflates overlap significance for pathway genes present on the targeted panel.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for cardiac_myocytes was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in cardiac_myocytes.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of uncalibrated_ora_background."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "bulk_rna_seq",
+    "problem": "uncalibrated_ora_background",
+    "experimental_unit": "other",
+    "observational_unit": "other",
+    "analysis": "pathway_enrichment",
+    "failure_mode": "uncalibrated_ora_background"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

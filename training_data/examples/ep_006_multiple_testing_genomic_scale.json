@@ -2,24 +2,38 @@
   "episode_id": "EP_006_MULTIPLE_TESTING_GENOMIC_SCALE",
   "episode_type": "FLAWED_WORKFLOW",
   "domain": "transcriptomics_statistics",
+  "subdomain": null,
   "question": "In a study of 25,000 genes across 20 cancer and 20 normal samples, 1,250 genes show p < 0.05 by unadjusted Student's t-test. The author concludes all 1,250 genes are cancer biomarkers. Evaluate this conclusion.",
   "experiment": {
     "organism": "Homo sapiens",
     "assay": "bulk_rna_seq",
     "experimental_unit": "patient",
+    "observational_unit": null,
+    "analysis_unit": null,
+    "replicate_type": "biological",
     "samples": 40,
+    "total_observations": null,
     "groups": [
       {
         "name": "Tumor",
-        "sample_count": 20
+        "sample_count": 20,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       },
       {
         "name": "Normal",
-        "sample_count": 20
+        "sample_count": 20,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
       }
     ],
+    "covariates": [],
+    "batch_structure": null,
     "input_data_type": "raw_counts",
-    "objective": "differential_expression"
+    "objective": "differential_expression",
+    "description": null
   },
   "proposed_analysis": "Use raw p-value threshold (p < 0.05) across 25,000 independent t-tests without FDR adjustment.",
   "scientific_checks": {
@@ -36,13 +50,15 @@
     "supported_claims": [
       {
         "statement": "1,250 probes had nominal p < 0.05.",
-        "level": "OBSERVATION"
+        "level": "OBSERVATION",
+        "justification": null
       }
     ],
     "unsupported_claims": [
       {
         "statement": "All 1,250 probes are true positive biological biomarkers.",
-        "level": "BIOLOGICAL_INTERPRETATION"
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
       }
     ],
     "limitations": [
@@ -53,13 +69,19 @@
     "assay": "bulk_rna_seq",
     "problem": "multiple_testing",
     "experimental_unit": "patient",
+    "observational_unit": "same",
     "analysis": "differential_expression",
     "failure_mode": "no_fdr_control"
   },
   "validation_status": "expert_validated",
   "provenance": {
     "source_type": "expert_authored",
-    "citation": "Benjamini & Hochberg (1995) JRSS B 57:289-300"
+    "citation": "Benjamini & Hochberg (1995) JRSS B 57:289-300",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
   },
   "sources": [
     "Benjamini & Hochberg (1995) JRSS B 57:289-300"

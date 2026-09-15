@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0376_COMPOUND_SCRNA_LEAKAGE_BATCH_UNEVEN_BREAST_INVASIVE_CARCINOMA",
+  "episode_type": "DIAGNOSE_FAILURE",
+  "domain": "single_cell_transcriptomics",
+  "subdomain": "scrna_seq_breast_invasive_carcinoma",
+  "question": "In a breast invasive carcinoma study utilizing scrna seq, A team builds a cell-state classifier for 50,000 cells from 4 patients (2 responders on Batch A, 2 non-responders on Batch B). They split cells randomly 80/20 (putting cells from the same patient in train and test), select top 1,000 highly variable genes across all 50,000 cells globally, and report 99.8% test accuracy. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "scrna_seq",
+    "experimental_unit": "patient",
+    "observational_unit": "cell",
+    "analysis_unit": "cell",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": true,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "supervised_classification",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: A team builds a cell-state classifier for 50,000 cells from 4 patients (2 responders on Batch A, 2 non-responders on Batch B). They split cells randomly 80/20 (putting cells from the same patient in train and test), select top 1,000 highly variable genes across all 50,000 cells globally, and report 99.8% test accuracy.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": true,
+    "leakage_detected": true,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Multiple fatal compounding scientific flaws: 1) Patient-level data leakage across train/test splits (pseudoreplication in CV); 2) Complete confounding between batch and clinical response (Batch A=responders, Batch B=non-responders); 3) Global unsupervised feature selection leaking test set variance. The model is classifying patient/batch artifacts, not therapy response.",
+  "reasoning_summary": "Rigorous scientific assessment for breast_invasive_carcinoma: Multiple fatal compounding scientific flaws: 1) Patient-level data leakage across train/test splits (pseudoreplication in CV); 2) Complete confounding between batch and clinical response (Batch A=responders, Batch B=non-responders); 3) Global unsupervised feature selection leaking test set variance. The model is classifying patient/batch artifacts, not therapy response.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for breast_invasive_carcinoma was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in breast_invasive_carcinoma.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of compound_scrna_leakage_and_batch_confounding."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "compound_scrna_leakage_and_batch_confounding",
+    "experimental_unit": "patient",
+    "observational_unit": "cell",
+    "analysis": "supervised_classification",
+    "failure_mode": "compound_scrna_leakage_and_batch_confounding"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

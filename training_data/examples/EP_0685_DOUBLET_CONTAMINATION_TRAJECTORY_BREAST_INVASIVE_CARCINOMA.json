@@ -1,0 +1,98 @@
+{
+  "episode_id": "EP_0685_DOUBLET_CONTAMINATION_TRAJECTORY_BREAST_INVASIVE_CARCINOMA",
+  "episode_type": "FLAWED_WORKFLOW",
+  "domain": "single_cell_transcriptomics",
+  "subdomain": "scrna_seq_breast_invasive_carcinoma",
+  "question": "In a breast invasive carcinoma study utilizing scrna seq, An analyst runs Monocle3 pseudotime trajectory inference on 20,000 PBMC cells without doublet removal, identifying a novel intermediate transition state between T cells and B cells. How should this analysis be evaluated and executed?",
+  "experiment": {
+    "organism": "Homo sapiens",
+    "assay": "scrna_seq",
+    "experimental_unit": "patient",
+    "observational_unit": "cell",
+    "analysis_unit": "cell",
+    "replicate_type": "biological",
+    "samples": 60,
+    "total_observations": null,
+    "groups": [
+      {
+        "name": "Condition_A",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      },
+      {
+        "name": "Condition_B",
+        "sample_count": 30,
+        "cell_count": null,
+        "technical_replicates_per_sample": 1,
+        "description": null
+      }
+    ],
+    "covariates": [
+      "age",
+      "sex",
+      "sequencing_batch"
+    ],
+    "batch_structure": {
+      "batch_variable": "batch",
+      "batch_count": 2,
+      "confounded_with_group": false,
+      "notes": null
+    },
+    "input_data_type": "raw_counts",
+    "objective": "trajectory_inference",
+    "description": null
+  },
+  "proposed_analysis": "Proposed analysis: An analyst runs Monocle3 pseudotime trajectory inference on 20,000 PBMC cells without doublet removal, identifying a novel intermediate transition state between T cells and B cells.",
+  "scientific_checks": {
+    "replication_valid": true,
+    "confounding_detected": false,
+    "leakage_detected": false,
+    "transformation_valid": true,
+    "multiple_testing_controlled": true,
+    "sample_size_adequate": true
+  },
+  "preferred_analysis": "Heterotypic doublets (co-encapsulated T and B cells) express hybrid marker profiles that trajectory algorithms misinterpret as continuous differentiation bridges. Running doublet detection (e.g. DoubletFinder/Scrublet) is essential.",
+  "reasoning_summary": "Rigorous scientific assessment for breast_invasive_carcinoma: Heterotypic doublets (co-encapsulated T and B cells) express hybrid marker profiles that trajectory algorithms misinterpret as continuous differentiation bridges. Running doublet detection (e.g. DoubletFinder/Scrublet) is essential.",
+  "interpretation": {
+    "supported_claims": [
+      {
+        "statement": "Experimental data for breast_invasive_carcinoma was generated under specified assay parameters.",
+        "level": "OBSERVATION",
+        "justification": null
+      }
+    ],
+    "unsupported_claims": [
+      {
+        "statement": "The flawed analysis proves generalizable mechanism in breast_invasive_carcinoma.",
+        "level": "BIOLOGICAL_INTERPRETATION",
+        "justification": null
+      }
+    ],
+    "limitations": [
+      "Methodological validity requires rigorous control of doublet_induced_artificial_branch."
+    ]
+  },
+  "scenario_signature": {
+    "assay": "scrna_seq",
+    "problem": "doublet_induced_artificial_branch",
+    "experimental_unit": "patient",
+    "observational_unit": "cell",
+    "analysis": "trajectory_inference",
+    "failure_mode": "doublet_induced_artificial_branch"
+  },
+  "validation_status": "auto_validated",
+  "provenance": {
+    "source_type": "curated_synthetic",
+    "citation": "BioReason Scaled Scientific Repository v1.0",
+    "doi": null,
+    "license": "CC-BY-4.0",
+    "author": "BioReason Scientific Working Group",
+    "reviewer": null,
+    "review_status": "expert_validated"
+  },
+  "sources": [
+    "BioReason Scientific Reasoning Dataset v1.0"
+  ]
+}

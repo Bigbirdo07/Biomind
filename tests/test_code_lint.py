@@ -250,3 +250,27 @@ def test_does_not_flag_shell_true_with_string_argument():
     )
     warnings = lint_generated_code(code)
     assert not any("shell=True together with a LIST" in w for w in warnings)
+
+
+def test_flags_self_referential_subscript_reassignment():
+    # Seen live in a WGS pipeline: tumor_bai = tumor_bai[i] inside a loop
+    # over 12 samples -- silently broke every sample after the first.
+    code = wrap(
+        "tumor_bai = ['a.bai', 'b.bai', 'c.bai']\n"
+        "for i in range(3):\n"
+        "    tumor_bai = tumor_bai[i]\n"
+        "    print(tumor_bai)\n"
+    )
+    warnings = lint_generated_code(code)
+    assert any("reassigns 'tumor_bai' to one of its own elements" in w for w in warnings)
+
+
+def test_does_not_flag_normal_indexing_into_different_variable():
+    code = wrap(
+        "tumor_bai = ['a.bai', 'b.bai', 'c.bai']\n"
+        "for i in range(3):\n"
+        "    current_bai = tumor_bai[i]\n"
+        "    print(current_bai)\n"
+    )
+    warnings = lint_generated_code(code)
+    assert not any("reassigns" in w for w in warnings)

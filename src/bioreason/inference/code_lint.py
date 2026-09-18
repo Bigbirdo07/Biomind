@@ -196,6 +196,26 @@ def lint_code_block(code: str) -> List[str]:
                 "sort -o out.bam'), not a list."
             )
 
+    # 6. Self-referential subscript reassignment: `X = X[i]` overwrites a
+    # collection with one of its own elements. If this runs inside a loop
+    # over multiple items (a per-sample pipeline stage is the common case),
+    # X now refers to a single element after the first iteration, so every
+    # later iteration's `X[i]` either indexes into the wrong thing or
+    # crashes. Seen live: `tumor_bai = tumor_bai[i]` and
+    # `tumor_bam_md = tumor_bam_md[i]` inside multi-sample WGS pipeline
+    # loops -- both silently broke processing for every sample after the
+    # first. This is a general Python anti-pattern, not domain-specific.
+    for match in re.finditer(r"^[ \t]*(\w+)\s*=\s*\1\[[^\]\n]+\]\s*$", code, re.MULTILINE):
+        var = match.group(1)
+        warnings.append(
+            f"'{var} = {var}[...]' reassigns '{var}' to one of its own "
+            f"elements -- if this runs inside a loop over multiple items, "
+            f"'{var}' now refers to a single element instead of the original "
+            f"collection, so later iterations' indexing operates on the wrong "
+            f"thing or crashes. This is a common cause of a pipeline that "
+            f"silently only processes the first sample correctly."
+        )
+
     return warnings
 
 

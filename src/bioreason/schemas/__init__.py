@@ -51,6 +51,35 @@ from .benchmark import (
     EvaluationScore,
 )
 from .provenance import RunManifest
+from .preference import (
+    PreferenceCategory,
+    ScientificSeverity,
+    BioReasonPreferencePair,
+)
+from .experiment_graph import (
+    NodeType,
+    EdgeRelation,
+    GraphNode,
+    GraphEdge,
+    ExperimentGraph,
+)
+
+from .guided_pipeline import (
+    PipelineIntent,
+    PipelineState,
+    ResponseSource,
+    PipelineContext,
+    ShapeProgressionStep,
+    ConfigField,
+    PipelineFoundation,
+    PipelineStage,
+    CodeChunk,
+    GuideChunk,
+    PipelineChunkPair,
+    PipelinePlan,
+    GuidedPipelineData,
+    GuidedPipelineResponse,
+)
 
 __all__ = [
     "AssayType",
@@ -94,4 +123,28 @@ __all__ = [
     "BenchmarkItem",
     "EvaluationScore",
     "RunManifest",
+    "PreferenceCategory",
+    "ScientificSeverity",
+    "BioReasonPreferencePair",
+    "NodeType",
+    "EdgeRelation",
+    "GraphNode",
+    "GraphEdge",
+    "ExperimentGraph",
+    "PipelineIntent",
+    "PipelineState",
+    "ResponseSource",
+    "PipelineContext",
+    "ShapeProgressionStep",
+    "ConfigField",
+    "PipelineFoundation",
+    "PipelineStage",
+    "CodeChunk",
+    "GuideChunk",
+    "PipelineChunkPair",
+    "PipelinePlan",
+    "GuidedPipelineData",
+    "GuidedPipelineResponse",
 ]
+
+

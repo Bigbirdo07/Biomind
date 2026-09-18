@@ -154,8 +154,18 @@ class ScientificReasoningEpisode(BaseModel):
         default=ValidationStatus.EXPERT_VALIDATED,
         description="Verification status of the episode"
     )
+    quality_tier: Optional[str] = Field(
+        default=None,
+        description="Assigned quality tier (TIER_A, TIER_B, TIER_C, TIER_D)"
+    )
+    example_weight: Optional[float] = Field(
+        default=1.0,
+        ge=0.0,
+        description="Configurable sample loss weight for SFT"
+    )
     provenance: Optional[SourceProvenance] = None
     sources: List[str] = Field(
         default_factory=list,
         description="Citations, DOIs, or peer-reviewed literature references supporting the rationale"
     )
+

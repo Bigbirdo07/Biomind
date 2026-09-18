@@ -124,5 +124,26 @@ class EvaluationScore(BaseModel):
         default=False,
         description="True if model endorsed an egregious scientific violation (e.g. pseudoreplication, causal overclaim, leakage)"
     )
+    false_alarm: bool = Field(
+        default=False,
+        description="True if benchmark scenario was valid, but model invented a critical methodological flaw"
+    )
+    correction_actionability_score: Optional[float] = Field(
+        default=0.0,
+        ge=0.0,
+        le=1.0,
+        description="Actionability and specificity of recommended statistical and methodological corrections"
+    )
+    primary_issue_prioritized: Optional[bool] = Field(
+        default=True,
+        description="True if model identified and prioritized the primary methodological violation over peripheral concerns"
+    )
     identified_failure_modes: List[str] = Field(default_factory=list)
+    is_hard_negative: bool = Field(default=False, description="True if scenario was a valid hard-negative control")
+    no_error_correct: bool = Field(default=False, description="True if scenario was valid and model correctly accepted it")
+    is_insufficient_info: bool = Field(default=False, description="True if scenario required flagging insufficient information")
+    high_confidence_critical_error: bool = Field(default=False, description="True if model made a high-confidence critical scientific failure")
     comments: Optional[str] = None
+
+
+

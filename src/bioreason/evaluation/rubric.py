@@ -144,6 +144,27 @@ class ScientificRubricScorer:
         elif not critical_failure and conf in ["HIGH", "MEDIUM"] and flaw_detected_binary:
             calibration_score = min(1.0, calibration_score + 0.1)
 
+        # False Alarm Detection: scenario was scientifically valid, but model flagged a critical methodological flaw
+        false_alarm = False
+        if not benchmark_item.flawed_analysis_present and pred_flaw_present:
+            false_alarm = True
+
+        # Correction Actionability Score: assesses actionability and actionable guidance
+        actionability_keywords = ["pipeline", "fold", "pseudobulk", "mixed model", "random effect", "within", "formula", "stratified", "permute", "benjamini", "fdr"]
+        actionable_matches = sum(1 for kw in actionability_keywords if kw in correction_text.lower())
+        actionability_bonus = min(0.3, actionable_matches * 0.1)
+        correction_actionability = min(1.0, correction_score + actionability_bonus) if pred_flaw_present else 1.0
+
+        # Primary Issue Prioritization
+        primary_issue_prioritized = True
+        if benchmark_item.expected_decision and benchmark_item.expected_decision.primary_issue:
+            p_issue = benchmark_item.expected_decision.primary_issue.lower()
+            # If the model produced identified issues, check if the first issue or primary assessment captures it
+            first_issue_text = f"{prediction.primary_assessment or ''} {(prediction.identified_issues[0] if prediction.identified_issues else '')}".lower()
+            p_words = [w for w in p_issue.split() if len(w) > 4]
+            if p_words and not any(w in first_issue_text for w in p_words) and not (benchmark_item.flawed_analysis_present == False):
+                primary_issue_prioritized = False
+
         # Composite weighted score
         weights = [
             rubric.flaw_detection.weight,
@@ -161,10 +182,11 @@ class ScientificRubricScorer:
             + interpretation_score * rubric.interpretation_quality.weight
         ) / total_weight
 
-        # Heavy penalty if critical failure occurred
-        if critical_failure:
-            composite = max(0.0, composite * 0.45)
-
+        # Hard-negative & Uncertainty metadata
+        is_hard_negative = (not benchmark_item.flawed_analysis_present)
+        no_error_correct = is_hard_negative and (not pred_flaw_present)
+        is_insufficient_info = ("insufficient" in (benchmark_item.flaw_type or "").lower()) or ("insufficient" in benchmark_item.ground_truth_rationale.lower())
+        high_confidence_critical_error = critical_failure and (conf == "HIGH")
 
         return EvaluationScore(
             item_id=benchmark_item.item_id,
@@ -177,6 +199,15 @@ class ScientificRubricScorer:
             composite_score=round(composite, 3),
             flaw_detected_binary=flaw_detected_binary,
             critical_failure=critical_failure,
+            false_alarm=false_alarm,
+            correction_actionability_score=round(correction_actionability, 3),
+            primary_issue_prioritized=primary_issue_prioritized,
             identified_failure_modes=identified_failure_modes,
-            comments=f"Flaw matched: {flaw_detected_binary}, Critical Fail: {critical_failure}, Composite: {composite:.3f}"
+            is_hard_negative=is_hard_negative,
+            no_error_correct=no_error_correct,
+            is_insufficient_info=is_insufficient_info,
+            high_confidence_critical_error=high_confidence_critical_error,
+            comments=f"Flaw matched: {flaw_detected_binary}, Critical Fail: {critical_failure}, False Alarm: {false_alarm}, Composite: {composite:.3f}"
         )
+
+

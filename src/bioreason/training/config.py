@@ -33,14 +33,29 @@ class LoraConfigSpec(BaseModel):
 class TrainingConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
+    # Experiment identifier and metadata
+    experiment_name: str = Field(default="BR-SFT-001-A", description="Unique stable experiment name (e.g. BR-SFT-001-A)")
+    
     # Model and paths
-    model_name_or_path: str = Field(default="meta-llama/Meta-Llama-3-8B-Instruct")
-    output_dir: str = Field(default="outputs/bioreason_sft_v0.1")
-    train_dataset_path: str = Field(default="training_data/examples")
-    eval_benchmark_path: Optional[str] = Field(default="benchmark/examples")
+    model_name_or_path: str = Field(default="Qwen/Qwen2.5-14B-Instruct")
+    output_dir: str = Field(default="outputs/BR-SFT-001-A")
+    train_dataset_path: str = Field(default="training_data/snapshots/bioreasontrain_sft_v0.1/train")
+    validation_split_path: Optional[str] = Field(default="training_data/snapshots/bioreasontrain_sft_v0.1/val")
+    eval_benchmark_path: Optional[str] = Field(default="benchmark/frozen/bioreasonbench_v0.1/dev")
+    snapshot_manifest_path: Optional[str] = Field(default="training_data/snapshots/bioreasontrain_sft_v0.1/manifest.json")
+
+    # Quality Tiers and Example Weighting
+    selected_tiers: List[str] = Field(
+        default_factory=lambda: ["TIER_A", "TIER_B", "TIER_C"],
+        description="Allowed quality tiers to include in training"
+    )
+    tier_weights: Dict[str, float] = Field(
+        default_factory=lambda: {"TIER_A": 1.0, "TIER_B": 1.0, "TIER_C": 0.70, "TIER_D": 0.0},
+        description="Configurable loss sample weights per quality tier"
+    )
 
     # Training parameters
-    peft_method: PeftMethod = Field(default=PeftMethod.QLORA)
+    peft_method: PeftMethod = Field(default=PeftMethod.LORA)
     lora: LoraConfigSpec = Field(default_factory=LoraConfigSpec)
     precision: PrecisionType = Field(default=PrecisionType.BF16)
     
@@ -63,3 +78,4 @@ class TrainingConfig(BaseModel):
     # Distributed & Hardware
     deepspeed_config: Optional[str] = None
     gradient_checkpointing: bool = True
+

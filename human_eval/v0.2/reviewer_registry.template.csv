@@ -1,0 +1,9 @@
+reviewer_id,qualification_tier,primary_domain,secondary_domains,years_experience_band,computational_experience_band,prior_bioreason_involvement,acknowledgment_preference,status
+REV001,BIOSTATISTICIAN,biostatistics,survival_analysis;longitudinal_omics,10+_years,high,NONE,NAMED,INVITED
+REV002,COMPUTATIONAL_BIOLOGIST,single_cell_transcriptomics,spatial_transcriptomics;crispr_screens,6-10_years,high,NONE,NAMED,INVITED
+REV003,BIOINFORMATICIAN,atac_seq,gwas_genomics;phylogenetics,6-10_years,high,NONE,ANONYMOUS,INVITED
+REV004,EXPERT_DOMAIN,metabolomics,proteomics;experimental_design,10+_years,medium,NONE,NAMED,INVITED
+REV005,BIOSTATISTICIAN,biostatistics,survival_analysis;experimental_design,6-10_years,high,NONE,NAMED,INVITED
+REV006,COMPUTATIONAL_BIOLOGIST,biological_ml,variant_interpretation;crispr_screens,3-5_years,high,NONE,ANONYMOUS,INVITED
+REV007,GENERAL_BIOLOGICAL_SCIENTIST,microbiome,experimental_design;proteomics,6-10_years,medium,NONE,NAMED,INVITED
+REV008,BIOINFORMATICIAN,variant_interpretation,gwas_genomics;atac_seq,6-10_years,high,NONE,ANONYMOUS,INVITED

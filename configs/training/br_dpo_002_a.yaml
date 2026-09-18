@@ -1,0 +1,13 @@
+experiment_name: "BR-DPO-002-A"
+base_model_name_or_path: "Qwen/Qwen2.5-14B-Instruct"
+sft_checkpoint_path: "outputs/BR-SFT-001-A/checkpoint-epoch-2.0"
+preference_dataset_path: "training_data/preferences/bioreason_preference_v0.2/preferences.jsonl"
+output_dir: "outputs/BR-DPO-002-A"
+eval_benchmark_path: "benchmark/frozen/bioreasonbench_v0.1/dev"
+beta: 0.1
+learning_rate: 1.0e-5
+num_epochs: 1
+batch_size: 4
+gradient_accumulation_steps: 4
+precision: "bf16"
+seed: 42

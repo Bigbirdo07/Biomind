@@ -1,0 +1,3 @@
+# Ignore all private reviewer contact information and sensitive personal records
+*
+!.gitignore

@@ -1,0 +1,30 @@
+{
+  "reviewer": {
+    "reviewer_id": "REV008",
+    "qualification_tier": "BIOINFORMATICIAN",
+    "domain_specialties": [
+      "variant_interpretation",
+      "gwas_genomics",
+      "atac_seq"
+    ],
+    "experience_band": "6-10_years"
+  },
+  "assigned_case_count": 15,
+  "assigned_cases": [
+    "HEVAL_001",
+    "HEVAL_005",
+    "HEVAL_010",
+    "HEVAL_011",
+    "HEVAL_016",
+    "HEVAL_019",
+    "HEVAL_025",
+    "HEVAL_026",
+    "HEVAL_031",
+    "HEVAL_034",
+    "HEVAL_036",
+    "HEVAL_040",
+    "HEVAL_041",
+    "HEVAL_047",
+    "HEVAL_049"
+  ]
+}

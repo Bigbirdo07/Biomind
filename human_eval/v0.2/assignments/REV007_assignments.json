@@ -1,0 +1,30 @@
+{
+  "reviewer": {
+    "reviewer_id": "REV007",
+    "qualification_tier": "GENERAL_BIOLOGICAL_SCIENTIST",
+    "domain_specialties": [
+      "microbiome",
+      "experimental_design",
+      "proteomics"
+    ],
+    "experience_band": "6-10_years"
+  },
+  "assigned_case_count": 15,
+  "assigned_cases": [
+    "HEVAL_004",
+    "HEVAL_005",
+    "HEVAL_006",
+    "HEVAL_007",
+    "HEVAL_009",
+    "HEVAL_014",
+    "HEVAL_017",
+    "HEVAL_020",
+    "HEVAL_022",
+    "HEVAL_031",
+    "HEVAL_035",
+    "HEVAL_037",
+    "HEVAL_042",
+    "HEVAL_046",
+    "HEVAL_050"
+  ]
+}

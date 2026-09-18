@@ -44,7 +44,7 @@ flowchart TD
 +-----------------------------------------------------------------------------------------------+
 | LAYER 1: PIPELINE FOUNDATION                                                                  |
 | • Experimental Unit: Patient (N=12/group) | Measurement: Count Matrix (20,000 genes x 24 samples) |
-| • Workflow Map: Counts -> Filter (14,827 genes) -> Log1p -> PCA (20 PCs) -> GroupKFold -> RF   |
+| • Workflow Map: Counts -> Filter (retained genes computed at runtime) -> Log1p -> PCA (20 PCs) -> GroupKFold -> RF   |
 | • Data Shape Progression: (20k x 24) -> (14.8k x 24) -> (24 x 14.8k) -> (24 x 20)           |
 +---------------------------------------------------------------+-------------------------------+
 | LAYER 2: CODE CHUNKS (Left Pane, ~55% Width)                  | LAYER 3: SYNCHRONIZED GUIDE   |
@@ -61,7 +61,7 @@ flowchart TD
 | [3. LOW-COUNT FILTERING]                                      | [3. BIOLOGICAL FILTERING]     |
 | keep = (counts >= 10).sum(axis=1) >= 6                        | Why? Removes uninformative noise|
 | counts_filt = counts[keep]                                    | Retains: Robust transcript signal|
-|                                                               | Data Out: 14,827 x 24 samples |
+|                                                               | Data Out: retained genes x sample count (computed at runtime) |
 | [4. LOG1P TRANSFORMATION]                                     | [4. NUMERICAL TRANSFORMATION] |
 | norm = np.log1p(counts_filt.T)                                | Formula: y = log(1 + x)       |
 |                                                               | Shrinks variance of extreme counts|

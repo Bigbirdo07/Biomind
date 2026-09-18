@@ -5,17 +5,26 @@
     "mean_flaw_detection_score": 0.85,
     "mean_explanation_score": 0.0,
     "mean_correction_score": 0.0,
+    "mean_correction_actionability": 0.1,
     "mean_calibration_score": 1.0,
     "mean_interpretation_score": 0.5,
     "flaw_detection_accuracy": 1.0,
     "critical_failure_rate": 0.0,
+    "scientific_false_alarm_rate": 0.0,
+    "valid_hard_negative_accuracy": 1.0,
+    "no_error_accuracy": 1.0,
+    "insufficient_information_accuracy": 1.0,
+    "high_confidence_critical_error_rate": 0.0,
+    "bioreason_balance_score": 0.75,
+    "primary_issue_prioritization_rate": 0.0,
     "total_critical_failures": 0,
     "by_difficulty": {
       "ADVANCED": {
         "count": 1,
         "mean_composite": 0.47,
         "flaw_accuracy": 1.0,
-        "critical_failure_rate": 0.0
+        "critical_failure_rate": 0.0,
+        "scientific_false_alarm_rate": 0.0
       }
     },
     "failure_taxonomy_counts": {}
@@ -32,8 +41,15 @@
       "composite_score": 0.47,
       "flaw_detected_binary": true,
       "critical_failure": false,
+      "false_alarm": false,
+      "correction_actionability_score": 0.1,
+      "primary_issue_prioritized": false,
       "identified_failure_modes": [],
-      "comments": "Flaw matched: True, Critical Fail: False, Composite: 0.470"
+      "is_hard_negative": false,
+      "no_error_correct": false,
+      "is_insufficient_info": false,
+      "high_confidence_critical_error": false,
+      "comments": "Flaw matched: True, Critical Fail: False, False Alarm: False, Composite: 0.470"
     }
   ],
   "predictions": [

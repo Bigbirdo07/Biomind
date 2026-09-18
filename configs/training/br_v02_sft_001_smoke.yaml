@@ -1,0 +1,39 @@
+# BioReason v0.2 SFT Smoke Training Configuration (BR-V02-SFT-001-SMOKE)
+# Smoke run: 80 examples, 1 epoch, verifies pipeline, checkpoint saving, and evaluation metrics
+
+model:
+  base_model: "Qwen/Qwen2.5-14B-Instruct"
+  parent_adapter: "outputs/BR-DPO-002-A/checkpoint-100pct"
+  torch_dtype: "bfloat16"
+  max_seq_length: 2048
+
+lora:
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  target_modules:
+    - "q_proj"
+    - "v_proj"
+  bias: "none"
+  task_type: "CAUSAL_LM"
+
+dataset:
+  name: "BioReasonTrain-v0.2-SFT-v0.1-SMOKE"
+  train_file: "training_data/snapshots/BioReasonTrain-v0.2-SFT-v0.1/train.jsonl"
+  val_file: "training_data/snapshots/BioReasonTrain-v0.2-SFT-v0.1/val.jsonl"
+  max_train_samples: 80
+  max_val_samples: 20
+
+training:
+  output_dir: "outputs/BR-V02-SFT-001-SMOKE"
+  num_train_epochs: 1.0
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 4
+  learning_rate: 0.00005
+  logging_steps: 5
+  save_strategy: "steps"
+  save_steps: 10
+  seed: 42
+  fp16: false
+  bf16: true

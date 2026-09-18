@@ -1,0 +1,142 @@
+[
+  {
+    "design_id": "SD_PILOT_001_SCRNA_DESIGN",
+    "title": "Single-Cell Lupus Drug Efficacy",
+    "research_question": "Research Question: We want to test whether Drug X reduces inflammatory monocytes in lupus patients vs healthy controls using scRNA-seq. Budget allows 100,000 cells.",
+    "gold_design_plan": "Recommended Design: Sequence 10 lupus patients and 10 healthy controls (N=20 independent donors), aiming for 5,000 cells per donor. Aggregate counts into donor-level pseudobulk and model via DESeq2/edgeR or hierarchical mixed models. Balance donor sequencing across 2 library preparation batches.",
+    "required_components": [
+      "Independent Biological Experimental Units",
+      "Replication & Sample Allocation Plan",
+      "Confounding & Batch Block-Randomization",
+      "Statistical Model & Invariant Enforcement",
+      "Validation Partitioning Scheme",
+      "Permissible Epistemic Claim Boundaries"
+    ]
+  },
+  {
+    "design_id": "SD_PILOT_002_SPATIAL_DESIGN",
+    "title": "Spatial Tertiary Lymphoid Structures",
+    "research_question": "Research Question: We want to identify spatial transcriptomic biomarkers of tertiary lymphoid structures in melanoma biopsy sections.",
+    "gold_design_plan": "Recommended Design: Collect tissue sections from 12 distinct melanoma patients. Perform spatial block cross-validation or leave-one-patient-out cross-validation to prevent spatial autocorrelation leakage. Account for spot cellular deconvolution.",
+    "required_components": [
+      "Independent Biological Experimental Units",
+      "Replication & Sample Allocation Plan",
+      "Confounding & Batch Block-Randomization",
+      "Statistical Model & Invariant Enforcement",
+      "Validation Partitioning Scheme",
+      "Permissible Epistemic Claim Boundaries"
+    ]
+  },
+  {
+    "design_id": "SD_PILOT_003_LONGITUDINAL_DESIGN",
+    "title": "Time-Course Immunotherapy Biomarkers",
+    "research_question": "Research Question: We want to track longitudinal T-cell exhaustion across 4 treatment cycles in 25 cancer patients.",
+    "gold_design_plan": "Recommended Design: Collect blood at baseline and Cycles 1, 2, 4 from all 25 patients (100 total samples). Model longitudinal trajectory using linear mixed-effects models with random patient intercepts and slopes (~ cycle + (cycle|patient)). Group by patient for ML cross-validation.",
+    "required_components": [
+      "Independent Biological Experimental Units",
+      "Replication & Sample Allocation Plan",
+      "Confounding & Batch Block-Randomization",
+      "Statistical Model & Invariant Enforcement",
+      "Validation Partitioning Scheme",
+      "Permissible Epistemic Claim Boundaries"
+    ]
+  },
+  {
+    "design_id": "SD_PILOT_004_PROTEOMICS_TMT_DESIGN",
+    "title": "Plasma Proteomics in Heart Failure",
+    "research_question": "Research Question: We want to compare plasma protein abundance across 40 heart failure patients and 40 controls using TMT LC-MS/MS.",
+    "gold_design_plan": "Recommended Design: Use an 8-plex or 16-plex TMT design across 5-10 batches. Ensure equal numbers of cases and controls in every TMT plex. Include a pooled bridge reference sample in channel 126 of every plex for batch normalization.",
+    "required_components": [
+      "Independent Biological Experimental Units",
+      "Replication & Sample Allocation Plan",
+      "Confounding & Batch Block-Randomization",
+      "Statistical Model & Invariant Enforcement",
+      "Validation Partitioning Scheme",
+      "Permissible Epistemic Claim Boundaries"
+    ]
+  },
+  {
+    "design_id": "SD_PILOT_005_SURVIVAL_COHORT_DESIGN",
+    "title": "Prognostic Risk Score in Pancreatic Cancer",
+    "research_question": "Research Question: We want to build an ML model predicting time-to-progression in 300 surgical pancreatic cancer patients with variable follow-up.",
+    "gold_design_plan": "Recommended Design: Model continuous time-to-event outcomes using Cox proportional hazards or Random Survival Forests with right-censoring support. Do not discard censored patients. Use time-dependent ROC / concordance index (C-index) for evaluation.",
+    "required_components": [
+      "Independent Biological Experimental Units",
+      "Replication & Sample Allocation Plan",
+      "Confounding & Batch Block-Randomization",
+      "Statistical Model & Invariant Enforcement",
+      "Validation Partitioning Scheme",
+      "Permissible Epistemic Claim Boundaries"
+    ]
+  },
+  {
+    "design_id": "SD_PILOT_006_CRISPR_SCREEN_DESIGN",
+    "title": "Genome-Wide Kinase Synthetic Lethality",
+    "research_question": "Research Question: We want to find kinase knockouts synthetic lethal with KRAS-G12D in lung adenocarcinoma cells.",
+    "gold_design_plan": "Recommended Design: Use a pooled library of 5 sgRNAs per gene. Maintain at least 1,000x cell coverage (>50 million cells per replicate) at every passage across 4 independent biological replicates. Model guide efficiency and copy number bias with MAGeCK-MLE.",
+    "required_components": [
+      "Independent Biological Experimental Units",
+      "Replication & Sample Allocation Plan",
+      "Confounding & Batch Block-Randomization",
+      "Statistical Model & Invariant Enforcement",
+      "Validation Partitioning Scheme",
+      "Permissible Epistemic Claim Boundaries"
+    ]
+  },
+  {
+    "design_id": "SD_PILOT_007_MICROBIOME_16S_DESIGN",
+    "title": "Gut Microbiota in Pediatric Crohn's",
+    "research_question": "Research Question: We want to identify microbial species associated with pediatric Crohn's disease in 80 patients and 80 controls.",
+    "gold_design_plan": "Recommended Design: Extract DNA with standardized extraction kits. Balance sample extraction across 96-well plates. Transform relative abundances with Centered Log-Ratio (CLR) and model differential abundance using ANCOM-BC2 or Maaslin2 controlling for age and diet.",
+    "required_components": [
+      "Independent Biological Experimental Units",
+      "Replication & Sample Allocation Plan",
+      "Confounding & Batch Block-Randomization",
+      "Statistical Model & Invariant Enforcement",
+      "Validation Partitioning Scheme",
+      "Permissible Epistemic Claim Boundaries"
+    ]
+  },
+  {
+    "design_id": "SD_PILOT_008_GWAS_PRS_DESIGN",
+    "title": "Polygenic Risk Score for Atrial Fibrillation",
+    "research_question": "Research Question: We want to construct a multi-ancestry polygenic risk score for atrial fibrillation in 10,000 biobank participants.",
+    "gold_design_plan": "Recommended Design: Train ancestry-specific weights using LDpred2 or PRS-CSx. Adjust for the top 10 genomic principal components. Validate in an independent, prospectively followed external cohort.",
+    "required_components": [
+      "Independent Biological Experimental Units",
+      "Replication & Sample Allocation Plan",
+      "Confounding & Batch Block-Randomization",
+      "Statistical Model & Invariant Enforcement",
+      "Validation Partitioning Scheme",
+      "Permissible Epistemic Claim Boundaries"
+    ]
+  },
+  {
+    "design_id": "SD_PILOT_009_IMBALANCED_ML_DESIGN",
+    "title": "Early Diagnosis of Rare Pancreatic Cysts",
+    "research_question": "Research Question: We want to train a random forest model on 30 malignant cysts and 300 benign cysts.",
+    "gold_design_plan": "Recommended Design: Use 5-fold StratifiedGroupKFold grouped by patient. Wrap class weighting or SMOTE inside the training pipeline fold only. Never evaluate on resampled test data. Report Precision-Recall AUC (PR-AUC) rather than accuracy.",
+    "required_components": [
+      "Independent Biological Experimental Units",
+      "Replication & Sample Allocation Plan",
+      "Confounding & Batch Block-Randomization",
+      "Statistical Model & Invariant Enforcement",
+      "Validation Partitioning Scheme",
+      "Permissible Epistemic Claim Boundaries"
+    ]
+  },
+  {
+    "design_id": "SD_PILOT_010_METABOLOMICS_DESIGN",
+    "title": "Untargeted Serum Metabolomics in NASH",
+    "research_question": "Research Question: We want to discover lipidomic biomarkers distinguishing NASH from simple steatosis across 120 patients.",
+    "gold_design_plan": "Recommended Design: Block-randomize sample injection run order so disease states and collection dates are uniformly distributed. Inject pooled QC samples every 10 runs to fit LOESS batch signal correction. Impute MNAR values strictly within training folds.",
+    "required_components": [
+      "Independent Biological Experimental Units",
+      "Replication & Sample Allocation Plan",
+      "Confounding & Batch Block-Randomization",
+      "Statistical Model & Invariant Enforcement",
+      "Validation Partitioning Scheme",
+      "Permissible Epistemic Claim Boundaries"
+    ]
+  }
+]

@@ -1,0 +1,30 @@
+{
+  "reviewer": {
+    "reviewer_id": "REV006",
+    "qualification_tier": "COMPUTATIONAL_BIOLOGIST",
+    "domain_specialties": [
+      "biological_ml",
+      "variant_interpretation",
+      "crispr_screens"
+    ],
+    "experience_band": "3-5_years"
+  },
+  "assigned_case_count": 15,
+  "assigned_cases": [
+    "HEVAL_003",
+    "HEVAL_008",
+    "HEVAL_010",
+    "HEVAL_011",
+    "HEVAL_013",
+    "HEVAL_021",
+    "HEVAL_023",
+    "HEVAL_024",
+    "HEVAL_026",
+    "HEVAL_028",
+    "HEVAL_033",
+    "HEVAL_038",
+    "HEVAL_041",
+    "HEVAL_043",
+    "HEVAL_046"
+  ]
+}

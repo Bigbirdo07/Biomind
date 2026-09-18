@@ -1,0 +1,23 @@
+{
+  "candidate_id": "BIOREASON-V0.1-DPO-SELECTED",
+  "selected_model": "BR-DPO-002-A",
+  "selected_checkpoint": "outputs/BR-DPO-002-A/checkpoint-24pct",
+  "parent_sft_checkpoint": "outputs/BR-SFT-001-A/checkpoint-epoch-2.0",
+  "base_model": "Qwen/Qwen2.5-14B-Instruct",
+  "preference_dataset_version": "BioReasonPreference-v0.2 (245 pairs)",
+  "preference_dataset_sha256": "3cb1e15ff24030a19b2c77fa7762227043a298d1a57e69293f27fae710a71b1d",
+  "benchmark_version": "BioReasonBench_v0.1",
+  "benchmark_dev_count": 289,
+  "locked_test_count": 51,
+  "selection_verdict": "DPO_RETAINED",
+  "metrics_summary": {
+    "mean_composite_score": 0.494,
+    "flaw_detection_accuracy": 0.9619,
+    "scientific_false_alarm_rate": 0.0217,
+    "valid_hard_negative_accuracy": 0.9783,
+    "critical_failure_rate": 0.0311,
+    "primary_issue_prioritization_rate": 0.9689,
+    "bioreason_balance_score": 0.691,
+    "net_scientific_gain": 18
+  }
+}

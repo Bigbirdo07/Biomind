@@ -1,0 +1,109 @@
+{
+  "candidate_name": "BioReason-v0.2-SFT-Candidate-001-A",
+  "version": "0.2.0-sft-candidate",
+  "creation_timestamp": "2026-09-16T00:15:00Z",
+  "status": "SELECTED_DEVELOPMENT_CANDIDATE",
+  "model_lineage": {
+    "base_model": "Qwen/Qwen2.5-14B-Instruct",
+    "parent_v0_1_model": "BioReason v0.1 (BR-DPO-002-A)",
+    "parent_adapter": "outputs/BR-DPO-002-A/checkpoint-100pct",
+    "merged_state_provenance": "SHA256:3cb1e15ff24030a19b2c77fa7762227043a298d1a57e69293f27fae710a71b1d",
+    "selected_checkpoint": "outputs/BR-V02-SFT-001-A/checkpoint-step-112-epoch-2.0",
+    "checkpoint_step": 112,
+    "checkpoint_epoch": 2.0
+  },
+  "reproducibility": {
+    "git_commit": "29bdb05590a56618970576e746bfccdfe8583ced",
+    "git_branch": "main",
+    "training_config_path": "configs/training/br_v02_sft_001.yaml",
+    "training_snapshot_hash": "3d934203928033eba677f76e988fb5ff12abd55464ae682eef44b7d0defc9e93",
+    "dev_benchmark_hash": "6d1bba201ae81b00aff8a269a169a284a6d171b42de4f6db2c503fcbbab61d9d",
+    "regression_benchmark_hash": "b97e34f457d10996ebc7eeab9e2af88c47f236085b5cadbbb2862bcbddbaa470",
+    "external_bench_hash": "637fafdc16e0ea8006806888e616ae6b8f5e4bec8785d5e14f65b7a2f8c42a75",
+    "challenge_bench_hash": "6f2b1538b46f28bca94c0421d3d71568dcc249a477b5593bffebc696318d108f"
+  },
+  "training_hyperparameters": {
+    "lora_rank": 32,
+    "lora_alpha": 64,
+    "lora_dropout": 0.05,
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
+    "learning_rate": 5e-5,
+    "precision": "bfloat16",
+    "lr_scheduler": "cosine_with_warmup",
+    "optimizer": "AdamW",
+    "effective_batch_size": 16,
+    "gradient_accumulation_steps": 8,
+    "per_device_train_batch_size": 2,
+    "max_seq_length": 4096,
+    "num_train_epochs": 2.0,
+    "total_optimization_steps": 112,
+    "experience_replay_ratio": 0.25,
+    "seed": 42
+  },
+  "primary_development_results": {
+    "benchmark": "BioReasonDev-v0.2",
+    "total_items": 100,
+    "overall_accuracy": 0.9300,
+    "flaw_sensitivity": 0.9125,
+    "scientific_false_alarm_rate": 0.0000,
+    "valid_hard_negative_accuracy": 1.0000,
+    "critical_failure_rate": 0.0875,
+    "high_confidence_critical_errors": 0.0000,
+    "primary_issue_prioritization": 0.9400,
+    "correction_actionability": 0.9200,
+    "balance_score": 0.9563,
+    "module_scores": {
+      "longitudinal_reasoning": 0.9500,
+      "resampling_leakage": 0.9500,
+      "confounding_identification": 0.9200,
+      "compositionality_reasoning": 0.9000,
+      "screen_bottlenecks": 0.9200,
+      "cross_domain_compound": 0.9400
+    }
+  },
+  "regression_suite_results": {
+    "benchmark": "BioReasonRegression-v0.1",
+    "total_items": 100,
+    "overall_accuracy": 0.9700,
+    "flaw_sensitivity": 0.9634,
+    "scientific_false_alarm_rate": 0.0000,
+    "valid_hard_negative_accuracy": 1.0000,
+    "critical_failure_rate": 0.0366,
+    "high_confidence_critical_errors": 0.0000,
+    "primary_issue_prioritization": 0.9700,
+    "correction_actionability": 0.9300,
+    "balance_score": 0.9817
+  },
+  "external_held_out_results": {
+    "bioreason_bench_v0_2": {
+      "total_items": 100,
+      "overall_accuracy": 0.9300,
+      "flaw_sensitivity": 0.9067,
+      "scientific_false_alarm_rate": 0.0000,
+      "valid_hard_negative_accuracy": 1.0000,
+      "accuracy_gain_vs_v01_pp": 11.00,
+      "bootstrap_95_ci": [0.8700, 0.9800],
+      "bootstrap_delta_ci": [0.0400, 0.1500]
+    },
+    "bioreason_challenge_v0_1": {
+      "total_items": 80,
+      "overall_accuracy": 0.8750,
+      "flaw_sensitivity": 0.8387,
+      "scientific_false_alarm_rate": 0.0000,
+      "valid_hard_negative_accuracy": 1.0000,
+      "accuracy_gain_vs_v01_pp": 11.25,
+      "bootstrap_95_ci": [0.8125, 0.9500],
+      "bootstrap_delta_ci": [0.0500, 0.1875]
+    }
+  },
+  "selection_criteria_audit": {
+    "high_confidence_critical_errors_is_zero": true,
+    "false_alarm_rate_is_zero": true,
+    "hard_negative_accuracy_is_100": true,
+    "critical_failure_rate_reduced": true,
+    "target_curriculum_mastery_confirmed": true,
+    "actionability_improved": true,
+    "regression_suite_preserved": true,
+    "selection_verdict": "SELECTED_AS_V0_2_DEVELOPMENT_CANDIDATE"
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BioReasonHumanBlindEvaluationForm",
+  "type": "object",
+  "required": [
+    "evaluation_id",
+    "item_id",
+    "evaluator_id",
+    "timestamp",
+    "model_rankings",
+    "ratings"
+  ],
+  "properties": {
+    "evaluation_id": {
+      "type": "string",
+      "description": "Unique blind evaluation assignment ID"
+    },
+    "item_id": {
+      "type": "string",
+      "description": "Benchmark or Challenge Item ID"
+    },
+    "evaluator_id": {
+      "type": "string",
+      "description": "Anonymized reviewer identifier (e.g. REV_BIOSTAT_01)"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "model_rankings": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["Response_A", "Response_B", "Response_C"]
+      },
+      "description": "Overall preference ranking from best (index 0) to worst"
+    },
+    "ratings": {
+      "type": "object",
+      "patternProperties": {
+        "^Response_[A-C]$": {
+          "type": "object",
+          "required": [
+            "scientific_correctness",
+            "primary_issue_identification",
+            "correction_actionability",
+            "uncertainty_calibration",
+            "overclaiming_penalty",
+            "false_alarm_penalty"
+          ],
+          "properties": {
+            "scientific_correctness": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "1 (Flawed) to 5 (Exemplary rigorous biology/stats)"
+            },
+            "primary_issue_identification": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "1 (Missed primary fatal flaw) to 5 (Precisely prioritized dominant flaw)"
+            },
+            "correction_actionability": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "1 (Vague advice) to 5 (Specific step-by-step statistical pipeline correction)"
+            },
+            "uncertainty_calibration": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5,
+              "description": "1 (Severe overconfidence/uncalibrated) to 5 (Appropriate uncertainty and bounds)"
+            },
+            "overclaiming_penalty": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5,
+              "description": "0 (No overreach) to 5 (Egregious causal overclaiming from correlation/SHAP)"
+            },
+            "false_alarm_penalty": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 5,
+              "description": "0 (No false alarm) to 5 (Fabricated non-existent fatal flaw in valid design)"
+            },
+            "reviewer_notes": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

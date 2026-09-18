@@ -1,0 +1,142 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BioReasonHumanReviewSchema",
+  "type": "object",
+  "required": [
+    "case_id",
+    "reviewer_id",
+    "qualification_tier",
+    "reviewer_confidence",
+    "response_evaluations",
+    "pairwise_preference"
+  ],
+  "properties": {
+    "case_id": {
+      "type": "string"
+    },
+    "reviewer_id": {
+      "type": "string"
+    },
+    "qualification_tier": {
+      "type": "string",
+      "enum": [
+        "EXPERT_DOMAIN",
+        "COMPUTATIONAL_BIOLOGIST",
+        "BIOSTATISTICIAN",
+        "BIOINFORMATICIAN",
+        "GENERAL_BIOLOGICAL_SCIENTIST"
+      ]
+    },
+    "reviewer_confidence": {
+      "type": "string",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ]
+    },
+    "response_evaluations": {
+      "type": "object",
+      "properties": {
+        "RESPONSE_A": {
+          "$ref": "#/definitions/ResponseRating"
+        },
+        "RESPONSE_B": {
+          "$ref": "#/definitions/ResponseRating"
+        },
+        "RESPONSE_C": {
+          "$ref": "#/definitions/ResponseRating"
+        }
+      },
+      "required": [
+        "RESPONSE_A",
+        "RESPONSE_B",
+        "RESPONSE_C"
+      ]
+    },
+    "pairwise_preference": {
+      "type": "string",
+      "enum": [
+        "RESPONSE_A",
+        "RESPONSE_B",
+        "RESPONSE_C",
+        "TIE",
+        "NONE_ACCEPTABLE"
+      ]
+    },
+    "qualitative_rationale": {
+      "type": "string"
+    }
+  },
+  "definitions": {
+    "ResponseRating": {
+      "type": "object",
+      "required": [
+        "SCIENTIFIC_CORRECTNESS",
+        "PRIMARY_ISSUE_IDENTIFICATION",
+        "EXPERIMENTAL_UNIT_REASONING",
+        "STATISTICAL_VALIDITY",
+        "BIOLOGICAL_PLAUSIBILITY",
+        "CORRECTION_ACTIONABILITY",
+        "UNCERTAINTY_CALIBRATION",
+        "OVERCLAIMING",
+        "FALSE_ALARM_BEHAVIOR",
+        "OVERALL_SCIENTIFIC_USEFULNESS"
+      ],
+      "properties": {
+        "SCIENTIFIC_CORRECTNESS": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "PRIMARY_ISSUE_IDENTIFICATION": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "EXPERIMENTAL_UNIT_REASONING": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "STATISTICAL_VALIDITY": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "BIOLOGICAL_PLAUSIBILITY": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "CORRECTION_ACTIONABILITY": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "UNCERTAINTY_CALIBRATION": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        "OVERCLAIMING": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "1 = Severe overclaiming, 5 = Perfectly calibrated"
+        },
+        "FALSE_ALARM_BEHAVIOR": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "1 = Highly paranoid false alarms, 5 = Calibrated on valid science"
+        },
+        "OVERALL_SCIENTIFIC_USEFULNESS": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      }
+    }
+  }
+}

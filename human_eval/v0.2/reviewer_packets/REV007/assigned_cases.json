@@ -1,0 +1,212 @@
+[
+  {
+    "case_id": "HEVAL_004",
+    "domain": "proteomics",
+    "presentation_style": "reviewer_critique",
+    "scenario": "In an untargeted LC-MS/MS biomarker discovery study for early pancreatic cancer, all 50 Stage-I tumor plasma samples were prepared and run at Site A on an Orbitrap Exploris, while all 50 healthy control samples were processed at Site B on a Q-Exactive HF. ComBat batch adjustment was applied post-acquisition to harmonize peak intensities.",
+    "question": "Can post-hoc computational batch correction (ComBat) rescue the biological validity of this case-control proteomics experiment?",
+    "difficulty": "ADVANCED",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Assessment for HEVAL_004:\nScientific assessment: Flaw detected in experimental design. Specifically, the data partitioning lacks strict biological separation across validation folds. Recommended repair: Implement GroupKFold cross-validation on donor ID.",
+      "RESPONSE_B": "Scientific Assessment for HEVAL_004:\n1. Primary Fatal Flaw: Identified critical structural flaw in proteomics. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model.",
+      "RESPONSE_C": "Analysis of HEVAL_004:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models."
+    }
+  },
+  {
+    "case_id": "HEVAL_005",
+    "domain": "microbiome",
+    "presentation_style": "lab_slack_message",
+    "scenario": "Slack message: 'Hey team, I ran standard Pearson correlation across relative percentage abundances in our 16S stool dataset (N=100) and found that Bacteroides and Faecalibacterium are strongly negatively correlated (r = -0.68, p < 0.0001). This proves direct metabolic competition between these two phyla!'",
+    "question": "Is this biological claim supported by standard Pearson correlation on relative percentage abundances?",
+    "difficulty": "INTERMEDIATE",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Assessment for HEVAL_005:\nScientific assessment: Flaw detected in experimental design. Specifically, the data partitioning lacks strict biological separation across validation folds. Recommended repair: Implement GroupKFold cross-validation on donor ID.",
+      "RESPONSE_B": "Analysis of HEVAL_005:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models.",
+      "RESPONSE_C": "Scientific Assessment for HEVAL_005:\n1. Primary Fatal Flaw: Identified critical structural flaw in microbiome. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model."
+    }
+  },
+  {
+    "case_id": "HEVAL_006",
+    "domain": "metabolomics",
+    "presentation_style": "workflow_pipeline_spec",
+    "scenario": "In a metabolomics study presented via workflow pipeline spec, the authors evaluate 26 samples using standard procedures but introduce FACS sorting bottleneck drop-out prior to cross-validation.",
+    "question": "Critically assess this metabolomics analysis. Identify the primary limitation and recommend an actionable statistical repair.",
+    "difficulty": "ADVANCED",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Analysis of HEVAL_006:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models.",
+      "RESPONSE_B": "Assessment for HEVAL_006:\nScientific assessment: Flaw detected in experimental design. Specifically, the data partitioning lacks strict biological separation across validation folds. Recommended repair: Implement GroupKFold cross-validation on donor ID.",
+      "RESPONSE_C": "Scientific Assessment for HEVAL_006:\n1. Primary Fatal Flaw: Identified critical structural flaw in metabolomics. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model."
+    }
+  },
+  {
+    "case_id": "HEVAL_007",
+    "domain": "microbiome",
+    "presentation_style": "methods_paragraph",
+    "scenario": "In a microbiome study presented via methods paragraph, the authors evaluate 27 samples using standard procedures but introduce uncorrected population stratification in GWAS prior to cross-validation.",
+    "question": "Critically assess this microbiome analysis. Identify the primary limitation and recommend an actionable statistical repair.",
+    "difficulty": "INTERMEDIATE",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Assessment for HEVAL_007:\nScientific assessment: Flaw detected in experimental design. Specifically, the data partitioning lacks strict biological separation across validation folds. Recommended repair: Implement GroupKFold cross-validation on donor ID.",
+      "RESPONSE_B": "Scientific Assessment for HEVAL_007:\n1. Primary Fatal Flaw: Identified critical structural flaw in microbiome. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model.",
+      "RESPONSE_C": "Analysis of HEVAL_007:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models."
+    }
+  },
+  {
+    "case_id": "HEVAL_009",
+    "domain": "survival_analysis",
+    "presentation_style": "grant_specific_aims",
+    "scenario": "In a survival analysis study presented via grant specific aims, the authors evaluate 29 samples using standard procedures but introduce pseudobulk cell-level rank sum test prior to cross-validation.",
+    "question": "Critically assess this survival analysis analysis. Identify the primary limitation and recommend an actionable statistical repair.",
+    "difficulty": "INTERMEDIATE",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Assessment for HEVAL_009:\nScientific assessment: Flaw detected in experimental design. Specifically, the data partitioning lacks strict biological separation across validation folds. Recommended repair: Implement GroupKFold cross-validation on donor ID.",
+      "RESPONSE_B": "Scientific Assessment for HEVAL_009:\n1. Primary Fatal Flaw: Identified critical structural flaw in survival_analysis. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model.",
+      "RESPONSE_C": "Analysis of HEVAL_009:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models."
+    }
+  },
+  {
+    "case_id": "HEVAL_014",
+    "domain": "experimental_design",
+    "presentation_style": "lab_slack_message",
+    "scenario": "In a experimental design study presented via lab slack message, the authors evaluate 34 samples using standard procedures but introduce pseudobulk cell-level rank sum test prior to cross-validation.",
+    "question": "Critically assess this experimental design analysis. Identify the primary limitation and recommend an actionable statistical repair.",
+    "difficulty": "ADVANCED",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Assessment for HEVAL_014:\nScientific assessment: Flaw detected in experimental design. Specifically, the data partitioning lacks strict biological separation across validation folds. Recommended repair: Implement GroupKFold cross-validation on donor ID.",
+      "RESPONSE_B": "Scientific Assessment for HEVAL_014:\n1. Primary Fatal Flaw: Identified critical structural flaw in experimental_design. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model.",
+      "RESPONSE_C": "Analysis of HEVAL_014:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models."
+    }
+  },
+  {
+    "case_id": "HEVAL_017",
+    "domain": "single_cell_transcriptomics",
+    "presentation_style": "pi_design_query",
+    "scenario": "In a single cell transcriptomics study presented via pi design query, the authors evaluate 37 samples using standard procedures but introduce uncorrected population stratification in GWAS prior to cross-validation.",
+    "question": "Critically assess this single cell transcriptomics analysis. Identify the primary limitation and recommend an actionable statistical repair.",
+    "difficulty": "INTERMEDIATE",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Assessment for HEVAL_017:\nScientific assessment: Flaw detected in experimental design. Specifically, the data partitioning lacks strict biological separation across validation folds. Recommended repair: Implement GroupKFold cross-validation on donor ID.",
+      "RESPONSE_B": "Scientific Assessment for HEVAL_017:\n1. Primary Fatal Flaw: Identified critical structural flaw in single_cell_transcriptomics. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model.",
+      "RESPONSE_C": "Analysis of HEVAL_017:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models."
+    }
+  },
+  {
+    "case_id": "HEVAL_020",
+    "domain": "proteomics",
+    "presentation_style": "lab_slack_message",
+    "scenario": "A rigorous proteomics study with N=35 biological donors implements strict patient-level grouped cross-validation with within-fold pipeline transformations and appropriate negative binomial dispersion modeling.",
+    "question": "Evaluate whether the validation structure and statistical modeling in this proteomics workflow are scientifically sound.",
+    "difficulty": "ADVANCED",
+    "flawed_analysis_present": false,
+    "responses": {
+      "RESPONSE_A": "Scientific Assessment for HEVAL_020:\n1. Primary Assessment: Methodologically sound and rigorously validated.\n2. Validation Structure: The analytical workflow properly isolates biological units and prevents feature leakage across validation folds.\n3. Recommendations: Proceed with downstream biological interpretation; report cross-validated effect sizes with 95% bootstrap confidence intervals.",
+      "RESPONSE_B": "Assessment for HEVAL_020:\nScientific assessment: The experimental design is methodologically sound. Grouped partitioning properly isolates biological units.",
+      "RESPONSE_C": "Analysis of HEVAL_020:\nThe study has potential limitations. Randomization might not be fully achieved and unmeasured confounding could exist. More validation is required before trusting these results."
+    }
+  },
+  {
+    "case_id": "HEVAL_022",
+    "domain": "microbiome",
+    "presentation_style": "reviewer_critique",
+    "scenario": "In a microbiome study presented via reviewer critique, the authors evaluate 42 samples using standard procedures but introduce uncorrected population stratification in GWAS prior to cross-validation.",
+    "question": "Critically assess this microbiome analysis. Identify the primary limitation and recommend an actionable statistical repair.",
+    "difficulty": "ADVANCED",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Scientific Assessment for HEVAL_022:\n1. Primary Fatal Flaw: Identified critical structural flaw in microbiome. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model.",
+      "RESPONSE_B": "Assessment for HEVAL_022:\nScientific assessment: Flaw detected in experimental design. Specifically, the data partitioning lacks strict biological separation across validation folds. Recommended repair: Implement GroupKFold cross-validation on donor ID.",
+      "RESPONSE_C": "Analysis of HEVAL_022:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models."
+    }
+  },
+  {
+    "case_id": "HEVAL_031",
+    "domain": "longitudinal_omics",
+    "presentation_style": "methods_paragraph",
+    "scenario": "In a longitudinal omics study presented via methods paragraph, the authors evaluate 51 samples using standard procedures but introduce FACS sorting bottleneck drop-out prior to cross-validation.",
+    "question": "Critically assess this longitudinal omics analysis. Identify the primary limitation and recommend an actionable statistical repair.",
+    "difficulty": "INTERMEDIATE",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Assessment for HEVAL_031:\nScientific assessment: The methodological approach appears generally standard with reasonable statistical test selection.",
+      "RESPONSE_B": "Scientific Assessment for HEVAL_031:\n1. Primary Fatal Flaw: Identified critical structural flaw in longitudinal_omics. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model.",
+      "RESPONSE_C": "Analysis of HEVAL_031:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models."
+    }
+  },
+  {
+    "case_id": "HEVAL_035",
+    "domain": "proteomics",
+    "presentation_style": "pi_design_query",
+    "scenario": "In a proteomics study presented via pi design query, the authors evaluate 55 samples using standard procedures but introduce subtle narrative SMOTE leakage prior to cross-validation.",
+    "question": "Critically assess this proteomics analysis. Identify the primary limitation and recommend an actionable statistical repair.",
+    "difficulty": "INTERMEDIATE",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Scientific Assessment for HEVAL_035:\n1. Primary Fatal Flaw: Identified critical structural flaw in proteomics. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model.",
+      "RESPONSE_B": "Analysis of HEVAL_035:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models.",
+      "RESPONSE_C": "Assessment for HEVAL_035:\nScientific assessment: Flaw detected in experimental design. Specifically, the data partitioning lacks strict biological separation across validation folds. Recommended repair: Implement GroupKFold cross-validation on donor ID."
+    }
+  },
+  {
+    "case_id": "HEVAL_037",
+    "domain": "microbiome",
+    "presentation_style": "methods_paragraph",
+    "scenario": "In a microbiome study presented via methods paragraph, the authors evaluate 57 samples using standard procedures but introduce uncorrected population stratification in GWAS prior to cross-validation.",
+    "question": "Critically assess this microbiome analysis. Identify the primary limitation and recommend an actionable statistical repair.",
+    "difficulty": "INTERMEDIATE",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Assessment for HEVAL_037:\nScientific assessment: Flaw detected in experimental design. Specifically, the data partitioning lacks strict biological separation across validation folds. Recommended repair: Implement GroupKFold cross-validation on donor ID.",
+      "RESPONSE_B": "Analysis of HEVAL_037:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models.",
+      "RESPONSE_C": "Scientific Assessment for HEVAL_037:\n1. Primary Fatal Flaw: Identified critical structural flaw in microbiome. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model."
+    }
+  },
+  {
+    "case_id": "HEVAL_042",
+    "domain": "phylogenetics",
+    "presentation_style": "workflow_pipeline_spec",
+    "scenario": "In a phylogenetics study presented via workflow pipeline spec, the authors evaluate 62 samples using standard procedures but introduce uncorrected population stratification in GWAS prior to cross-validation.",
+    "question": "Critically assess this phylogenetics analysis. Identify the primary limitation and recommend an actionable statistical repair.",
+    "difficulty": "ADVANCED",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Assessment for HEVAL_042:\nScientific assessment: Flaw detected in experimental design. Specifically, the data partitioning lacks strict biological separation across validation folds. Recommended repair: Implement GroupKFold cross-validation on donor ID.",
+      "RESPONSE_B": "Analysis of HEVAL_042:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models.",
+      "RESPONSE_C": "Scientific Assessment for HEVAL_042:\n1. Primary Fatal Flaw: Identified critical structural flaw in phylogenetics. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model."
+    }
+  },
+  {
+    "case_id": "HEVAL_046",
+    "domain": "longitudinal_omics",
+    "presentation_style": "reviewer_critique",
+    "scenario": "In a longitudinal omics study presented via reviewer critique, the authors evaluate 66 samples using standard procedures but introduce FACS sorting bottleneck drop-out prior to cross-validation.",
+    "question": "Critically assess this longitudinal omics analysis. Identify the primary limitation and recommend an actionable statistical repair.",
+    "difficulty": "ADVANCED",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Analysis of HEVAL_046:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models.",
+      "RESPONSE_B": "Scientific Assessment for HEVAL_046:\n1. Primary Fatal Flaw: Identified critical structural flaw in longitudinal_omics. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model.",
+      "RESPONSE_C": "Assessment for HEVAL_046:\nScientific assessment: The methodological approach appears generally standard with reasonable statistical test selection."
+    }
+  },
+  {
+    "case_id": "HEVAL_050",
+    "domain": "proteomics",
+    "presentation_style": "lab_slack_message",
+    "scenario": "In a proteomics study presented via lab slack message, the authors evaluate 70 samples using standard procedures but introduce subtle narrative SMOTE leakage prior to cross-validation.",
+    "question": "Critically assess this proteomics analysis. Identify the primary limitation and recommend an actionable statistical repair.",
+    "difficulty": "ADVANCED",
+    "flawed_analysis_present": true,
+    "responses": {
+      "RESPONSE_A": "Analysis of HEVAL_050:\nThe study has multiple potential issues. First, the sample size might be small. Second, there could be data leakage or p-hacking. Third, multiple testing correction is needed. The authors should collect more data and rerun standard machine learning models.",
+      "RESPONSE_B": "Scientific Assessment for HEVAL_050:\n1. Primary Fatal Flaw: Identified critical structural flaw in proteomics. The unit of observation violates statistical independence assumptions, causing inflated test statistics.\n2. Methodological Mechanism: Repeated/correlated measurements from the same biological source cross partition boundaries or violate independent error distributions.\n3. Actionable Repair: Replace ordinary testing with a Linear Mixed-Effects Model (`lme4::lmer`) with random intercepts for biological subject, or encapsulate data transformations strictly within an `sklearn.pipeline.Pipeline` evaluated via `GroupKFold`.\n4. Supportable Conclusions: Preliminary trends may be noted, but effect sizes and p-values require re-estimation under the corrected hierarchical model.",
+      "RESPONSE_C": "Assessment for HEVAL_050:\nScientific assessment: Flaw detected in experimental design. Specifically, the data partitioning lacks strict biological separation across validation folds. Recommended repair: Implement GroupKFold cross-validation on donor ID."
+    }
+  }
+]

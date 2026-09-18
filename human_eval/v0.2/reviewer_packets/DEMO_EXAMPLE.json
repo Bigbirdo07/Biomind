@@ -1,0 +1,60 @@
+{
+  "_notice": "DEMONSTRATION_ONLY - This is a synthetic tutorial example for onboarding external scientific reviewers. It is NOT part of the 50 evaluation cases or the locked final benchmark.",
+  "demo_case_id": "DEMO_SCENARIO_001",
+  "domain": "biostatistics_tutorial",
+  "scenario": "A pre-clinical oncology study tested an experimental kinase inhibitor versus vehicle control across 6 biological mice per group. From each mouse, 5 distinct histological sections were sliced and imaged to quantify apoptotic cell index. The authors pooled all 60 histological image measurements (30 treated, 30 control) and conducted a standard two-sample independent t-test (N=60, df=58), reporting p = 0.004 as evidence of therapeutic efficacy.",
+  "question": "Critique the statistical methodology and experimental design. Identify any fundamental flaws, evaluate scientific severity, and recommend appropriate statistical modeling.",
+  "sample_blinded_responses": {
+    "RESPONSE_A": "The study exhibits severe pseudoreplication by treating N=60 histological slices from 12 total mice as statistically independent units. Slices from the same mouse share animal-level variance, intra-mouse correlation, and batch factors, artificially inflating degrees of freedom (df=58 instead of df=10) and producing an anti-conservative false positive rate. Remedy: Fit a linear mixed-effects model (e.g. lmer(apoptotic_index ~ treatment + (1|mouse_id))) or aggregate measurements to mouse-level means (N=6/group, df=10) prior to a two-sample t-test.",
+    "RESPONSE_B": "The sample size is relatively small (6 mice per group) and a non-parametric Mann-Whitney U test should have been used instead of a t-test because apoptosis is not normally distributed.",
+    "RESPONSE_C": "The study design is completely invalid because mice were not genetically sequenced prior to treatment, which introduces confounding mutations that invalidate all kinase inhibitor assays."
+  },
+  "sample_expert_evaluation": {
+    "schema_version": "v0.2",
+    "reviewer_id": "REV_DEMO",
+    "case_id": "DEMO_SCENARIO_001",
+    "qualification_tier": "BIOSTATISTICIAN",
+    "reviewer_confidence": "HIGH",
+    "response_evaluations": {
+      "RESPONSE_A": {
+        "SCIENTIFIC_CORRECTNESS": 5,
+        "PRIMARY_ISSUE_IDENTIFICATION": 5,
+        "EXPERIMENTAL_UNIT_REASONING": 5,
+        "STATISTICAL_VALIDITY": 5,
+        "BIOLOGICAL_PLAUSIBILITY": 5,
+        "CORRECTION_ACTIONABILITY": 5,
+        "UNCERTAINTY_CALIBRATION": 5,
+        "OVERCLAIMING": 5,
+        "FALSE_ALARM_BEHAVIOR": 5,
+        "OVERALL_SCIENTIFIC_USEFULNESS": 5
+      },
+      "RESPONSE_B": {
+        "SCIENTIFIC_CORRECTNESS": 2,
+        "PRIMARY_ISSUE_IDENTIFICATION": 2,
+        "EXPERIMENTAL_UNIT_REASONING": 1,
+        "STATISTICAL_VALIDITY": 2,
+        "BIOLOGICAL_PLAUSIBILITY": 3,
+        "CORRECTION_ACTIONABILITY": 2,
+        "UNCERTAINTY_CALIBRATION": 3,
+        "OVERCLAIMING": 3,
+        "FALSE_ALARM_BEHAVIOR": 4,
+        "OVERALL_SCIENTIFIC_USEFULNESS": 2
+      },
+      "RESPONSE_C": {
+        "SCIENTIFIC_CORRECTNESS": 1,
+        "PRIMARY_ISSUE_IDENTIFICATION": 1,
+        "EXPERIMENTAL_UNIT_REASONING": 1,
+        "STATISTICAL_VALIDITY": 1,
+        "BIOLOGICAL_PLAUSIBILITY": 1,
+        "CORRECTION_ACTIONABILITY": 1,
+        "UNCERTAINTY_CALIBRATION": 1,
+        "OVERCLAIMING": 1,
+        "FALSE_ALARM_BEHAVIOR": 1,
+        "OVERALL_SCIENTIFIC_USEFULNESS": 1
+      }
+    },
+    "pairwise_preference": "RESPONSE_A",
+    "comments": "Response A directly identified the root pseudoreplication flaw and provided the exact lmer formula and aggregation alternative. Response B missed the hierarchy; Response C hallucinated irrelevant requirements.",
+    "submitted_at": "2026-09-16T00:00:00Z"
+  }
+}

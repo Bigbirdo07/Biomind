@@ -1,0 +1,577 @@
+[
+  {
+    "challenge_id": "CHALLENGE_V01_001",
+    "domain": "spatial_merfish",
+    "subdomain": "spatial_biology",
+    "scenario": "A researcher maps 500 genes in 4 coronal mouse brain sections using MERFISH. To discover cell-cell signaling niches, they randomly split all 80,000 decoded cells across the 4 slices into 80% train and 20% test. Is this valid for testing spatial niche prediction?",
+    "flawed_analysis_present": true,
+    "flaw_type": "spatial_cell_proximity_leakage",
+    "ground_truth_rationale": "Randomly splitting cells across the same continuous tissue slices causes spatial autocorrelation leakage.",
+    "expected_decision": {
+      "primary_issue": "SPATIAL_CELL_PROXIMITY_LEAKAGE",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "spatial_merfish",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_002",
+    "domain": "proteomics_tmt",
+    "subdomain": "biomarkers",
+    "scenario": "In a 10-plex TMT proteomics study comparing 30 tumor and 30 normal tissues across 6 TMT batches, each batch contains 5 tumors and 5 normals. Data are normalized using the common reference pool in channel 126 and analyzed via limma. Critique the design.",
+    "flawed_analysis_present": false,
+    "flaw_type": null,
+    "ground_truth_rationale": "Valid design. Including a bridge reference pool in each TMT plex and balancing conditions within plexes controls batch effects.",
+    "expected_decision": {
+      "primary_issue": "NONE_VALID_ANALYSIS",
+      "severity": "INFO"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "proteomics_tmt",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_003",
+    "domain": "crispr_screen_off_target",
+    "subdomain": "functional_genomics",
+    "scenario": "A genome-wide CRISPR screen identifies Gene X as a top essential gene using a single highly active sgRNA, while 4 other sgRNAs targeting Gene X show zero depletion. The authors claim Gene X is universally essential.",
+    "flawed_analysis_present": true,
+    "flaw_type": "single_sgrna_off_target_artifact",
+    "ground_truth_rationale": "A single discordant sgRNA suggests off-target toxicity rather than on-target gene essentiality. Hit calling requires multiple consistent sgRNAs.",
+    "expected_decision": {
+      "primary_issue": "SINGLE_SGRNA_OFF_TARGET_ARTIFACT",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "crispr_screen_off_target",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_004",
+    "domain": "microbiome_longitudinal_infant",
+    "subdomain": "microbiome",
+    "scenario": "In a study of infant gut microbiome development, 10 infants are sampled weekly for 52 weeks (520 total fecal samples). The authors run a random forest classifier to predict allergy status at 1 year by randomly splitting the 520 samples into 5-fold CV. Critique this ML design.",
+    "flawed_analysis_present": true,
+    "flaw_type": "longitudinal_infant_subject_leakage",
+    "ground_truth_rationale": "Randomly partitioning weekly samples from the same 10 infants leaks infant-specific microbiota signatures into test folds. Must use GroupKFold by infant.",
+    "expected_decision": {
+      "primary_issue": "LONGITUDINAL_INFANT_SUBJECT_LEAKAGE",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "microbiome_longitudinal_infant",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_005",
+    "domain": "single_cell_trajectory_root",
+    "subdomain": "scrna_seq",
+    "scenario": "A developmental biology paper runs Monocle3 on 5,000 neural crest cells. The authors select the mature Schwann cell cluster as the pseudotime trajectory root and conclude that Schwann cells dedifferentiate into pluripotent neural crest cells in vivo without lineage tracing.",
+    "flawed_analysis_present": true,
+    "flaw_type": "unsubstantiated_trajectory_root_reversal",
+    "ground_truth_rationale": "Pseudotime directionality is an unoriented graph mathematical construct. Setting an arbitrary root cannot prove in vivo dedifferentiation without temporal or lineage tracing.",
+    "expected_decision": {
+      "primary_issue": "UNSUBSTANTIATED_TRAJECTORY_ROOT_REVERSAL",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "single_cell_trajectory_root",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_006",
+    "domain": "atac_seq_footprinting_depth",
+    "subdomain": "epigenomics",
+    "scenario": "An investigator compares TF footprint depths between 2 cell states using bulk ATAC-seq with 10M reads in State A and 60M reads in State B. They claim State B has 5-fold higher TF binding occupancy.",
+    "flawed_analysis_present": true,
+    "flaw_type": "sequencing_depth_confounded_footprinting",
+    "ground_truth_rationale": "ATAC-seq footprint detection is heavily non-linear and dependent on library sequencing depth. State B's apparent occupancy is a sequencing depth artifact.",
+    "expected_decision": {
+      "primary_issue": "SEQUENCING_DEPTH_CONFOUNDED_FOOTPRINTING",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "atac_seq_footprinting_depth",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_007",
+    "domain": "long_read_phasing_leak",
+    "subdomain": "genomics",
+    "scenario": "To evaluate a deep learning haplotype phasing algorithm on PacBio HiFi reads, the authors train on Chromosomes 1-20 and test on Chromosomes 21-22 from the exact same individual (HG002). Is this an independent test?",
+    "flawed_analysis_present": false,
+    "flaw_type": null,
+    "ground_truth_rationale": "Valid standard benchmark practice for machine learning in genomics. Holding out entire chromosomes from the same reference genome tests generalizability to unseen sequence regions.",
+    "expected_decision": {
+      "primary_issue": "NONE_VALID_ANALYSIS",
+      "severity": "INFO"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "long_read_phasing_leak",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_008",
+    "domain": "multi_omics_missing_block",
+    "subdomain": "multi_omics",
+    "scenario": "In a multi-omics cancer study where only 40 out of 200 patients have proteomics data (160 missing), the authors impute the missing 160 proteomics profiles using KNN on the transcriptomics data before evaluating an integrated multi-omics classifier. Critique this.",
+    "flawed_analysis_present": true,
+    "flaw_type": "block_missing_synthetic_multiomics_leak",
+    "ground_truth_rationale": "Imputing 80% missing proteomics profiles from transcriptomics creates artificial concordance and circular feature amplification.",
+    "expected_decision": {
+      "primary_issue": "BLOCK_MISSING_SYNTHETIC_MULTIOMICS_LEAK",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "multi_omics_missing_block",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_009",
+    "domain": "organoid_drug_screen_passage",
+    "subdomain": "pharmacology",
+    "scenario": "A drug sensitivity study tests 20 kinase inhibitors on 1 patient-derived organoid line passaged 3 times, claiming n=3 biological replicates of patient response.",
+    "flawed_analysis_present": true,
+    "flaw_type": "passaged_organoid_pseudoreplication",
+    "ground_truth_rationale": "Serial passages of a single organoid line represent technical/cell-line stability, not independent biological replicates of patient response variability.",
+    "expected_decision": {
+      "primary_issue": "PASSAGED_ORGANOID_PSEUDOREPLICATION",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "organoid_drug_screen_passage",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_010",
+    "domain": "metabolomics_serum_hemolysis",
+    "subdomain": "metabolomics",
+    "scenario": "An untargeted serum metabolomics study identifies 30 metabolites distinguishing cardiac arrest patients from controls. However, cardiac arrest blood tubes had severe hemolysis (RBC lysis) due to emergency draw conditions. The top 'biomarkers' are glycolytic intermediates and potassium.",
+    "flawed_analysis_present": true,
+    "flaw_type": "preanalytical_hemolysis_confounding",
+    "ground_truth_rationale": "Red blood cell lysis (hemolysis) during blood draw releases intracellular metabolites into serum, confounding disease biomarkers with collection artifacts.",
+    "expected_decision": {
+      "primary_issue": "PREANALYTICAL_HEMOLYSIS_CONFOUNDING",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "metabolomics_serum_hemolysis",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_011",
+    "domain": "bulk_rnaseq_ffpe_degradation",
+    "subdomain": "bulk_rnaseq",
+    "scenario": "A retrospective study compares FFPE archival tumor biopsies (RIN = 2.1) with fresh-frozen normal tissues (RIN = 8.5) using standard poly-A selection RNA-seq. 8,000 genes are reported as significantly downregulated in cancer.",
+    "flawed_analysis_present": true,
+    "flaw_type": "rin_degradation_selection_confounding",
+    "ground_truth_rationale": "Poly-A capture on degraded FFPE RNA fails to capture 5' fragments. Comparing degraded FFPE with intact frozen tissue confounds cancer biology with RNA degradation artifacts.",
+    "expected_decision": {
+      "primary_issue": "RIN_DEGRADATION_SELECTION_CONFOUNDING",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "bulk_rnaseq_ffpe_degradation",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_012",
+    "domain": "single_cell_doublet_multiplet",
+    "subdomain": "scrna_seq",
+    "scenario": "A single-cell study loads 40,000 cells per lane on a 10x controller (expected multiplet rate >30%). The authors skip doublet detection and claim discovery of a novel rare hybrid 'T-cell/B-cell' co-expressing CD3 and CD19.",
+    "flawed_analysis_present": true,
+    "flaw_type": "unfiltered_doublet_novel_cell_type_claim",
+    "ground_truth_rationale": "High-loading doublets/multiplets physically encapsulate two distinct cells, producing artificial hybrid transcriptomes that masquerade as novel cell types.",
+    "expected_decision": {
+      "primary_issue": "UNFILTERED_DOUBLET_NOVEL_CELL_TYPE_CLAIM",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "single_cell_doublet_multiplet",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_013",
+    "domain": "gwas_prs_cross_ancestry",
+    "subdomain": "gwas",
+    "scenario": "A Polygenic Risk Score (PRS) for coronary artery disease trained strictly on European ancestry UK Biobank participants (AUC=0.82) is applied directly to predict disease risk in a rural Nigerian cohort without recalibration, claiming identical clinical risk stratification.",
+    "flawed_analysis_present": true,
+    "flaw_type": "cross_ancestry_prs_portability_overreach",
+    "ground_truth_rationale": "Differences in linkage disequilibrium (LD) architecture, causal allele frequencies, and environmental interactions severely degrade PRS accuracy across ancestries. Direct clinical portability cannot be assumed.",
+    "expected_decision": {
+      "primary_issue": "CROSS_ANCESTRY_PRS_PORTABILITY_OVERREACH",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "gwas_prs_cross_ancestry",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_014",
+    "domain": "paired_tumor_normal_split",
+    "subdomain": "biological_ml",
+    "scenario": "A study trains a deep learning classifier to distinguish tumor from normal lung tissue using 100 paired tumor/adjacent-normal samples from 100 patients. The train/test split is done randomly by sample, placing 30 tumor samples in train and their matched normal pairs in test.",
+    "flawed_analysis_present": true,
+    "flaw_type": "paired_patient_cross_split_leakage",
+    "ground_truth_rationale": "Matched tumor/normal pairs from the same patient share germline genetic background and patient-specific baseline expression, causing cross-split patient leakage.",
+    "expected_decision": {
+      "primary_issue": "PAIRED_PATIENT_CROSS_SPLIT_LEAKAGE",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "paired_tumor_normal_split",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_015",
+    "domain": "valid_spatial_seurat_de",
+    "subdomain": "spatial_transcriptomics",
+    "scenario": "A 10x Visium experiment analyzes 6 mouse brain sections. For differential expression between cortex and hippocampus, spots are aggregated into pseudo-spots per anatomical region within each of the 6 biological mice, followed by edgeR quasi-likelihood testing.",
+    "flawed_analysis_present": false,
+    "flaw_type": null,
+    "ground_truth_rationale": "Valid hierarchical design. Aggregating spots per region per mouse respects the independent animal replication unit.",
+    "expected_decision": {
+      "primary_issue": "NONE_VALID_ANALYSIS",
+      "severity": "INFO"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "valid_spatial_seurat_de",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_016",
+    "domain": "scrna_cell_type_de_unbalanced",
+    "subdomain": "scrna_seq",
+    "scenario": "In a single-cell study with 3 diseased and 3 healthy donors, Diseased Donor 1 contributes 90% of all macrophage cells in the dataset. A Wilcoxon test across all macrophages reports 1,500 DE genes. Critique this.",
+    "flawed_analysis_present": true,
+    "flaw_type": "donor_dominance_cell_level_confounding",
+    "ground_truth_rationale": "Cell-level DE without donor weighting is dominated by a single donor's private genetic variants and idiosyncratic state, masquerading as disease signal.",
+    "expected_decision": {
+      "primary_issue": "DONOR_DOMINANCE_CELL_LEVEL_CONFOUNDING",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "scrna_cell_type_de_unbalanced",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_017",
+    "domain": "survival_immortal_time_bias",
+    "subdomain": "survival_analysis",
+    "scenario": "A clinical study compares survival in patients who received an experimental immunotherapy after 6 months of standard therapy vs patients who received standard therapy only. The time origin for both groups is set to Day 0 of diagnosis. Patients in the immunotherapy arm show a dramatic 5-year survival advantage.",
+    "flawed_analysis_present": true,
+    "flaw_type": "immortal_time_bias",
+    "ground_truth_rationale": "Patients in the immunotherapy arm had to survive at least 6 months to receive the drug, creating immortal time bias during the initial 6-month period.",
+    "expected_decision": {
+      "primary_issue": "IMMORTAL_TIME_BIAS",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "survival_immortal_time_bias",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_018",
+    "domain": "dna_methylation_batch_plate",
+    "subdomain": "epigenomics",
+    "scenario": "DNA methylation 450k arrays are run on 48 control samples on Plate 1 and 48 Alzheimer's samples on Plate 2. All probes with p < 1e-5 are reported as epigenetic biomarkers.",
+    "flawed_analysis_present": true,
+    "flaw_type": "array_plate_confounding",
+    "ground_truth_rationale": "Complete confounding between array plate and clinical phenotype makes true epigenetic differences unidentifiable from plate hybridization noise.",
+    "expected_decision": {
+      "primary_issue": "ARRAY_PLATE_CONFOUNDING",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "dna_methylation_batch_plate",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_019",
+    "domain": "valid_crispr_depmap_ceres",
+    "subdomain": "functional_genomics",
+    "scenario": "A cancer dependency study analyzes genome-wide CRISPR knockouts across 500 cell lines using CERES/Chronos algorithms to correct for copy number amplification-associated cut lethality.",
+    "flawed_analysis_present": false,
+    "flaw_type": null,
+    "ground_truth_rationale": "Valid method. CERES and Chronos explicitly model and correct for non-specific double-strand break toxicity in high-copy amplified genomic regions.",
+    "expected_decision": {
+      "primary_issue": "NONE_VALID_ANALYSIS",
+      "severity": "INFO"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "valid_crispr_depmap_ceres",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_020",
+    "domain": "flow_cytometry_spectral_unmixing",
+    "subdomain": "immunology",
+    "scenario": "A 30-color spectral flow cytometry panel is run without single-stained reference controls for each fluorophore, relying on manufacturer theoretical spectra libraries for unmixing on autofluorescent lung tissue.",
+    "flawed_analysis_present": true,
+    "flaw_type": "unmixing_autofluorescence_artifact",
+    "ground_truth_rationale": "Tissue-specific autofluorescence and optical filter variation require experimental single-stained reference controls; theoretical libraries cause severe spillover unmixing artifacts.",
+    "expected_decision": {
+      "primary_issue": "UNMIXING_AUTOFLUORESCENCE_ARTIFACT",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "flow_cytometry_spectral_unmixing",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_021",
+    "domain": "single_cell_ambient_rna",
+    "subdomain": "scrna_seq",
+    "scenario": "In droplet scRNA-seq of damaged kidney tissue, the authors observe high expression of hemoglobin and podocyte-specific genes in every single cell cluster (including T cells and B cells) and claim discovery of hemoglobin-expressing lymphocytes.",
+    "flawed_analysis_present": true,
+    "flaw_type": "ambient_rna_contamination_conflation",
+    "ground_truth_rationale": "Cell lysis during tissue dissociation releases cell-free ambient mRNA into droplets. Without SoupX/CellBender correction, ambient contamination appears as ubiquitous cross-lineage gene expression.",
+    "expected_decision": {
+      "primary_issue": "AMBIENT_RNA_CONTAMINATION_CONFLATION",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "single_cell_ambient_rna",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_022",
+    "domain": "microbiome_rarefaction_vs_clr",
+    "subdomain": "microbiome",
+    "scenario": "A microbiome study rarefies sequencing counts to 1,000 reads per sample by discarding 90% of reads from deeply sequenced samples, then runs differential abundance on rarefied proportions.",
+    "flawed_analysis_present": true,
+    "flaw_type": "rarefaction_data_loss_and_compositionality",
+    "ground_truth_rationale": "Rarefaction discards vast statistical power and does not solve compositionality; modern GLMs (e.g. ANCOM-BC2, Maaslin2) model library size without throwing away data.",
+    "expected_decision": {
+      "primary_issue": "RAREFACTION_DATA_LOSS_AND_COMPOSITIONALITY",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "microbiome_rarefaction_vs_clr",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_023",
+    "domain": "valid_gwas_ldsc_heritability",
+    "subdomain": "genomics",
+    "scenario": "A study estimates SNP heritability of rheumatoid arthritis using LD Score Regression (LDSC) on summary statistics, verifying that the intercept is ~1.02, indicating that test statistic inflation is driven by polygenicity rather than population stratification.",
+    "flawed_analysis_present": false,
+    "flaw_type": null,
+    "ground_truth_rationale": "Valid standard methodological practice. LDSC separates true polygenic signal from confounding stratification.",
+    "expected_decision": {
+      "primary_issue": "NONE_VALID_ANALYSIS",
+      "severity": "INFO"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "valid_gwas_ldsc_heritability",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_024",
+    "domain": "pharmacogenomics_ic50_truncation",
+    "subdomain": "pharmacology",
+    "scenario": "In a high-throughput drug screen of 500 cell lines, for drugs where IC50 was not reached at the maximum tested concentration (10 uM), the authors set IC50 = 10 uM and fit linear regression models to predict IC50 from baseline gene expression.",
+    "flawed_analysis_present": true,
+    "flaw_type": "censored_ic50_truncation_distortion",
+    "ground_truth_rationale": "Setting right-censored IC50 values to the arbitrary maximum concentration distorts linear regression relationships; requires tobit regression or censored regression models.",
+    "expected_decision": {
+      "primary_issue": "CENSORED_IC50_TRUNCATION_DISTORTION",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "pharmacogenomics_ic50_truncation",
+      "external_validation"
+    ]
+  },
+  {
+    "challenge_id": "CHALLENGE_V01_025",
+    "domain": "protein_variant_clinvar_date_leak",
+    "subdomain": "protein_variant_interpretation",
+    "scenario": "A new protein variant pathogenicity tool is trained on ClinVar 2024 and tested on ClinVar 2023. The authors report 99.8% precision.",
+    "flawed_analysis_present": true,
+    "flaw_type": "reverse_temporal_leakage_duplicate_test",
+    "ground_truth_rationale": "Testing on an older release (2023) while training on a newer release (2024) of the same database means almost all test variants were present in the training set.",
+    "expected_decision": {
+      "primary_issue": "REVERSE_TEMPORAL_LEAKAGE_DUPLICATE_TEST",
+      "severity": "ERROR"
+    },
+    "provenance": {
+      "source_type": "external_challenge_literature_derived",
+      "license": "CC-BY-4.0",
+      "review_status": "BENCHMARK_VERIFIED"
+    },
+    "tags": [
+      "challenge",
+      "protein_variant_clinvar_date_leak",
+      "external_validation"
+    ]
+  }
+]

@@ -1,0 +1,132 @@
+[
+  {
+    "pilot_id": "PR_PILOT_001_SPATIAL_LEAK",
+    "title": "Spatial Visium in Pancreatic Cancer",
+    "prompt": "Review this computational biology methods section as a peer reviewer:\n\nMethods: 4 patient slices of pancreatic adenocarcinoma were sequenced using 10x Visium. All 16,000 spots were randomly assigned to 80% train and 20% test for training a Random Forest stroma detector. An AUC of 0.98 was achieved.",
+    "gold_critique": "Major Concerns: Spatial autocorrelation leakage between train and test spots on the same tissue section.\nRequired Corrections: Use leave-one-patient-slice-out cross-validation.",
+    "required_sections": [
+      "Major Methodological Concerns",
+      "Minor Analytical Concerns",
+      "Experimental Unit & Independence Audit",
+      "Claim & Interpretation Calibration",
+      "Required Methodological Revisions"
+    ]
+  },
+  {
+    "pilot_id": "PR_PILOT_002_LONGITUDINAL_BIOPSY",
+    "title": "Serial Biopsies in Melanoma",
+    "prompt": "Review this computational biology methods section as a peer reviewer:\n\nMethods: 15 melanoma patients provided serial biopsies at baseline, week 4, and progression (45 biopsies total). A two-sample t-test was performed on the 45 samples comparing responders vs non-responders.",
+    "gold_critique": "Major Concerns: Longitudinal pseudoreplication. 45 biopsies from 15 patients are not independent degrees of freedom.\nRequired Corrections: Fit a linear mixed-effects model with random intercepts per patient.",
+    "required_sections": [
+      "Major Methodological Concerns",
+      "Minor Analytical Concerns",
+      "Experimental Unit & Independence Audit",
+      "Claim & Interpretation Calibration",
+      "Required Methodological Revisions"
+    ]
+  },
+  {
+    "pilot_id": "PR_PILOT_003_SMOTE_IMBALANCED_OMICS",
+    "title": "Rare Sepsis Subtype Classification",
+    "prompt": "Review this computational biology methods section as a peer reviewer:\n\nMethods: 15 rare shock patients and 150 non-shock controls were analyzed. SMOTE oversampling was applied to the entire dataset to generate 135 synthetic shock cases. A gradient boosting model achieved 99% 10-fold CV accuracy.",
+    "gold_critique": "Major Concerns: Resampling leakage. Global SMOTE interpolates between training and test instances.\nRequired Corrections: Wrap SMOTE inside imblearn.pipeline.Pipeline fitted strictly on training folds.",
+    "required_sections": [
+      "Major Methodological Concerns",
+      "Minor Analytical Concerns",
+      "Experimental Unit & Independence Audit",
+      "Claim & Interpretation Calibration",
+      "Required Methodological Revisions"
+    ]
+  },
+  {
+    "pilot_id": "PR_PILOT_004_BATCH_CONFOUNDED_CENTER",
+    "title": "Multi-Center Alzheimer's Brain Study",
+    "prompt": "Review this computational biology methods section as a peer reviewer:\n\nMethods: 50 Alzheimer's brains from Center A and 50 Control brains from Center B were sequenced. Five batch correction tools (ComBat, Harmony, Combat-seq, SVA, limma) all identified the same 15 DE genes.",
+    "gold_critique": "Major Concerns: Unidentifiable design confounding. Center and disease phenotype are 100% collinear. Multi-tool agreement does not fix unidentifiability.\nRequired Corrections: Sequence a balanced validation cohort across centers.",
+    "required_sections": [
+      "Major Methodological Concerns",
+      "Minor Analytical Concerns",
+      "Experimental Unit & Independence Audit",
+      "Claim & Interpretation Calibration",
+      "Required Methodological Revisions"
+    ]
+  },
+  {
+    "pilot_id": "PR_PILOT_005_VALID_SCRNA_PSEUDOBULK",
+    "title": "Single-Cell Immunotherapy Response",
+    "prompt": "Review this computational biology methods section as a peer reviewer:\n\nMethods: 100,000 T cells from 10 responder and 10 non-responder mice were pooled per mouse into pseudobulk counts. DESeq2 was run on the 20 pseudobulk samples with FDR < 0.05.",
+    "gold_critique": "Major Concerns: None. Workflow correctly respects the biological experimental unit.\nRequired Corrections: None.",
+    "required_sections": [
+      "Major Methodological Concerns",
+      "Minor Analytical Concerns",
+      "Experimental Unit & Independence Audit",
+      "Claim & Interpretation Calibration",
+      "Required Methodological Revisions"
+    ]
+  },
+  {
+    "pilot_id": "PR_PILOT_006_SURVIVAL_CENSORING_BIAS",
+    "title": "5-Year Survival in Glioblastoma",
+    "prompt": "Review this computational biology methods section as a peer reviewer:\n\nMethods: In a cohort of 200 patients, 50 patients lost to follow-up before year 5 were dropped. A neural network was trained on the remaining 150 patients to predict 5-year survival.",
+    "gold_critique": "Major Concerns: Censoring selection bias. Discarding censored patients destroys survival time distributions.\nRequired Corrections: Use Cox proportional hazards or random survival forests.",
+    "required_sections": [
+      "Major Methodological Concerns",
+      "Minor Analytical Concerns",
+      "Experimental Unit & Independence Audit",
+      "Claim & Interpretation Calibration",
+      "Required Methodological Revisions"
+    ]
+  },
+  {
+    "pilot_id": "PR_PILOT_007_MICROBIOME_PEARSON_SPURIOUS",
+    "title": "Gut Microbiota Interaction Network",
+    "prompt": "Review this computational biology methods section as a peer reviewer:\n\nMethods: 16S relative abundance percentages (summing to 100%) were tested with Pearson correlation across 100 subjects. 50 correlations with r > 0.6 were claimed as microbial mutualisms.",
+    "gold_critique": "Major Concerns: Compositionality artifact. Sum-to-constant simplex constraints induce spurious correlations.\nRequired Corrections: Use Centered Log-Ratio (CLR) or SparCC/SPIEC-EASI.",
+    "required_sections": [
+      "Major Methodological Concerns",
+      "Minor Analytical Concerns",
+      "Experimental Unit & Independence Audit",
+      "Claim & Interpretation Calibration",
+      "Required Methodological Revisions"
+    ]
+  },
+  {
+    "pilot_id": "PR_PILOT_008_GWAS_POPULATION_STRAT",
+    "title": "Cardiovascular GWAS in Italy and Sweden",
+    "prompt": "Review this computational biology methods section as a peer reviewer:\n\nMethods: 4,000 Italian cases and 4,000 Swedish controls were analyzed with unadjusted logistic regression across 1M SNPs, yielding 3,500 genome-wide significant hits.",
+    "gold_critique": "Major Concerns: Population stratification confounding. Geographic ancestry differences drive spurious associations.\nRequired Corrections: Adjust for ancestry principal components or use mixed linear models.",
+    "required_sections": [
+      "Major Methodological Concerns",
+      "Minor Analytical Concerns",
+      "Experimental Unit & Independence Audit",
+      "Claim & Interpretation Calibration",
+      "Required Methodological Revisions"
+    ]
+  },
+  {
+    "pilot_id": "PR_PILOT_009_CRISPR_BOTTLENECK",
+    "title": "Genome-Wide CRISPR Resistance Screen",
+    "prompt": "Review this computational biology methods section as a peer reviewer:\n\nMethods: 50,000 sgRNAs were transduced into 10,000 cells (0.2x coverage). Cells were outgrowth for 14 days and sequenced with MAGeCK.",
+    "gold_critique": "Major Concerns: Severe sampling bottleneck. Guide drop-out reflects stochastic loss rather than fitness penalty.\nRequired Corrections: Maintain at least 500x-1000x cell representation at all passages.",
+    "required_sections": [
+      "Major Methodological Concerns",
+      "Minor Analytical Concerns",
+      "Experimental Unit & Independence Audit",
+      "Claim & Interpretation Calibration",
+      "Required Methodological Revisions"
+    ]
+  },
+  {
+    "pilot_id": "PR_PILOT_010_SHAP_CAUSAL_OVERCLAIM",
+    "title": "Random Forest Biomarker in Sepsis",
+    "prompt": "Review this computational biology methods section as a peer reviewer:\n\nMethods: Random forest predicted sepsis mortality with AUC=0.88. TreeSHAP showed serum lactate was the top feature. Authors conclude sodium bicarbonate infusion will causally reduce mortality by 30%.",
+    "gold_critique": "Major Concerns: Conflating statistical feature importance with biological causality.\nRequired Corrections: Confine claims to statistical association and propose prospective interventional trials.",
+    "required_sections": [
+      "Major Methodological Concerns",
+      "Minor Analytical Concerns",
+      "Experimental Unit & Independence Audit",
+      "Claim & Interpretation Calibration",
+      "Required Methodological Revisions"
+    ]
+  }
+]

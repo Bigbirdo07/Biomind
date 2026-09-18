@@ -1,0 +1,29 @@
+{
+  "reviewer": {
+    "reviewer_id": "REV002",
+    "qualification_tier": "COMPUTATIONAL_BIOLOGIST",
+    "domain_specialties": [
+      "single_cell_transcriptomics",
+      "spatial_transcriptomics",
+      "crispr_screens"
+    ],
+    "experience_band": "6-10_years"
+  },
+  "assigned_case_count": 14,
+  "assigned_cases": [
+    "HEVAL_002",
+    "HEVAL_003",
+    "HEVAL_008",
+    "HEVAL_016",
+    "HEVAL_017",
+    "HEVAL_018",
+    "HEVAL_023",
+    "HEVAL_030",
+    "HEVAL_032",
+    "HEVAL_033",
+    "HEVAL_038",
+    "HEVAL_041",
+    "HEVAL_047",
+    "HEVAL_048"
+  ]
+}

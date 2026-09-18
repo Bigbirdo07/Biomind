@@ -1,0 +1,322 @@
+{
+  "assignment_manifest_version": "v0.2",
+  "random_seed": 42,
+  "total_cases": 50,
+  "total_case_reviews_planned": 117,
+  "reviews_per_case_distribution": {
+    "2_reviews": 33,
+    "3_reviews": 17,
+    "less_than_2": 0
+  },
+  "reviewers": [
+    {
+      "reviewer_id": "REV001",
+      "qualification_tier": "BIOSTATISTICIAN",
+      "domain_specialties": [
+        "biostatistics",
+        "survival_analysis",
+        "longitudinal_omics"
+      ],
+      "experience_band": "10+_years"
+    },
+    {
+      "reviewer_id": "REV002",
+      "qualification_tier": "COMPUTATIONAL_BIOLOGIST",
+      "domain_specialties": [
+        "single_cell_transcriptomics",
+        "spatial_transcriptomics",
+        "crispr_screens"
+      ],
+      "experience_band": "6-10_years"
+    },
+    {
+      "reviewer_id": "REV003",
+      "qualification_tier": "BIOINFORMATICIAN",
+      "domain_specialties": [
+        "atac_seq",
+        "gwas_genomics",
+        "phylogenetics"
+      ],
+      "experience_band": "6-10_years"
+    },
+    {
+      "reviewer_id": "REV004",
+      "qualification_tier": "EXPERT_DOMAIN",
+      "domain_specialties": [
+        "metabolomics",
+        "proteomics",
+        "experimental_design"
+      ],
+      "experience_band": "10+_years"
+    },
+    {
+      "reviewer_id": "REV005",
+      "qualification_tier": "BIOSTATISTICIAN",
+      "domain_specialties": [
+        "biostatistics",
+        "survival_analysis",
+        "experimental_design"
+      ],
+      "experience_band": "6-10_years"
+    },
+    {
+      "reviewer_id": "REV006",
+      "qualification_tier": "COMPUTATIONAL_BIOLOGIST",
+      "domain_specialties": [
+        "biological_ml",
+        "variant_interpretation",
+        "crispr_screens"
+      ],
+      "experience_band": "3-5_years"
+    },
+    {
+      "reviewer_id": "REV007",
+      "qualification_tier": "GENERAL_BIOLOGICAL_SCIENTIST",
+      "domain_specialties": [
+        "microbiome",
+        "experimental_design",
+        "proteomics"
+      ],
+      "experience_band": "6-10_years"
+    },
+    {
+      "reviewer_id": "REV008",
+      "qualification_tier": "BIOINFORMATICIAN",
+      "domain_specialties": [
+        "variant_interpretation",
+        "gwas_genomics",
+        "atac_seq"
+      ],
+      "experience_band": "6-10_years"
+    }
+  ],
+  "case_assignments": {
+    "HEVAL_001": [
+      "REV001",
+      "REV003",
+      "REV008"
+    ],
+    "HEVAL_002": [
+      "REV002",
+      "REV004"
+    ],
+    "HEVAL_003": [
+      "REV002",
+      "REV006"
+    ],
+    "HEVAL_004": [
+      "REV004",
+      "REV007"
+    ],
+    "HEVAL_005": [
+      "REV005",
+      "REV007",
+      "REV008"
+    ],
+    "HEVAL_006": [
+      "REV004",
+      "REV007"
+    ],
+    "HEVAL_007": [
+      "REV003",
+      "REV007"
+    ],
+    "HEVAL_008": [
+      "REV002",
+      "REV006"
+    ],
+    "HEVAL_009": [
+      "REV001",
+      "REV005",
+      "REV007"
+    ],
+    "HEVAL_010": [
+      "REV003",
+      "REV006",
+      "REV008"
+    ],
+    "HEVAL_011": [
+      "REV004",
+      "REV006",
+      "REV008"
+    ],
+    "HEVAL_012": [
+      "REV001",
+      "REV003"
+    ],
+    "HEVAL_013": [
+      "REV005",
+      "REV006"
+    ],
+    "HEVAL_014": [
+      "REV005",
+      "REV007"
+    ],
+    "HEVAL_015": [
+      "REV001",
+      "REV004",
+      "REV005"
+    ],
+    "HEVAL_016": [
+      "REV001",
+      "REV002",
+      "REV008"
+    ],
+    "HEVAL_017": [
+      "REV002",
+      "REV007"
+    ],
+    "HEVAL_018": [
+      "REV002",
+      "REV003"
+    ],
+    "HEVAL_019": [
+      "REV003",
+      "REV008"
+    ],
+    "HEVAL_020": [
+      "REV001",
+      "REV004",
+      "REV007"
+    ],
+    "HEVAL_021": [
+      "REV004",
+      "REV006"
+    ],
+    "HEVAL_022": [
+      "REV005",
+      "REV007"
+    ],
+    "HEVAL_023": [
+      "REV002",
+      "REV006"
+    ],
+    "HEVAL_024": [
+      "REV001",
+      "REV005",
+      "REV006"
+    ],
+    "HEVAL_025": [
+      "REV003",
+      "REV008"
+    ],
+    "HEVAL_026": [
+      "REV001",
+      "REV006",
+      "REV008"
+    ],
+    "HEVAL_027": [
+      "REV003",
+      "REV004"
+    ],
+    "HEVAL_028": [
+      "REV003",
+      "REV006"
+    ],
+    "HEVAL_029": [
+      "REV004",
+      "REV005"
+    ],
+    "HEVAL_030": [
+      "REV001",
+      "REV002",
+      "REV005"
+    ],
+    "HEVAL_031": [
+      "REV001",
+      "REV007",
+      "REV008"
+    ],
+    "HEVAL_032": [
+      "REV002",
+      "REV005"
+    ],
+    "HEVAL_033": [
+      "REV002",
+      "REV006"
+    ],
+    "HEVAL_034": [
+      "REV003",
+      "REV008"
+    ],
+    "HEVAL_035": [
+      "REV004",
+      "REV007"
+    ],
+    "HEVAL_036": [
+      "REV004",
+      "REV008"
+    ],
+    "HEVAL_037": [
+      "REV001",
+      "REV007"
+    ],
+    "HEVAL_038": [
+      "REV002",
+      "REV006"
+    ],
+    "HEVAL_039": [
+      "REV001",
+      "REV003",
+      "REV005"
+    ],
+    "HEVAL_040": [
+      "REV003",
+      "REV004",
+      "REV008"
+    ],
+    "HEVAL_041": [
+      "REV002",
+      "REV006",
+      "REV008"
+    ],
+    "HEVAL_042": [
+      "REV003",
+      "REV007"
+    ],
+    "HEVAL_043": [
+      "REV005",
+      "REV006"
+    ],
+    "HEVAL_044": [
+      "REV004",
+      "REV005"
+    ],
+    "HEVAL_045": [
+      "REV001",
+      "REV003",
+      "REV005"
+    ],
+    "HEVAL_046": [
+      "REV001",
+      "REV006",
+      "REV007"
+    ],
+    "HEVAL_047": [
+      "REV002",
+      "REV008"
+    ],
+    "HEVAL_048": [
+      "REV002",
+      "REV004"
+    ],
+    "HEVAL_049": [
+      "REV003",
+      "REV008"
+    ],
+    "HEVAL_050": [
+      "REV004",
+      "REV007"
+    ]
+  },
+  "reviewer_workload": {
+    "REV001": 14,
+    "REV002": 14,
+    "REV003": 15,
+    "REV004": 15,
+    "REV005": 14,
+    "REV006": 15,
+    "REV007": 15,
+    "REV008": 15
+  }
+}

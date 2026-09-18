@@ -11,329 +11,6 @@ const STORAGE_KEYS = {
   RESPONSE_MODE: 'bioreason_response_mode'
 };
 
-// Guided Pipeline Data Template for RNA-seq & Multi-Omics
-const GUIDED_RNASEQ_PIPELINE = {
-  is_pipeline: true,
-  title: "Tumor vs. Normal RNA-seq Differential Expression & QC Pipeline",
-  foundation: {
-    experimental_unit: "Biological Patient / Specimen (N=12 Tumor vs N=12 Normal)",
-    observation_unit: "Bulk Tissue Biopsy (24 Total Samples)",
-    measurement_unit: "Illumina Paired-End RNA-seq (20,000 genes x 24 samples)",
-    workflow_map: ["Raw Counts CSV", "QC Filtering (14.8k genes)", "Log1p Normalization", "PCA Loadings", "GroupKFold CV", "Results CSV"],
-    shape_progression: [
-      { step: "Raw Counts", shape: "20,000 x 24" },
-      { step: "Filtered", shape: "14,827 x 24" },
-      { step: "Transposed ML", shape: "24 x 14,827" },
-      { step: "PCA Matrix", shape: "24 x 20 PCs" }
-    ]
-  },
-  config_fields: [
-    { key: "COUNTS_FILE", label: "Counts Matrix File", default: "data/counts.csv" },
-    { key: "METADATA_FILE", label: "Sample Metadata File", default: "data/metadata.csv" },
-    { key: "GROUP_COL", label: "Condition Column", default: "condition" },
-    { key: "PATIENT_COL", label: "Subject / Patient Column", default: "patient_id" },
-    { key: "OUTPUT_DIR", label: "Output Directory", default: "./results_rnaseq" },
-    { key: "N_PCS", label: "Number of PCs", default: "20" }
-  ],
-  chunks: [
-    {
-      id: "chunk-1-config",
-      title: "1. User Configuration & File Paths",
-      code: `# ==============================================================================
-# 1. USER CONFIGURATION — REPLACE WITH YOUR ACTUAL LOCAL/HPC FILE PATHS
-# ==============================================================================
-COUNTS_FILE = "__COUNTS_FILE__"        # REPLACE: Path to raw expression matrix
-METADATA_FILE = "__METADATA_FILE__"    # REPLACE: Path to sample metadata
-OUTPUT_DIR = "__OUTPUT_DIR__"            # Directory where results will be saved
-GROUP_COL = "__GROUP_COL__"                    # Metadata column name for biological groups
-PATIENT_COL = "__PATIENT_COL__"                 # Metadata column name for subject/patient IDs
-N_PCS = __N_PCS__                                 # Number of Principal Components to compute`,
-      guide: {
-        what: "Top-level configuration variables defining file paths and experimental factors.",
-        why: "Isolates all environment-specific file locations at the very top so you never need to search through code lines to adjust filenames.",
-        data_in: "Local or cluster filesystem paths (.csv, .tsv, .txt).",
-        data_out: "Validated configuration constants.",
-        modify: "Replace 'data/counts.csv' with your absolute path (e.g. '/Users/alberto/data/counts.csv' on macOS or '/scratch/user/counts.csv' on HPC).",
-        troubleshooting: "FileNotFoundError: Check that the file exists from your current working directory (verify using import os; print(os.getcwd()))."
-      }
-    },
-    {
-      id: "chunk-2-meta",
-      title: "2. Metadata Loading & Alignment Checkpoint",
-      code: `import os
-import pandas as pd
-import numpy as np
-
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-metadata = pd.read_csv(METADATA_FILE, index_col=0)
-
-print(f"[CHECKPOINT 1] Loaded metadata for {len(metadata)} samples.")
-print(f"Biological groups detected: {metadata[GROUP_COL].value_counts().to_dict()}")
-
-# Verify expected sample count and balance
-assert len(metadata) >= 2, "Metadata must contain at least 2 samples."
-assert GROUP_COL in metadata.columns, f"Column '{GROUP_COL}' missing in metadata header."`,
-      guide: {
-        what: "Loads sample annotations and validates column headers.",
-        why: "Ensures experimental group labels and subject IDs are present before matrix loading.",
-        data_in: "24 rows x 4 columns (sample_id, patient_id, condition, batch).",
-        data_out: "Indexed pandas DataFrame.",
-        assumptions: "Rows are sample IDs; group column contains distinct biological arms (e.g. Tumor vs Normal).",
-        troubleshooting: "KeyError: Check for hidden spaces in your CSV column header names (e.g. 'condition ' vs 'condition')."
-      }
-    },
-    {
-      id: "chunk-3-filter",
-      title: "3. Count Matrix Loading & Low-Count Filtering",
-      code: `# Load count matrix (genes x samples)
-counts = pd.read_csv(COUNTS_FILE, index_col=0)
-
-# Critical Checkpoint: Matrix columns MUST align with metadata rows
-assert list(counts.columns) == list(metadata.index), \\
-    "Sample IDs in count matrix columns do not match metadata rows!"
-
-# Filter out genes with < 10 counts in at least 6 samples (minimum group size)
-min_count = 10
-min_samples = 6
-keep_genes = (counts >= min_count).sum(axis=1) >= min_samples
-counts_filtered = counts.loc[keep_genes]
-
-print(f"[SHAPE CHANGE] Raw Matrix: {counts.shape} -> Filtered: {counts_filtered.shape}")`,
-      guide: {
-        what: "Filters out unexpressed and low-abundance background transcripts.",
-        why: "Transcripts with near-zero counts across all samples add statistical noise, increase multiple-testing penalties (FDR), and carry no differential biological signal.",
-        bio_change: "Retains robustly transcribed genes (14,827 genes); removes 5,173 low-count background genes.",
-        data_in: "20,000 genes x 24 samples.",
-        data_out: "14,827 genes x 24 samples.",
-        modify: "Change 'min_samples = 6' to match the sample size of your smallest biological group.",
-        troubleshooting: "AssertionError: Count matrix column names do not match metadata sample_ids. Strip quotes or reorder columns."
-      }
-    },
-    {
-      id: "chunk-4-norm",
-      title: "4. Log1p Transformation & Orientation Transpose",
-      code: `# Log1p variance stabilization: y = log(1 + count)
-# Transpose matrix to (samples x genes) for scikit-learn & downstream modeling
-counts_norm = np.log1p(counts_filtered).T
-
-print(f"[MATRIX ORIENTATION] Machine Learning Matrix: {counts_norm.shape} (samples x genes)")`,
-      guide: {
-        what: "Stabilizes count variance using y = log(1 + x) and transposes matrix orientation.",
-        why: "Raw sequencing counts span multiple orders of magnitude with extreme positive skew. Log transformation compresses extreme counts while preserving zeros. Transposing produces rows=samples and cols=genes as required by Python modeling tools.",
-        bio_change: "Reduces leverage of extreme outlier transcripts; makes variance approximately homoscedastic.",
-        data_in: "14,827 genes x 24 samples.",
-        data_out: "24 samples x 14,827 genes."
-      }
-    },
-    {
-      id: "chunk-5-pca",
-      title: "5. PCA Dimensionality Reduction & Loading Inspection",
-      code: `from sklearn.decomposition import PCA
-
-pca = PCA(n_components=N_PCS, random_state=42)
-X_pca = pca.fit_transform(counts_norm)
-
-# Extract top driving genes (loadings) for PC1
-pc1_loadings = pd.Series(pca.components_[0], index=counts_norm.columns)
-top_pc1_genes = pc1_loadings.abs().sort_values(ascending=False).head(10)
-print(f"Top 10 Genes Driving PC1 Variance:\\n{top_pc1_genes}")
-
-# Save PCA coordinates & loadings to output folder
-pca_df = pd.DataFrame(X_pca[:, :2], index=counts_norm.index, columns=['PC1', 'PC2'])
-pca_df[GROUP_COL] = metadata[GROUP_COL]
-pca_df.to_csv(os.path.join(OUTPUT_DIR, "pca_sample_scores.csv"))
-pc1_loadings.to_csv(os.path.join(OUTPUT_DIR, "pca_gene_loadings.csv"))`,
-      guide: {
-        what: "Principal Component Analysis decomposes 14,827 gene dimensions into orthogonal variance axes.",
-        why: "Visualizes global sample clustering and identifies which specific genes drive major variance across the cohort.",
-        scores_vs_loadings: "Scores (X_pca) = where samples lie in 2D coordinate space. Loadings (pca.components_) = gene weights showing how strongly each gene contributes to PC1 = sum(w_i * G_i).",
-        modify: "Change 'N_PCS = 20' to 10 or 50 depending on cohort size.",
-        warning: "Do NOT fit PCA globally across all samples before cross-validation if using PCs as predictive machine learning features."
-      }
-    },
-    {
-      id: "chunk-6-cv",
-      title: "6. Group-Aware Cross-Validation (Preventing Subject Leakage)",
-      code: `from sklearn.model_selection import GroupKFold
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import roc_auc_score
-
-# Ensure subject-level split so biopsies from same patient never cross train/test
-gkf = GroupKFold(n_splits=min(4, len(metadata[PATIENT_COL].unique())))
-groups = metadata[PATIENT_COL]
-y = (metadata[GROUP_COL] == metadata[GROUP_COL].unique()[0]).astype(int)
-
-fold_aucs = []
-for fold, (train_idx, test_idx) in enumerate(gkf.split(X_pca, y, groups=groups)):
-    clf = RandomForestClassifier(n_estimators=100, random_state=42)
-    clf.fit(X_pca[train_idx], y.iloc[train_idx])
-    preds = clf.predict_proba(X_pca[test_idx])[:, 1]
-    auc = roc_auc_score(y.iloc[test_idx], preds)
-    fold_aucs.append(auc)
-    print(f"Fold {fold+1} Holdout ROC-AUC: {auc:.3f}")
-
-print(f"[VALIDATION COMPLETE] Mean Group-Aware ROC-AUC: {np.mean(fold_aucs):.3f}")`,
-      guide: {
-        what: "GroupKFold cross-validation splitting strictly by Patient / Subject ID.",
-        why: "If multiple samples or timepoints exist per subject, standard random splitting leaks patient-specific genetic background across folds, producing artificially inflated 100% accuracy. GroupKFold guarantees genuine prospective generalization.",
-        data_in: "24 samples with patient grouping.",
-        data_out: "Unbiased generalization metrics."
-      }
-    }
-  ]
-};
-
-// Domain knowledge base for conversational simulation
-const DOMAIN_KNOWLEDGE = [
-  {
-    triggers: ['pipeline', 'guided', 'build guided', 'workflow script', 'deseq2 pipeline', 'rna-seq pipeline'],
-    pipeline_data: GUIDED_RNASEQ_PIPELINE,
-    response: `I have constructed a **Guided Pipeline** tailored to your RNA-seq experimental design.
-
-### Pipeline Foundation:
-- **Experimental Unit**: Patient / Biological Specimen ($N=12$ Tumor vs $N=12$ Normal)
-- **Data Shape Progression**: $\\text{Raw Counts } (20,000 \\times 24) \\to \\text{Filtered } (14,827 \\times 24) \\to \\text{ML Matrix } (24 \\times 14,827) \\to \\text{PCA } (24 \\times 20)$
-- **Workflow Stages**: Path Config $\\to$ Metadata QC $\\to$ Count Filtering $\\to$ Log1p $\\to$ PCA Loadings $\\to$ Group-Aware CV.
-
-Below is your interactive two-pane **Code & Explanation Guide**. Click any section to inspect data transformations, assumptions, parameter modifications, and common troubleshooting solutions.`,
-    audit: {
-      experimental_unit: "Biological Patient (N=12 Tumor vs N=12 Normal)",
-      primary_issue: "Complete Guided Pipeline with Group-Aware Validation and PCA Loadings Inspection",
-      severity: "Valid / Best Practice",
-      correction: "GroupKFold by patient_id + pre-split filtering + explicit PCA loadings extraction",
-      confidence: "High (99%)"
-    }
-  },
-  {
-    triggers: ['mouse', 'mice', 'histological', 'slice', 't-test', 'section', 'pseudoreplication', 'n=60'],
-    response: `Your study design exhibits **pseudoreplication** (experimental unit misalignment).
-
-### Key Methodological Issues:
-1. **Biological vs. Observational Units**: You have $N=12$ biological animals (6 per group), but $N=60$ histological section slices. Slices obtained from the same animal are non-independent technical observations that share animal-level physiological and batch variance.
-2. **Artificially Inflated Degrees of Freedom**: Running a two-sample independent t-test with $df = 58$ assumes 60 independent biological events, which severely underestimates standard errors and produces an elevated false positive (Type I error) rate.
-
-### Recommended Statistical Remediation:
-- **Linear Mixed-Effects Model (LMM)**: Model mouse-level clustering with random intercepts:
-  \`\`\`r
-  library(lme4)
-  model <- lmer(apoptotic_index ~ treatment + (1 | mouse_id), data = histology_data)
-  summary(model)
-  \`\`\`
-- **Pre-analysis Aggregation**: Alternatively, compute the mean slice measurement per mouse ($N=6$ per group, $df = 10$) and conduct a standard two-sample $t$-test.`,
-    audit: {
-      experimental_unit: "Biological Mouse (N=6/group)",
-      primary_issue: "Pseudoreplication (nested histological slices pooled as independent)",
-      severity: "Critical",
-      correction: "Linear Mixed-Effects Model with random mouse intercepts: lmer(index ~ tx + (1|mouse_id))",
-      confidence: "High (98%)"
-    }
-  },
-  {
-    triggers: ['combat', 'batch', 'cell-level', 'split', 'normalize'],
-    response: `Your RNA-seq preprocessing workflow contains **cross-validation data leakage**.
-
-### Analysis of the Workflow:
-1. **Preprocessing Leakage**: Performing ComBat batch correction or global normalization across the pooled dataset *before* splitting into train/test partitions exposes the test distribution to the training pipeline.
-2. **Optimistic Bias**: In downstream classification or biomarker discovery, this causes severe over-optimistic performance estimation that fails on independent external cohorts.
-
-### Recommended Correction:
-- **Strict Partition-First Order**: Split your samples into training and validation sets *first*.
-- Fit normalization and batch parameters strictly on the training set, and apply the learned transformations to the held-out test set:
-  \`\`\`python
-  from sklearn.model_selection import StratifiedKFold
-  # Split raw counts first
-  skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-  for train_idx, test_idx in skf.split(X_raw, y):
-      X_train_norm = fit_transform_norm(X_raw[train_idx])
-      X_test_norm = apply_norm(X_raw[test_idx], params=X_train_norm.params)
-  \`\`\``,
-    audit: {
-      experimental_unit: "Biological Sample / Donor",
-      primary_issue: "Data leakage via global pre-split batch correction and normalization",
-      severity: "Critical",
-      correction: "Encapsulate batch correction and scaling inside CV pipeline",
-      confidence: "High (96%)"
-    }
-  },
-  {
-    triggers: ['feature selection', 'leak', 'machine learning', 'cross-validation', 'cv', 'entire dataset'],
-    response: `Selecting features across the entire dataset prior to cross-validation is a classic form of **resampling leakage** (selection bias).
-
-### Why This Flaw Occurs:
-- When features (e.g. top differentially expressed genes) are ranked using all samples, information from the validation fold directly influences which features the model trains on.
-- This produces near-perfect cross-validation accuracy ($>95\%$) that collapses when tested on true prospective data.
-
-### Correct Implementation:
-Perform feature filtering, differential expression ranking, and hyperparameter tuning **inside each cross-validation fold**:
-\`\`\`python
-from sklearn.pipeline import Pipeline
-from sklearn.feature_selection import SelectKBest, f_classif
-from sklearn.ensemble import RandomForestClassifier
-
-pipeline = Pipeline([
-    ('select', SelectKBest(f_classif, k=50)),
-    ('clf', RandomForestClassifier(random_state=42))
-])
-# Features are selected strictly on training split in each fold
-scores = cross_val_score(pipeline, X, y, cv=5)
-\`\`\``,
-    audit: {
-      experimental_unit: "Patient / Sample Cohort",
-      primary_issue: "Resampling leakage via pre-split supervised feature selection",
-      severity: "Critical",
-      correction: "Embed SelectKBest / feature ranking strictly inside cross-validation folds",
-      confidence: "High (99%)"
-    }
-  },
-  {
-    triggers: ['longitudinal', 'diabetic', 'mirna', 'hba1c', 'repeated', 'timepoints', 'ols'],
-    response: `In a 5-year longitudinal cohort with 40 patients measured at 6 timepoints ($N=240$ total observations), the **experimental unit is the Patient**, while the visit is an observational repeated measure.
-
-### Core Critique:
-- **Autocorrelation & Sphericity**: Observations from the same patient across time are autocorrelated. Fitting an Ordinary Least Squares (OLS) model assumes independent identically distributed (i.i.d.) errors, which invalidates $p$-values and confidence intervals.
-- **Between vs. Within-Subject Variance**: OLS conflates longitudinal within-subject change with cross-sectional baseline differences between subjects.
-
-### Recommended Modeling:
-Use a **Linear Mixed Model with random slopes or autoregressive correlation structure**:
-\`\`\`r
-library(nlme)
-# Mixed model with AR(1) correlation for longitudinal visits
-lme_fit <- lme(HbA1c ~ miR126 * time, random = ~ 1 | patient_id, 
-               correlation = corAR1(form = ~ visit | patient_id), data = df)
-summary(lme_fit)
-\`\`\``,
-    audit: {
-      experimental_unit: "Patient (N=40, with 6 repeated measures per subject)",
-      primary_issue: "Longitudinal dependence ignored by pooled OLS regression",
-      severity: "Critical",
-      correction: "Linear Mixed Model with random patient intercepts and AR(1) autocorrelation",
-      confidence: "High (97%)"
-    }
-  }
-];
-
-// Default fallback response generator
-function generateGeneralBiologicalResponse(prompt) {
-  return {
-    response: `Thank you for sharing this scientific methodology.
-
-### Methodological Evaluation:
-Based on your experimental description, here is a structured critique:
-1. **Replication & Hierarchy**: Ensure that biological replicates (independent organisms/donors) are strictly distinguished from technical replicates (repeated assays, sequencing lanes, or culture wells).
-2. **Confounding & Batch Controls**: Verify whether experimental batches align with biological treatment arms. If batch and condition are collinear, batch correction cannot separate technical noise from biological signal.
-3. **Statistical Power & Multiplicity**: If testing multiple genes, metabolites, or operational taxonomic units (OTUs), apply Benjamini-Hochberg False Discovery Rate (FDR) control rather than unadjusted raw $p$-values.
-
-Let me know if you would like me to draft an exact statistical model formula (e.g. in \`lme4\`, \`DESeq2\`, or \`scikit-learn\`) tailored to your specific assay!`,
-    audit: {
-      experimental_unit: "Biological Specimen / Donor",
-      primary_issue: "General experimental design & multiplicity review",
-      severity: "Minor / Advisory",
-      correction: "Establish balanced block randomization and Benjamini-Hochberg FDR control",
-      confidence: "Medium (88%)"
-    }
-  };
-}
-
 // App State
 let appState = {
   chats: [],
@@ -813,6 +490,17 @@ window.updatePipelineConfig = function(input) {
     }
     codeTextEl.textContent = text;
   }
+
+  // Notify backend of pipeline parameter change
+  fetch('/api/pipeline/update', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      activeChatId: appState.activeChatId,
+      key: key,
+      value: val
+    })
+  }).catch(() => {});
 };
 
 window.downloadFullScript = function(pId) {
@@ -936,7 +624,7 @@ function scrollToBottom() {
 // Generation & Dispatch
 let streamInterval = null;
 
-function handleSend() {
+async function handleSend() {
   const text = elements.chatInput.value.trim();
   if (!text || appState.isGenerating) return;
 
@@ -967,27 +655,12 @@ function handleSend() {
   clearAttachment();
   renderActiveChat();
 
-  // 2. Select Response from Domain Knowledge
-  const lower = text.toLowerCase();
-  let selectedCritique = null;
-  for (const item of DOMAIN_KNOWLEDGE) {
-    if (item.triggers.some(t => lower.includes(t))) {
-      selectedCritique = item;
-      break;
-    }
-  }
-  if (!selectedCritique) {
-    selectedCritique = generateGeneralBiologicalResponse(text);
-  }
-
-  // 3. Start Simulated Streaming
+  // 2. Start Backend API Call & Streaming
   appState.isGenerating = true;
   elements.btnSend.style.display = 'none';
   elements.btnStop.style.display = 'flex';
 
   const assistantMsgId = 'msg_' + (Date.now() + 1);
-  const targetResponse = selectedCritique.response;
-  let currentLength = 0;
   const startTime = Date.now();
 
   // Create empty assistant row with typing indicator
@@ -1007,50 +680,100 @@ function handleSend() {
   elements.messagesContainer.appendChild(assistantRow);
   scrollToBottom();
 
-  const chunkSize = 12; // simulated tokens per tick
-  streamInterval = setInterval(() => {
-    currentLength += chunkSize;
-    if (currentLength >= targetResponse.length) {
-      currentLength = targetResponse.length;
+  try {
+    const payload = {
+      activeChatId: appState.activeChatId,
+      messages: activeChat.messages,
+      devMode: appState.devMode
+    };
+
+    const response = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+    if (!response.ok || data.status === 'error') {
+      const details = data.diagnostics ? `\n\n${JSON.stringify(data.diagnostics, null, 2)}` : '';
+      throw new Error(`${data.message || `Server returned HTTP ${response.status}: ${response.statusText}`}${details}`);
+    }
+    const targetResponse = data.message || '';
+    let currentLength = 0;
+    const chunkSize = 16;
+
+    streamInterval = setInterval(() => {
+      currentLength += chunkSize;
+      if (currentLength >= targetResponse.length) {
+        currentLength = targetResponse.length;
+        clearInterval(streamInterval);
+        streamInterval = null;
+
+        const latencyMs = Date.now() - startTime;
+        const finalMsg = {
+          id: assistantMsgId,
+          role: 'assistant',
+          content: targetResponse,
+          guided_pipeline: data.guided_pipeline || null,
+          audit: data.audit || null,
+          source_trace: data.source_trace || 'MODEL_GENERATED',
+          timestamp: new Date().toISOString(),
+          latency: latencyMs
+        };
+        activeChat.messages.push(finalMsg);
+        saveChats();
+
+        appState.isGenerating = false;
+        elements.btnSend.style.display = 'flex';
+        elements.btnStop.style.display = 'none';
+        elements.btnSend.disabled = false;
+
+        // Update developer mode telemetry
+        if (elements.devLatency) elements.devLatency.textContent = `${latencyMs} ms`;
+        if (elements.devTokens) elements.devTokens.textContent = `${Math.round(text.length / 4)} / ${Math.round(targetResponse.length / 4)}`;
+        if (elements.devJsonDisplay) {
+          elements.devJsonDisplay.textContent = JSON.stringify({
+            model: (data.provenance && data.provenance.model) || "BR-VERIFIED-SFT-002",
+            checkpoint: data.model_checkpoint || (data.provenance && data.provenance.checkpoint) || "BR-VERIFIED-SFT-002 (final_adapter)",
+            source_trace: data.source_trace || "MODEL_GENERATED",
+            pipeline_state: data.pipeline_state,
+            provenance: data.provenance || null,
+            latency_ms: latencyMs,
+            diagnostics: data.diagnostics || {}
+          }, null, 2);
+        }
+
+        renderActiveChat();
+      } else {
+        const partialText = targetResponse.slice(0, currentLength);
+        assistantRow.querySelector('.assistant-body').innerHTML = formatMarkdown(partialText);
+        scrollToBottom();
+      }
+    }, 20);
+
+  } catch (err) {
+    // Show explicit error fallback
+    if (streamInterval) {
       clearInterval(streamInterval);
       streamInterval = null;
-
-      // Finalize message
-      const latencyMs = Date.now() - startTime;
-      const finalMsg = {
-        id: assistantMsgId,
-        role: 'assistant',
-        content: targetResponse,
-        audit: selectedCritique.audit,
-        timestamp: new Date().toISOString(),
-        latency: latencyMs
-      };
-      activeChat.messages.push(finalMsg);
-      saveChats();
-
-      appState.isGenerating = false;
-      elements.btnSend.style.display = 'flex';
-      elements.btnStop.style.display = 'none';
-      elements.btnSend.disabled = false;
-
-      // Update developer mode telemetry
-      if (elements.devLatency) elements.devLatency.textContent = `${latencyMs} ms`;
-      if (elements.devTokens) elements.devTokens.textContent = `${Math.round(text.length / 4)} / ${Math.round(targetResponse.length / 4)}`;
-      if (elements.devJsonDisplay) {
-        elements.devJsonDisplay.textContent = JSON.stringify({
-          model: "BR-V02-DPO-001-A",
-          latency_ms: latencyMs,
-          critique: selectedCritique.audit
-        }, null, 2);
-      }
-
-      renderActiveChat();
-    } else {
-      const partialText = targetResponse.slice(0, currentLength);
-      assistantRow.querySelector('.assistant-body').innerHTML = formatMarkdown(partialText);
-      scrollToBottom();
     }
-  }, 25);
+    appState.isGenerating = false;
+    elements.btnSend.style.display = 'flex';
+    elements.btnStop.style.display = 'none';
+    elements.btnSend.disabled = false;
+
+    const errMsg = {
+      id: assistantMsgId,
+      role: 'assistant',
+      content: `**BIOREASON_INFERENCE_FAILED**: ${err.message}\n\n*Developer Diagnostics*: Ensure BioReason server is running on port 8088.`,
+      source_trace: 'ERROR',
+      timestamp: new Date().toISOString(),
+      latency: Date.now() - startTime
+    };
+    activeChat.messages.push(errMsg);
+    saveChats();
+    renderActiveChat();
+  }
 }
 
 function handleStopGeneration() {

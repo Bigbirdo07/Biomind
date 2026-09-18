@@ -1,0 +1,30 @@
+{
+  "reviewer": {
+    "reviewer_id": "REV004",
+    "qualification_tier": "EXPERT_DOMAIN",
+    "domain_specialties": [
+      "metabolomics",
+      "proteomics",
+      "experimental_design"
+    ],
+    "experience_band": "10+_years"
+  },
+  "assigned_case_count": 15,
+  "assigned_cases": [
+    "HEVAL_002",
+    "HEVAL_004",
+    "HEVAL_006",
+    "HEVAL_011",
+    "HEVAL_015",
+    "HEVAL_020",
+    "HEVAL_021",
+    "HEVAL_027",
+    "HEVAL_029",
+    "HEVAL_035",
+    "HEVAL_036",
+    "HEVAL_040",
+    "HEVAL_044",
+    "HEVAL_048",
+    "HEVAL_050"
+  ]
+}

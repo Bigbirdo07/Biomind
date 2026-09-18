@@ -1,0 +1,55 @@
+# BioReason v0.2 Targeted DPO Smoke Training Configuration (BR-V02-DPO-001-SMOKE)
+# Foundation: Frozen BR-V02-SFT-001-A (Epoch 2.0 / Step 112) + Targeted Residual Preference Pairs
+
+model:
+  base_model: "Qwen/Qwen2.5-14B-Instruct"
+  parent_adapter: "outputs/BR-V02-SFT-001-A/checkpoint-step-112-epoch-2.0"
+  torch_dtype: "bfloat16"
+  use_flash_attention_2: true
+  max_prompt_length: 2048
+  max_length: 4096
+
+lora:
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  target_modules:
+    - "q_proj"
+    - "k_proj"
+    - "v_proj"
+    - "o_proj"
+    - "gate_proj"
+    - "up_proj"
+    - "down_proj"
+  bias: "none"
+  task_type: "CAUSAL_LM"
+
+dataset:
+  name: "BioReasonPreference-v0.2-DPO-v0.1"
+  train_file: "training_data/preferences/BioReasonPreference-v0.2-DPO-v0.1/train.jsonl"
+  val_file: "training_data/preferences/BioReasonPreference-v0.2-DPO-v0.1/val.jsonl"
+  num_train_pairs: 60
+  num_val_pairs: 20
+
+dpo:
+  beta: 0.08
+  loss_type: "sigmoid"
+  reference_free: false
+
+training:
+  output_dir: "outputs/BR-V02-DPO-001-SMOKE"
+  num_train_epochs: 1.0
+  per_device_train_batch_size: 2
+  per_device_eval_batch_size: 2
+  gradient_accumulation_steps: 4
+  learning_rate: 0.000007
+  weight_decay: 0.01
+  warmup_ratio: 0.10
+  lr_scheduler_type: "cosine"
+  logging_steps: 2
+  save_strategy: "epoch"
+  evaluation_strategy: "epoch"
+  save_total_limit: 1
+  seed: 42
+  fp16: false
+  bf16: true

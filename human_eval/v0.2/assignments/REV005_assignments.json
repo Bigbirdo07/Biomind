@@ -1,0 +1,29 @@
+{
+  "reviewer": {
+    "reviewer_id": "REV005",
+    "qualification_tier": "BIOSTATISTICIAN",
+    "domain_specialties": [
+      "biostatistics",
+      "survival_analysis",
+      "experimental_design"
+    ],
+    "experience_band": "6-10_years"
+  },
+  "assigned_case_count": 14,
+  "assigned_cases": [
+    "HEVAL_005",
+    "HEVAL_009",
+    "HEVAL_013",
+    "HEVAL_014",
+    "HEVAL_015",
+    "HEVAL_022",
+    "HEVAL_024",
+    "HEVAL_029",
+    "HEVAL_030",
+    "HEVAL_032",
+    "HEVAL_039",
+    "HEVAL_043",
+    "HEVAL_044",
+    "HEVAL_045"
+  ]
+}

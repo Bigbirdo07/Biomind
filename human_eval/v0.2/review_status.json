@@ -1,0 +1,136 @@
+{
+  "status": "PACKAGE_READY",
+  "human_review_phase": "Phase 3 Increment 8B",
+  "total_cases": 50,
+  "total_expected_reviews": 117,
+  "completed_reviews": 0,
+  "remaining_reviews": 117,
+  "overall_completion_pct": 0.0,
+  "coverage_by_case": {
+    "cases_with_0_reviews": 50,
+    "cases_with_1_review": 0,
+    "cases_with_2plus_reviews": 0
+  },
+  "reviewer_completion": {
+    "REV001": {
+      "qualification_tier": "BIOSTATISTICIAN",
+      "assigned_cases": 14,
+      "completed_cases": 0,
+      "pending_cases": 14,
+      "completion_pct": 0.0
+    },
+    "REV002": {
+      "qualification_tier": "COMPUTATIONAL_BIOLOGIST",
+      "assigned_cases": 14,
+      "completed_cases": 0,
+      "pending_cases": 14,
+      "completion_pct": 0.0
+    },
+    "REV003": {
+      "qualification_tier": "BIOINFORMATICIAN",
+      "assigned_cases": 15,
+      "completed_cases": 0,
+      "pending_cases": 15,
+      "completion_pct": 0.0
+    },
+    "REV004": {
+      "qualification_tier": "EXPERT_DOMAIN",
+      "assigned_cases": 15,
+      "completed_cases": 0,
+      "pending_cases": 15,
+      "completion_pct": 0.0
+    },
+    "REV005": {
+      "qualification_tier": "BIOSTATISTICIAN",
+      "assigned_cases": 14,
+      "completed_cases": 0,
+      "pending_cases": 14,
+      "completion_pct": 0.0
+    },
+    "REV006": {
+      "qualification_tier": "COMPUTATIONAL_BIOLOGIST",
+      "assigned_cases": 15,
+      "completed_cases": 0,
+      "pending_cases": 15,
+      "completion_pct": 0.0
+    },
+    "REV007": {
+      "qualification_tier": "GENERAL_BIOLOGICAL_SCIENTIST",
+      "assigned_cases": 15,
+      "completed_cases": 0,
+      "pending_cases": 15,
+      "completion_pct": 0.0
+    },
+    "REV008": {
+      "qualification_tier": "BIOINFORMATICIAN",
+      "assigned_cases": 15,
+      "completed_cases": 0,
+      "pending_cases": 15,
+      "completion_pct": 0.0
+    }
+  },
+  "domain_coverage": {
+    "longitudinal_omics": {
+      "total_cases": 4,
+      "reviews_collected": 0
+    },
+    "single_cell_transcriptomics": {
+      "total_cases": 4,
+      "reviews_collected": 0
+    },
+    "spatial_transcriptomics": {
+      "total_cases": 4,
+      "reviews_collected": 0
+    },
+    "proteomics": {
+      "total_cases": 4,
+      "reviews_collected": 0
+    },
+    "microbiome": {
+      "total_cases": 4,
+      "reviews_collected": 0
+    },
+    "metabolomics": {
+      "total_cases": 3,
+      "reviews_collected": 0
+    },
+    "crispr_screens": {
+      "total_cases": 3,
+      "reviews_collected": 0
+    },
+    "survival_analysis": {
+      "total_cases": 3,
+      "reviews_collected": 0
+    },
+    "gwas_genomics": {
+      "total_cases": 3,
+      "reviews_collected": 0
+    },
+    "variant_interpretation": {
+      "total_cases": 3,
+      "reviews_collected": 0
+    },
+    "phylogenetics": {
+      "total_cases": 3,
+      "reviews_collected": 0
+    },
+    "biological_ml": {
+      "total_cases": 3,
+      "reviews_collected": 0
+    },
+    "experimental_design": {
+      "total_cases": 3,
+      "reviews_collected": 0
+    },
+    "biostatistics": {
+      "total_cases": 3,
+      "reviews_collected": 0
+    },
+    "atac_seq": {
+      "total_cases": 3,
+      "reviews_collected": 0
+    }
+  },
+  "corrections_logged": 0,
+  "last_updated": "2026-09-16T00:35:00Z"
+}

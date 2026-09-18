@@ -1,0 +1,3630 @@
+[
+  {
+    "episode_id": "EP_V02_001_SPATIAL_LEAK",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "spatial_transcriptomics",
+    "subdomain": "tumor_microenvironment",
+    "question": "Can we predict tumor boundary spots in 10x Visium by randomly splitting spots across 4 patient tissue slices into 80/20 train/test?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": "tissue_sample",
+      "analysis_unit": "tissue_sample",
+      "replicate_type": "biological",
+      "samples": 4,
+      "total_observations": 16000,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Randomly partition all 16,000 spatial spots across the 4 slices into 80% train and 20% test. Train an SVM on expression counts.",
+    "scientific_checks": {
+      "replication_valid": false,
+      "confounding_detected": false,
+      "leakage_detected": true,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Perform leave-one-patient-slice-out cross-validation, training on 3 patients and evaluating on the held-out 4th patient.",
+    "reasoning_summary": "Randomly splitting spots from the same continuous tissue sections leaks spatially autocorrelated transcriptomic profiles into the test set. Evaluation must partition by patient slice.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Spatial spots within a slice share local microenvironment autocorrelation",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Random spot splitting proves tumor boundary generalizability",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Evaluated on 4 tissue sections; cross-patient heterogeneity remains high."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "spatial_transcriptomics",
+      "problem": "tumor_boundary",
+      "experimental_unit": "patient",
+      "observational_unit": "spatial_spot",
+      "analysis": "svm_random_split",
+      "failure_mode": "spatial_leakage"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_002_SMOTE_LEAK",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "biological_ml",
+    "subdomain": "imbalanced_classification",
+    "question": "How should SMOTE oversampling be applied to an imbalanced bulk RNA-seq dataset of 20 rare responders vs 180 non-responders?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "bulk_rna_seq",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 200,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "log_normalized_counts",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Apply SMOTE globally on all 200 samples to create 160 synthetic responders, then perform 5-fold cross-validation with Random Forest.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": true,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Embed SMOTE strictly inside an imbalanced-learn Pipeline within each training fold of the 5-fold cross-validation loop.",
+    "reasoning_summary": "Global SMOTE generates synthetic instances interpolated from test fold samples, creating severe data leakage. SMOTE must be confined strictly to training folds.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Class imbalance can degrade minority class sensitivity in unweighted classifiers",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Global SMOTE yields unbiased out-of-sample accuracy estimates",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Synthetic interpolation assumes local linearity in high-dimensional gene space."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "bulk_rna_seq",
+      "problem": "rare_responder_prediction",
+      "experimental_unit": "patient",
+      "observational_unit": "patient",
+      "analysis": "smote_random_forest",
+      "failure_mode": "resampling_leakage"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_003_PROTEO",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "proteomics",
+    "subdomain": "lc_ms",
+    "question": "How should we analyze MNAR imputation in plasma proteomics in proteomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for MNAR imputation in plasma proteomics without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": true,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing imputation_leakage with proper statistical controls.",
+    "reasoning_summary": "In proteomics, MNAR imputation in plasma proteomics must rigorously enforce statistical invariants to avoid imputation_leakage.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for proteomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for MNAR imputation in plasma proteomics",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in proteomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "proteomics",
+      "problem": "lc_ms",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "imputation_leakage"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_004_EPIGEN",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "epigenomics",
+    "subdomain": "atac_seq",
+    "question": "How should we analyze Differential peak filtering before cross validation in epigenomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Differential peak filtering before cross validation without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": true,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing feature_selection_leakage with proper statistical controls.",
+    "reasoning_summary": "In epigenomics, Differential peak filtering before cross validation must rigorously enforce statistical invariants to avoid feature_selection_leakage.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for epigenomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Differential peak filtering before cross validation",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in epigenomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "epigenomics",
+      "problem": "atac_seq",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "feature_selection_leakage"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_005_LONGIT",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "longitudinal_omics",
+    "subdomain": "serial_biopsies",
+    "question": "How should we analyze Treating serial tumor biopsies as independent degrees of freedom in longitudinal_omics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "differential_expression",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Treating serial tumor biopsies as independent degrees of freedom without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": false,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing longitudinal_pseudoreplication with proper statistical controls.",
+    "reasoning_summary": "In longitudinal_omics, Treating serial tumor biopsies as independent degrees of freedom must rigorously enforce statistical invariants to avoid longitudinal_pseudoreplication.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for longitudinal_omics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Treating serial tumor biopsies as independent degrees of freedom",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in longitudinal_omics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "longitudinal_omics",
+      "problem": "serial_biopsies",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "longitudinal_pseudoreplication"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_006_GENOMI",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "genomics",
+    "subdomain": "batch_effects",
+    "question": "How should we analyze Five batch correction tools agreeing on perfectly confounded sequencing center design in genomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "differential_expression",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Five batch correction tools agreeing on perfectly confounded sequencing center design without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": true,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing unidentifiable_confounding with proper statistical controls.",
+    "reasoning_summary": "In genomics, Five batch correction tools agreeing on perfectly confounded sequencing center design must rigorously enforce statistical invariants to avoid unidentifiable_confounding.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for genomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Five batch correction tools agreeing on perfectly confounded sequencing center design",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in genomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "genomics",
+      "problem": "batch_effects",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "unidentifiable_confounding"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_007_SURVIV",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "survival_analysis",
+    "subdomain": "clinical_cohort",
+    "question": "How should we analyze Dropping right-censored patients for binary survival classification in survival_analysis?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Dropping right-censored patients for binary survival classification without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing censoring_bias with proper statistical controls.",
+    "reasoning_summary": "In survival_analysis, Dropping right-censored patients for binary survival classification must rigorously enforce statistical invariants to avoid censoring_bias.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for survival_analysis",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Dropping right-censored patients for binary survival classification",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in survival_analysis."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "survival_analysis",
+      "problem": "clinical_cohort",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "censoring_bias"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_008_SINGLE",
+    "episode_type": "CORRECT_WORKFLOW",
+    "domain": "single_cell_transcriptomics",
+    "subdomain": "scrna_seq",
+    "question": "How should we analyze Summing counts per biological animal for DESeq2 pseudobulk in single_cell_transcriptomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "differential_expression",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Summing counts per biological animal for DESeq2 pseudobulk without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing none with proper statistical controls.",
+    "reasoning_summary": "In single_cell_transcriptomics, Summing counts per biological animal for DESeq2 pseudobulk must rigorously enforce statistical invariants to avoid none.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for single_cell_transcriptomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [],
+      "limitations": [
+        "Specific to experimental design parameters in single_cell_transcriptomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "single_cell_transcriptomics",
+      "problem": "scrna_seq",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "none"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_009_MICROB",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "microbiome",
+    "subdomain": "16s_rrna",
+    "question": "How should we analyze Running Pearson correlation on relative abundance proportions in microbiome?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Running Pearson correlation on relative abundance proportions without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing compositionality_artifact with proper statistical controls.",
+    "reasoning_summary": "In microbiome, Running Pearson correlation on relative abundance proportions must rigorously enforce statistical invariants to avoid compositionality_artifact.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for microbiome",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Running Pearson correlation on relative abundance proportions",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in microbiome."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "microbiome",
+      "problem": "16s_rrna",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "compositionality_artifact"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_010_GENOMI",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "genomics",
+    "subdomain": "gwas",
+    "question": "How should we analyze Unadjusted logistic regression in GWAS with geographic ancestry confounding in genomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Unadjusted logistic regression in GWAS with geographic ancestry confounding without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": true,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing population_stratification with proper statistical controls.",
+    "reasoning_summary": "In genomics, Unadjusted logistic regression in GWAS with geographic ancestry confounding must rigorously enforce statistical invariants to avoid population_stratification.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for genomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Unadjusted logistic regression in GWAS with geographic ancestry confounding",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in genomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "genomics",
+      "problem": "gwas",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "population_stratification"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_011_FUNCTI",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "functional_genomics",
+    "subdomain": "crispr_screens",
+    "question": "How should we analyze Tight FACS sorting bottleneck causing stochastic guide drop-out in functional_genomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "differential_expression",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Tight FACS sorting bottleneck causing stochastic guide drop-out without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": false,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing sampling_bottleneck with proper statistical controls.",
+    "reasoning_summary": "In functional_genomics, Tight FACS sorting bottleneck causing stochastic guide drop-out must rigorously enforce statistical invariants to avoid sampling_bottleneck.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for functional_genomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Tight FACS sorting bottleneck causing stochastic guide drop-out",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in functional_genomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "functional_genomics",
+      "problem": "crispr_screens",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "sampling_bottleneck"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_012_METABO",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "metabolomics",
+    "subdomain": "untargeted_ms",
+    "question": "How should we analyze Unrandomized mass spectrometry run order across injection days in metabolomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "differential_expression",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Unrandomized mass spectrometry run order across injection days without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": true,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing instrument_drift_confounding with proper statistical controls.",
+    "reasoning_summary": "In metabolomics, Unrandomized mass spectrometry run order across injection days must rigorously enforce statistical invariants to avoid instrument_drift_confounding.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for metabolomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Unrandomized mass spectrometry run order across injection days",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in metabolomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "metabolomics",
+      "problem": "untargeted_ms",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "instrument_drift_confounding"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_013_SURVIV",
+    "episode_type": "CORRECT_WORKFLOW",
+    "domain": "survival_analysis",
+    "subdomain": "oncology",
+    "question": "How should we analyze Cox proportional hazards model with Schoenfeld residuals verification in survival_analysis?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "differential_expression",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Cox proportional hazards model with Schoenfeld residuals verification without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing none with proper statistical controls.",
+    "reasoning_summary": "In survival_analysis, Cox proportional hazards model with Schoenfeld residuals verification must rigorously enforce statistical invariants to avoid none.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for survival_analysis",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [],
+      "limitations": [
+        "Specific to experimental design parameters in survival_analysis."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "survival_analysis",
+      "problem": "oncology",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "none"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_014_LONG_R",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "long_read_sequencing",
+    "subdomain": "structural_variants",
+    "question": "How should we analyze Calling indels in homopolymer tracts without long-read error model in long_read_sequencing?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "differential_expression",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Calling indels in homopolymer tracts without long-read error model without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing homopolymer_error_conflation with proper statistical controls.",
+    "reasoning_summary": "In long_read_sequencing, Calling indels in homopolymer tracts without long-read error model must rigorously enforce statistical invariants to avoid homopolymer_error_conflation.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for long_read_sequencing",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Calling indels in homopolymer tracts without long-read error model",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in long_read_sequencing."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "long_read_sequencing",
+      "problem": "structural_variants",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "homopolymer_error_conflation"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_015_BIOLOG",
+    "episode_type": "CORRECT_WORKFLOW",
+    "domain": "biological_ml",
+    "subdomain": "clinical_ecg",
+    "question": "How should we analyze GroupKFold by patient ID for multi-recording clinical ML in biological_ml?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for GroupKFold by patient ID for multi-recording clinical ML without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing none with proper statistical controls.",
+    "reasoning_summary": "In biological_ml, GroupKFold by patient ID for multi-recording clinical ML must rigorously enforce statistical invariants to avoid none.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for biological_ml",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [],
+      "limitations": [
+        "Specific to experimental design parameters in biological_ml."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "biological_ml",
+      "problem": "clinical_ecg",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "none"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_016_INTERP",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "interpretability",
+    "subdomain": "shap_attributions",
+    "question": "How should we analyze Claiming high SHAP feature importance proves causal drug target rescue in interpretability?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Claiming high SHAP feature importance proves causal drug target rescue without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing causal_overclaim with proper statistical controls.",
+    "reasoning_summary": "In interpretability, Claiming high SHAP feature importance proves causal drug target rescue must rigorously enforce statistical invariants to avoid causal_overclaim.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for interpretability",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Claiming high SHAP feature importance proves causal drug target rescue",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in interpretability."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "interpretability",
+      "problem": "shap_attributions",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "causal_overclaim"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_017_EPIGEN",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "epigenomics",
+    "subdomain": "chip_seq",
+    "question": "How should we analyze Calling ChIP-seq peaks without input/IgG chromatin control in epigenomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Calling ChIP-seq peaks without input/IgG chromatin control without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing missing_input_control with proper statistical controls.",
+    "reasoning_summary": "In epigenomics, Calling ChIP-seq peaks without input/IgG chromatin control must rigorously enforce statistical invariants to avoid missing_input_control.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for epigenomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Calling ChIP-seq peaks without input/IgG chromatin control",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in epigenomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "epigenomics",
+      "problem": "chip_seq",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "missing_input_control"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_018_ECOLOG",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "ecological_genomics",
+    "subdomain": "landscape_genomics",
+    "question": "How should we analyze Genotype-environment association unadjusted for spatial isolation-by-distance in ecological_genomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Genotype-environment association unadjusted for spatial isolation-by-distance without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": true,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing spatial_drift_confounding with proper statistical controls.",
+    "reasoning_summary": "In ecological_genomics, Genotype-environment association unadjusted for spatial isolation-by-distance must rigorously enforce statistical invariants to avoid spatial_drift_confounding.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for ecological_genomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Genotype-environment association unadjusted for spatial isolation-by-distance",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in ecological_genomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "ecological_genomics",
+      "problem": "landscape_genomics",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "spatial_drift_confounding"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_019_SPATIA",
+    "episode_type": "CORRECT_WORKFLOW",
+    "domain": "spatial_transcriptomics",
+    "subdomain": "visium",
+    "question": "How should we analyze Leave-one-patient-slice-out spatial cross-validation in spatial_transcriptomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Leave-one-patient-slice-out spatial cross-validation without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing none with proper statistical controls.",
+    "reasoning_summary": "In spatial_transcriptomics, Leave-one-patient-slice-out spatial cross-validation must rigorously enforce statistical invariants to avoid none.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for spatial_transcriptomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [],
+      "limitations": [
+        "Specific to experimental design parameters in spatial_transcriptomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "spatial_transcriptomics",
+      "problem": "visium",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "none"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_020_MULTI_",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "multi_omics_integration",
+    "subdomain": "cancer_subtyping",
+    "question": "How should we analyze Unsupervised clustering on entire cohort to create ML training labels in multi_omics_integration?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Unsupervised clustering on entire cohort to create ML training labels without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": true,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing target_clustering_leakage with proper statistical controls.",
+    "reasoning_summary": "In multi_omics_integration, Unsupervised clustering on entire cohort to create ML training labels must rigorously enforce statistical invariants to avoid target_clustering_leakage.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for multi_omics_integration",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Unsupervised clustering on entire cohort to create ML training labels",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in multi_omics_integration."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "multi_omics_integration",
+      "problem": "cancer_subtyping",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "target_clustering_leakage"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_021_EPIGEN",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "epigenomics",
+    "subdomain": "cut_and_tag",
+    "question": "How should we analyze Dividing 1 culture flask into 6 aliquots and claiming n=6 biological replicates in epigenomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Dividing 1 culture flask into 6 aliquots and claiming n=6 biological replicates without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": false,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing technical_aliquot_pseudoreplication with proper statistical controls.",
+    "reasoning_summary": "In epigenomics, Dividing 1 culture flask into 6 aliquots and claiming n=6 biological replicates must rigorously enforce statistical invariants to avoid technical_aliquot_pseudoreplication.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for epigenomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Dividing 1 culture flask into 6 aliquots and claiming n=6 biological replicates",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in epigenomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "epigenomics",
+      "problem": "cut_and_tag",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "technical_aliquot_pseudoreplication"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_022_BULK_R",
+    "episode_type": "CORRECT_WORKFLOW",
+    "domain": "bulk_rnaseq",
+    "subdomain": "infectious_disease",
+    "question": "How should we analyze Paired DESeq2 design accounting for human donor baseline differences in bulk_rnaseq?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "differential_expression",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Paired DESeq2 design accounting for human donor baseline differences without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing none with proper statistical controls.",
+    "reasoning_summary": "In bulk_rnaseq, Paired DESeq2 design accounting for human donor baseline differences must rigorously enforce statistical invariants to avoid none.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for bulk_rnaseq",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [],
+      "limitations": [
+        "Specific to experimental design parameters in bulk_rnaseq."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "bulk_rnaseq",
+      "problem": "infectious_disease",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "none"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_023_EPIGEN",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "epigenomics",
+    "subdomain": "dna_methylation",
+    "question": "How should we analyze Fitting PCA on all 500 samples before epigenetic clock training in epigenomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Fitting PCA on all 500 samples before epigenetic clock training without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": true,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing pca_leakage with proper statistical controls.",
+    "reasoning_summary": "In epigenomics, Fitting PCA on all 500 samples before epigenetic clock training must rigorously enforce statistical invariants to avoid pca_leakage.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for epigenomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Fitting PCA on all 500 samples before epigenetic clock training",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in epigenomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "epigenomics",
+      "problem": "dna_methylation",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "pca_leakage"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_024_FUNCTI",
+    "episode_type": "CORRECT_WORKFLOW",
+    "domain": "functional_genomics",
+    "subdomain": "crispr_screens",
+    "question": "How should we analyze Genome-wide screen maintaining 1000x coverage across biological replicates in functional_genomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "differential_expression",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Genome-wide screen maintaining 1000x coverage across biological replicates without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing none with proper statistical controls.",
+    "reasoning_summary": "In functional_genomics, Genome-wide screen maintaining 1000x coverage across biological replicates must rigorously enforce statistical invariants to avoid none.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for functional_genomics",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [],
+      "limitations": [
+        "Specific to experimental design parameters in functional_genomics."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "functional_genomics",
+      "problem": "crispr_screens",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "none"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_025_PROTEI",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "protein_variant_interpretation",
+    "subdomain": "structural_biology",
+    "question": "How should we analyze Randomly splitting variants from same gene into train and test folds in protein_variant_interpretation?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Randomly splitting variants from same gene into train and test folds without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": true,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing gene_homology_leakage with proper statistical controls.",
+    "reasoning_summary": "In protein_variant_interpretation, Randomly splitting variants from same gene into train and test folds must rigorously enforce statistical invariants to avoid gene_homology_leakage.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for protein_variant_interpretation",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Randomly splitting variants from same gene into train and test folds",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in protein_variant_interpretation."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "protein_variant_interpretation",
+      "problem": "structural_biology",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "gene_homology_leakage"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_026_IMMUNO",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "immunology",
+    "subdomain": "flow_cytometry",
+    "question": "How should we analyze Spectral flow unmixing using theoretical library without tissue single-stains in immunology?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 50,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "tabular_features",
+      "objective": "supervised_classification",
+      "description": null
+    },
+    "proposed_analysis": "Perform standard naive workflow for Spectral flow unmixing using theoretical library without tissue single-stains without adjusting for structural constraints.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Apply methodologically rigorous workflow addressing unmixing_artifact with proper statistical controls.",
+    "reasoning_summary": "In immunology, Spectral flow unmixing using theoretical library without tissue single-stains must rigorously enforce statistical invariants to avoid unmixing_artifact.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Statistically valid methodology for immunology",
+          "level": "STATISTICAL_INFERENCE",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Naive unadjusted analysis for Spectral flow unmixing using theoretical library without tissue single-stains",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Specific to experimental design parameters in immunology."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "immunology",
+      "problem": "flow_cytometry",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline",
+      "failure_mode": "unmixing_artifact"
+    },
+    "validation_status": "expert_validated",
+    "quality_tier": "TIER_A",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "expert_validated"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_027_GENOMI_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "genomics",
+    "subdomain": "batch_effects_variant",
+    "question": "Evaluating alternative protocol variant for Five batch correction tools agreeing on perfectly confounded sequencing center design in genomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Five batch correction tools agreeing on perfectly confounded sequencing center design.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": true,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Five batch correction tools agreeing on perfectly confounded sequencing center design.",
+    "reasoning_summary": "Invariant-based analysis for Five batch correction tools agreeing on perfectly confounded sequencing center design in genomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in genomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Five batch correction tools agreeing on perfectly confounded sequencing center design",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "genomics",
+      "problem": "batch_effects_variant",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "unidentifiable_confounding"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_028_SURVIV_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "survival_analysis",
+    "subdomain": "clinical_cohort_variant",
+    "question": "Evaluating alternative protocol variant for Dropping right-censored patients for binary survival classification in survival_analysis?",
+    "experiment": {
+      "organism": "Mus musculus",
+      "assay": "other",
+      "experimental_unit": "animal",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Dropping right-censored patients for binary survival classification.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Dropping right-censored patients for binary survival classification.",
+    "reasoning_summary": "Invariant-based analysis for Dropping right-censored patients for binary survival classification in survival_analysis.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in survival_analysis",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Dropping right-censored patients for binary survival classification",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "survival_analysis",
+      "problem": "clinical_cohort_variant",
+      "experimental_unit": "animal",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "censoring_bias"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_029_SINGLE_B",
+    "episode_type": "CORRECT_WORKFLOW",
+    "domain": "single_cell_transcriptomics",
+    "subdomain": "scrna_seq_variant",
+    "question": "Evaluating alternative protocol variant for Summing counts per biological animal for DESeq2 pseudobulk in single_cell_transcriptomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Summing counts per biological animal for DESeq2 pseudobulk.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Summing counts per biological animal for DESeq2 pseudobulk.",
+    "reasoning_summary": "Invariant-based analysis for Summing counts per biological animal for DESeq2 pseudobulk in single_cell_transcriptomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in single_cell_transcriptomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "single_cell_transcriptomics",
+      "problem": "scrna_seq_variant",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "none"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_030_MICROB_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "microbiome",
+    "subdomain": "16s_rrna_variant",
+    "question": "Evaluating alternative protocol variant for Running Pearson correlation on relative abundance proportions in microbiome?",
+    "experiment": {
+      "organism": "Mus musculus",
+      "assay": "other",
+      "experimental_unit": "animal",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Running Pearson correlation on relative abundance proportions.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Running Pearson correlation on relative abundance proportions.",
+    "reasoning_summary": "Invariant-based analysis for Running Pearson correlation on relative abundance proportions in microbiome.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in microbiome",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Running Pearson correlation on relative abundance proportions",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "microbiome",
+      "problem": "16s_rrna_variant",
+      "experimental_unit": "animal",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "compositionality_artifact"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_031_GENOMI_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "genomics",
+    "subdomain": "gwas_variant",
+    "question": "Evaluating alternative protocol variant for Unadjusted logistic regression in GWAS with geographic ancestry confounding in genomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Unadjusted logistic regression in GWAS with geographic ancestry confounding.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Unadjusted logistic regression in GWAS with geographic ancestry confounding.",
+    "reasoning_summary": "Invariant-based analysis for Unadjusted logistic regression in GWAS with geographic ancestry confounding in genomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in genomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Unadjusted logistic regression in GWAS with geographic ancestry confounding",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "genomics",
+      "problem": "gwas_variant",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "population_stratification"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_032_FUNCTI_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "functional_genomics",
+    "subdomain": "crispr_screens_variant",
+    "question": "Evaluating alternative protocol variant for Tight FACS sorting bottleneck causing stochastic guide drop-out in functional_genomics?",
+    "experiment": {
+      "organism": "Mus musculus",
+      "assay": "other",
+      "experimental_unit": "animal",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Tight FACS sorting bottleneck causing stochastic guide drop-out.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Tight FACS sorting bottleneck causing stochastic guide drop-out.",
+    "reasoning_summary": "Invariant-based analysis for Tight FACS sorting bottleneck causing stochastic guide drop-out in functional_genomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in functional_genomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Tight FACS sorting bottleneck causing stochastic guide drop-out",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "functional_genomics",
+      "problem": "crispr_screens_variant",
+      "experimental_unit": "animal",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "sampling_bottleneck"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_033_METABO_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "metabolomics",
+    "subdomain": "untargeted_ms_variant",
+    "question": "Evaluating alternative protocol variant for Unrandomized mass spectrometry run order across injection days in metabolomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Unrandomized mass spectrometry run order across injection days.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": true,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Unrandomized mass spectrometry run order across injection days.",
+    "reasoning_summary": "Invariant-based analysis for Unrandomized mass spectrometry run order across injection days in metabolomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in metabolomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Unrandomized mass spectrometry run order across injection days",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "metabolomics",
+      "problem": "untargeted_ms_variant",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "instrument_drift_confounding"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_034_SURVIV_B",
+    "episode_type": "CORRECT_WORKFLOW",
+    "domain": "survival_analysis",
+    "subdomain": "oncology_variant",
+    "question": "Evaluating alternative protocol variant for Cox proportional hazards model with Schoenfeld residuals verification in survival_analysis?",
+    "experiment": {
+      "organism": "Mus musculus",
+      "assay": "other",
+      "experimental_unit": "animal",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Cox proportional hazards model with Schoenfeld residuals verification.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Cox proportional hazards model with Schoenfeld residuals verification.",
+    "reasoning_summary": "Invariant-based analysis for Cox proportional hazards model with Schoenfeld residuals verification in survival_analysis.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in survival_analysis",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "survival_analysis",
+      "problem": "oncology_variant",
+      "experimental_unit": "animal",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "none"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_035_LONG_R_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "long_read_sequencing",
+    "subdomain": "structural_variants_variant",
+    "question": "Evaluating alternative protocol variant for Calling indels in homopolymer tracts without long-read error model in long_read_sequencing?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Calling indels in homopolymer tracts without long-read error model.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Calling indels in homopolymer tracts without long-read error model.",
+    "reasoning_summary": "Invariant-based analysis for Calling indels in homopolymer tracts without long-read error model in long_read_sequencing.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in long_read_sequencing",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Calling indels in homopolymer tracts without long-read error model",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "long_read_sequencing",
+      "problem": "structural_variants_variant",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "homopolymer_error_conflation"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_036_BIOLOG_B",
+    "episode_type": "CORRECT_WORKFLOW",
+    "domain": "biological_ml",
+    "subdomain": "clinical_ecg_variant",
+    "question": "Evaluating alternative protocol variant for GroupKFold by patient ID for multi-recording clinical ML in biological_ml?",
+    "experiment": {
+      "organism": "Mus musculus",
+      "assay": "other",
+      "experimental_unit": "animal",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing GroupKFold by patient ID for multi-recording clinical ML.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for GroupKFold by patient ID for multi-recording clinical ML.",
+    "reasoning_summary": "Invariant-based analysis for GroupKFold by patient ID for multi-recording clinical ML in biological_ml.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in biological_ml",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "biological_ml",
+      "problem": "clinical_ecg_variant",
+      "experimental_unit": "animal",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "none"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_037_INTERP_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "interpretability",
+    "subdomain": "shap_attributions_variant",
+    "question": "Evaluating alternative protocol variant for Claiming high SHAP feature importance proves causal drug target rescue in interpretability?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Claiming high SHAP feature importance proves causal drug target rescue.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Claiming high SHAP feature importance proves causal drug target rescue.",
+    "reasoning_summary": "Invariant-based analysis for Claiming high SHAP feature importance proves causal drug target rescue in interpretability.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in interpretability",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Claiming high SHAP feature importance proves causal drug target rescue",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "interpretability",
+      "problem": "shap_attributions_variant",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "causal_overclaim"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_038_EPIGEN_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "epigenomics",
+    "subdomain": "chip_seq_variant",
+    "question": "Evaluating alternative protocol variant for Calling ChIP-seq peaks without input/IgG chromatin control in epigenomics?",
+    "experiment": {
+      "organism": "Mus musculus",
+      "assay": "other",
+      "experimental_unit": "animal",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Calling ChIP-seq peaks without input/IgG chromatin control.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Calling ChIP-seq peaks without input/IgG chromatin control.",
+    "reasoning_summary": "Invariant-based analysis for Calling ChIP-seq peaks without input/IgG chromatin control in epigenomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in epigenomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Calling ChIP-seq peaks without input/IgG chromatin control",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "epigenomics",
+      "problem": "chip_seq_variant",
+      "experimental_unit": "animal",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "missing_input_control"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_039_ECOLOG_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "ecological_genomics",
+    "subdomain": "landscape_genomics_variant",
+    "question": "Evaluating alternative protocol variant for Genotype-environment association unadjusted for spatial isolation-by-distance in ecological_genomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Genotype-environment association unadjusted for spatial isolation-by-distance.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": true,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Genotype-environment association unadjusted for spatial isolation-by-distance.",
+    "reasoning_summary": "Invariant-based analysis for Genotype-environment association unadjusted for spatial isolation-by-distance in ecological_genomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in ecological_genomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Genotype-environment association unadjusted for spatial isolation-by-distance",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "ecological_genomics",
+      "problem": "landscape_genomics_variant",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "spatial_drift_confounding"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_040_SPATIA_B",
+    "episode_type": "CORRECT_WORKFLOW",
+    "domain": "spatial_transcriptomics",
+    "subdomain": "visium_variant",
+    "question": "Evaluating alternative protocol variant for Leave-one-patient-slice-out spatial cross-validation in spatial_transcriptomics?",
+    "experiment": {
+      "organism": "Mus musculus",
+      "assay": "other",
+      "experimental_unit": "animal",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Leave-one-patient-slice-out spatial cross-validation.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Leave-one-patient-slice-out spatial cross-validation.",
+    "reasoning_summary": "Invariant-based analysis for Leave-one-patient-slice-out spatial cross-validation in spatial_transcriptomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in spatial_transcriptomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "spatial_transcriptomics",
+      "problem": "visium_variant",
+      "experimental_unit": "animal",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "none"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_041_MULTI__B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "multi_omics_integration",
+    "subdomain": "cancer_subtyping_variant",
+    "question": "Evaluating alternative protocol variant for Unsupervised clustering on entire cohort to create ML training labels in multi_omics_integration?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Unsupervised clustering on entire cohort to create ML training labels.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": true,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Unsupervised clustering on entire cohort to create ML training labels.",
+    "reasoning_summary": "Invariant-based analysis for Unsupervised clustering on entire cohort to create ML training labels in multi_omics_integration.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in multi_omics_integration",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Unsupervised clustering on entire cohort to create ML training labels",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "multi_omics_integration",
+      "problem": "cancer_subtyping_variant",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "target_clustering_leakage"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_042_EPIGEN_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "epigenomics",
+    "subdomain": "cut_and_tag_variant",
+    "question": "Evaluating alternative protocol variant for Dividing 1 culture flask into 6 aliquots and claiming n=6 biological replicates in epigenomics?",
+    "experiment": {
+      "organism": "Mus musculus",
+      "assay": "other",
+      "experimental_unit": "animal",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Dividing 1 culture flask into 6 aliquots and claiming n=6 biological replicates.",
+    "scientific_checks": {
+      "replication_valid": false,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Dividing 1 culture flask into 6 aliquots and claiming n=6 biological replicates.",
+    "reasoning_summary": "Invariant-based analysis for Dividing 1 culture flask into 6 aliquots and claiming n=6 biological replicates in epigenomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in epigenomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Dividing 1 culture flask into 6 aliquots and claiming n=6 biological replicates",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "epigenomics",
+      "problem": "cut_and_tag_variant",
+      "experimental_unit": "animal",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "technical_aliquot_pseudoreplication"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_043_BULK_R_B",
+    "episode_type": "CORRECT_WORKFLOW",
+    "domain": "bulk_rnaseq",
+    "subdomain": "infectious_disease_variant",
+    "question": "Evaluating alternative protocol variant for Paired DESeq2 design accounting for human donor baseline differences in bulk_rnaseq?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Paired DESeq2 design accounting for human donor baseline differences.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Paired DESeq2 design accounting for human donor baseline differences.",
+    "reasoning_summary": "Invariant-based analysis for Paired DESeq2 design accounting for human donor baseline differences in bulk_rnaseq.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in bulk_rnaseq",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "bulk_rnaseq",
+      "problem": "infectious_disease_variant",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "none"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_044_EPIGEN_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "epigenomics",
+    "subdomain": "dna_methylation_variant",
+    "question": "Evaluating alternative protocol variant for Fitting PCA on all 500 samples before epigenetic clock training in epigenomics?",
+    "experiment": {
+      "organism": "Mus musculus",
+      "assay": "other",
+      "experimental_unit": "animal",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Fitting PCA on all 500 samples before epigenetic clock training.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": true,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Fitting PCA on all 500 samples before epigenetic clock training.",
+    "reasoning_summary": "Invariant-based analysis for Fitting PCA on all 500 samples before epigenetic clock training in epigenomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in epigenomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Fitting PCA on all 500 samples before epigenetic clock training",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "epigenomics",
+      "problem": "dna_methylation_variant",
+      "experimental_unit": "animal",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "pca_leakage"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_045_FUNCTI_B",
+    "episode_type": "CORRECT_WORKFLOW",
+    "domain": "functional_genomics",
+    "subdomain": "crispr_screens_variant",
+    "question": "Evaluating alternative protocol variant for Genome-wide screen maintaining 1000x coverage across biological replicates in functional_genomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Genome-wide screen maintaining 1000x coverage across biological replicates.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Genome-wide screen maintaining 1000x coverage across biological replicates.",
+    "reasoning_summary": "Invariant-based analysis for Genome-wide screen maintaining 1000x coverage across biological replicates in functional_genomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in functional_genomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "functional_genomics",
+      "problem": "crispr_screens_variant",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "none"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_046_PROTEI_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "protein_variant_interpretation",
+    "subdomain": "structural_biology_variant",
+    "question": "Evaluating alternative protocol variant for Randomly splitting variants from same gene into train and test folds in protein_variant_interpretation?",
+    "experiment": {
+      "organism": "Mus musculus",
+      "assay": "other",
+      "experimental_unit": "animal",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Randomly splitting variants from same gene into train and test folds.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": true,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Randomly splitting variants from same gene into train and test folds.",
+    "reasoning_summary": "Invariant-based analysis for Randomly splitting variants from same gene into train and test folds in protein_variant_interpretation.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in protein_variant_interpretation",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Randomly splitting variants from same gene into train and test folds",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "protein_variant_interpretation",
+      "problem": "structural_biology_variant",
+      "experimental_unit": "animal",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "gene_homology_leakage"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_047_IMMUNO_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "immunology",
+    "subdomain": "flow_cytometry_variant",
+    "question": "Evaluating alternative protocol variant for Spectral flow unmixing using theoretical library without tissue single-stains in immunology?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Spectral flow unmixing using theoretical library without tissue single-stains.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Spectral flow unmixing using theoretical library without tissue single-stains.",
+    "reasoning_summary": "Invariant-based analysis for Spectral flow unmixing using theoretical library without tissue single-stains in immunology.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in immunology",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Spectral flow unmixing using theoretical library without tissue single-stains",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "immunology",
+      "problem": "flow_cytometry_variant",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "unmixing_artifact"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_048_PROTEO_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "proteomics",
+    "subdomain": "lc_ms_variant",
+    "question": "Evaluating alternative protocol variant for MNAR imputation in plasma proteomics in proteomics?",
+    "experiment": {
+      "organism": "Mus musculus",
+      "assay": "other",
+      "experimental_unit": "animal",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing MNAR imputation in plasma proteomics.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": true,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for MNAR imputation in plasma proteomics.",
+    "reasoning_summary": "Invariant-based analysis for MNAR imputation in plasma proteomics in proteomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in proteomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for MNAR imputation in plasma proteomics",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "proteomics",
+      "problem": "lc_ms_variant",
+      "experimental_unit": "animal",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "imputation_leakage"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_049_EPIGEN_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "epigenomics",
+    "subdomain": "atac_seq_variant",
+    "question": "Evaluating alternative protocol variant for Differential peak filtering before cross validation in epigenomics?",
+    "experiment": {
+      "organism": "Homo sapiens",
+      "assay": "other",
+      "experimental_unit": "patient",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Differential peak filtering before cross validation.",
+    "scientific_checks": {
+      "replication_valid": true,
+      "confounding_detected": false,
+      "leakage_detected": true,
+      "transformation_valid": true,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Differential peak filtering before cross validation.",
+    "reasoning_summary": "Invariant-based analysis for Differential peak filtering before cross validation in epigenomics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in epigenomics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Differential peak filtering before cross validation",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "epigenomics",
+      "problem": "atac_seq_variant",
+      "experimental_unit": "patient",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "feature_selection_leakage"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  },
+  {
+    "episode_id": "EP_V02_050_LONGIT_B",
+    "episode_type": "FLAWED_WORKFLOW",
+    "domain": "longitudinal_omics",
+    "subdomain": "serial_biopsies_variant",
+    "question": "Evaluating alternative protocol variant for Treating serial tumor biopsies as independent degrees of freedom in longitudinal_omics?",
+    "experiment": {
+      "organism": "Mus musculus",
+      "assay": "other",
+      "experimental_unit": "animal",
+      "observational_unit": null,
+      "analysis_unit": null,
+      "replicate_type": "biological",
+      "samples": 30,
+      "total_observations": null,
+      "groups": [],
+      "covariates": [],
+      "batch_structure": null,
+      "input_data_type": "raw_counts",
+      "objective": "biomarker_discovery",
+      "description": null
+    },
+    "proposed_analysis": "Alternative protocol implementation testing Treating serial tumor biopsies as independent degrees of freedom.",
+    "scientific_checks": {
+      "replication_valid": false,
+      "confounding_detected": false,
+      "leakage_detected": false,
+      "transformation_valid": false,
+      "multiple_testing_controlled": true,
+      "sample_size_adequate": true
+    },
+    "preferred_analysis": "Rigorous corrected protocol for Treating serial tumor biopsies as independent degrees of freedom.",
+    "reasoning_summary": "Invariant-based analysis for Treating serial tumor biopsies as independent degrees of freedom in longitudinal_omics.",
+    "interpretation": {
+      "supported_claims": [
+        {
+          "statement": "Validated observation in longitudinal_omics",
+          "level": "OBSERVATION",
+          "justification": null
+        }
+      ],
+      "unsupported_claims": [
+        {
+          "statement": "Unadjusted claim for Treating serial tumor biopsies as independent degrees of freedom",
+          "level": "CAUSAL_CLAIM",
+          "justification": null
+        }
+      ],
+      "limitations": [
+        "Pilot evaluation dataset."
+      ]
+    },
+    "scenario_signature": {
+      "assay": "longitudinal_omics",
+      "problem": "serial_biopsies_variant",
+      "experimental_unit": "animal",
+      "observational_unit": "sample",
+      "analysis": "pipeline_variant",
+      "failure_mode": "longitudinal_pseudoreplication"
+    },
+    "validation_status": "scientist_reviewed",
+    "quality_tier": "TIER_B",
+    "example_weight": 1.0,
+    "provenance": {
+      "source_type": "expert_authored_v0_2",
+      "citation": null,
+      "doi": null,
+      "license": "CC-BY-4.0",
+      "author": "BioReason Scientific Working Group",
+      "reviewer": null,
+      "review_status": "scientist_reviewed"
+    },
+    "sources": []
+  }
+]

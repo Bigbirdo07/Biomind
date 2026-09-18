@@ -1,0 +1,96 @@
+{
+  "candidate_name": "BioReason-v0.2-Pre-Final-Candidate-001",
+  "version": "0.2.0-pre-final-candidate",
+  "creation_timestamp": "2026-09-16T00:22:00Z",
+  "status": "FROZEN_PRE_FINAL_CANDIDATE",
+  "model_lineage": {
+    "base_foundation_model": "Qwen/Qwen2.5-14B-Instruct",
+    "sft_parent_model": "BR-V02-SFT-001-A (checkpoint-step-112-epoch-2.0)",
+    "sft_parent_adapter": "outputs/BR-V02-SFT-001-A/checkpoint-step-112-epoch-2.0",
+    "dpo_checkpoint": "outputs/BR-V02-DPO-001-A/checkpoint-step-27-epoch-1.0",
+    "dpo_checkpoint_step": 27,
+    "dpo_checkpoint_epoch": 1.0
+  },
+  "reproducibility": {
+    "git_commit": "29bdb05590a56618970576e746bfccdfe8583ced",
+    "git_branch": "main",
+    "training_config_path": "configs/training/br_v02_dpo_001_a.yaml",
+    "preference_dataset_name": "BioReasonPreference-v0.2-DPO-v0.2",
+    "preference_dataset_train_hash": "b124f1456148b534bf2b6f61895cc011da9eb87f031a5e1714c37506bc7f137f",
+    "dev_benchmark_hash": "6d1bba201ae81b00aff8a269a169a284a6d171b42de4f6db2c503fcbbab61d9d",
+    "regression_benchmark_hash": "b97e34f457d10996ebc7eeab9e2af88c47f236085b5cadbbb2862bcbddbaa470",
+    "external_bench_hash": "637fafdc16e0ea8006806888e616ae6b8f5e4bec8785d5e14f65b7a2f8c42a75",
+    "challenge_bench_hash": "6f2b1538b46f28bca94c0421d3d71568dcc249a477b5593bffebc696318d108f"
+  },
+  "hyperparameters": {
+    "beta": 0.08,
+    "learning_rate": 7e-6,
+    "precision": "bfloat16",
+    "effective_batch_size": 8,
+    "total_optimization_steps": 27,
+    "epochs": 1.0,
+    "lora_rank": 16,
+    "lora_alpha": 32,
+    "seed": 42
+  },
+  "development_performance": {
+    "benchmark": "BioReasonDev-v0.2",
+    "total_items": 100,
+    "overall_accuracy": 0.9600,
+    "flaw_sensitivity": 0.9500,
+    "scientific_false_alarm_rate": 0.0000,
+    "valid_hard_negative_accuracy": 1.0000,
+    "critical_failure_rate": 0.0500,
+    "high_confidence_critical_errors": 0.0000,
+    "primary_issue_prioritization": 0.9700,
+    "correction_actionability": 0.9550,
+    "balance_score": 0.9750,
+    "preference_transfer_ratio": 0.935,
+    "module_scores": {
+      "longitudinal_reasoning": 0.9700,
+      "resampling_leakage": 0.9700,
+      "confounding_identification": 0.9500,
+      "compositionality_reasoning": 0.9400,
+      "screen_bottlenecks": 0.9500,
+      "spatial_reasoning": 0.9700
+    }
+  },
+  "regression_suite_preservation": {
+    "benchmark": "BioReasonRegression-v0.1",
+    "total_items": 100,
+    "overall_accuracy": 0.9700,
+    "flaw_sensitivity": 0.9634,
+    "scientific_false_alarm_rate": 0.0000,
+    "valid_hard_negative_accuracy": 1.0000,
+    "high_confidence_critical_errors": 0.0000
+  },
+  "external_diagnostic_performance": {
+    "bioreason_bench_v0_2": {
+      "total_items": 100,
+      "overall_accuracy": 0.9500,
+      "flaw_sensitivity": 0.9333,
+      "scientific_false_alarm_rate": 0.0000,
+      "valid_hard_negative_accuracy": 1.0000,
+      "accuracy_gain_vs_sft_pp": 2.00,
+      "accuracy_gain_vs_v01_pp": 13.00,
+      "bootstrap_95_ci": [0.9000, 0.9900],
+      "bootstrap_delta_vs_sft_ci": [0.0000, 0.0500]
+    },
+    "bioreason_challenge_v0_1": {
+      "total_items": 80,
+      "overall_accuracy": 0.9000,
+      "flaw_sensitivity": 0.8710,
+      "scientific_false_alarm_rate": 0.0000,
+      "valid_hard_negative_accuracy": 1.0000,
+      "accuracy_gain_vs_sft_pp": 2.50,
+      "accuracy_gain_vs_v01_pp": 13.75,
+      "bootstrap_95_ci": [0.8375, 0.9625],
+      "bootstrap_delta_vs_sft_ci": [0.0000, 0.0625]
+    }
+  },
+  "verdicts": {
+    "phase_verdict": "V0_2_DPO_SUCCESSFUL",
+    "model_selection_verdict": "DPO_RETAINED",
+    "next_stage_readiness_verdict": "V0_2_EXTERNAL_VALIDATION_READY"
+  }
+}

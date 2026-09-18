@@ -1,0 +1,228 @@
+{
+  "manifest_version": "v0.2.0",
+  "created_at": "2026-09-16T00:40:00Z",
+  "total_packets": 8,
+  "packets": {
+    "REV001": {
+      "reviewer_id": "REV001",
+      "case_count": 14,
+      "case_ids": [
+        "HEVAL_001",
+        "HEVAL_009",
+        "HEVAL_012",
+        "HEVAL_015",
+        "HEVAL_016",
+        "HEVAL_020",
+        "HEVAL_024",
+        "HEVAL_026",
+        "HEVAL_030",
+        "HEVAL_031",
+        "HEVAL_037",
+        "HEVAL_039",
+        "HEVAL_045",
+        "HEVAL_046"
+      ],
+      "file_hashes": {
+        "assigned_cases.json": "be2e05fad30ef176b7f8d6a73ed618bf05d899a2b32b40402bf797ccf40dd25d",
+        "scorecard_template.csv": "57cc0f2a96a6914b3225e1c0e2ad1fb6239eec14e2491fb2dfb9539d22963b7e",
+        "viewer.html": "df827c98d8fb556b586480589d88d0994f149b790df5d87a606ec939e74e6fdd",
+        "REVIEWER_GUIDE.md": "16d83a67df4e72f26fe16eb5a78f058fa321f99a23609d5fea80b507498efbd2"
+      },
+      "packet_composite_sha256": "688c6023fcccc187ada35b6817b1732ddaa5472a3e8a777f5de34cea5a94b27c"
+    },
+    "REV002": {
+      "reviewer_id": "REV002",
+      "case_count": 14,
+      "case_ids": [
+        "HEVAL_002",
+        "HEVAL_003",
+        "HEVAL_008",
+        "HEVAL_016",
+        "HEVAL_017",
+        "HEVAL_018",
+        "HEVAL_023",
+        "HEVAL_030",
+        "HEVAL_032",
+        "HEVAL_033",
+        "HEVAL_038",
+        "HEVAL_041",
+        "HEVAL_047",
+        "HEVAL_048"
+      ],
+      "file_hashes": {
+        "assigned_cases.json": "c1fdbf00d543e9b562378c2cb4ef6fd44952fbd27ed4147025358c13581b0594",
+        "scorecard_template.csv": "8c51ebac60d8b9ef7dd216462730f010d710beb3a98f008dc83ba9021c5900ac",
+        "viewer.html": "802620e2def43d5e011077377926efc462e653aa5a87bb3c835dba26cc0886c6",
+        "REVIEWER_GUIDE.md": "16d83a67df4e72f26fe16eb5a78f058fa321f99a23609d5fea80b507498efbd2"
+      },
+      "packet_composite_sha256": "9e9889a460058bd282a23d1d5ec5b39676816f1c9f4421827bf6a570b993d970"
+    },
+    "REV003": {
+      "reviewer_id": "REV003",
+      "case_count": 15,
+      "case_ids": [
+        "HEVAL_001",
+        "HEVAL_007",
+        "HEVAL_010",
+        "HEVAL_012",
+        "HEVAL_018",
+        "HEVAL_019",
+        "HEVAL_025",
+        "HEVAL_027",
+        "HEVAL_028",
+        "HEVAL_034",
+        "HEVAL_039",
+        "HEVAL_040",
+        "HEVAL_042",
+        "HEVAL_045",
+        "HEVAL_049"
+      ],
+      "file_hashes": {
+        "assigned_cases.json": "3e608e782e7953243c85c9de2a91632819d64fbe55c0c460209625e1eb5d3d08",
+        "scorecard_template.csv": "f8a82b2990163651010fd6e64f0b48c87e20cab66b5342d5f95c6bb9969b8100",
+        "viewer.html": "6cd5e58f9130f4ab9bd35ba10482fd1955faa7468e0d12223a2703e8c7af0ce1",
+        "REVIEWER_GUIDE.md": "16d83a67df4e72f26fe16eb5a78f058fa321f99a23609d5fea80b507498efbd2"
+      },
+      "packet_composite_sha256": "558cd43dfa2320a9b40d898c03f7f429eeaac16a9bea846ef8bf3099f252c141"
+    },
+    "REV004": {
+      "reviewer_id": "REV004",
+      "case_count": 15,
+      "case_ids": [
+        "HEVAL_002",
+        "HEVAL_004",
+        "HEVAL_006",
+        "HEVAL_011",
+        "HEVAL_015",
+        "HEVAL_020",
+        "HEVAL_021",
+        "HEVAL_027",
+        "HEVAL_029",
+        "HEVAL_035",
+        "HEVAL_036",
+        "HEVAL_040",
+        "HEVAL_044",
+        "HEVAL_048",
+        "HEVAL_050"
+      ],
+      "file_hashes": {
+        "assigned_cases.json": "37694f530f105746968827614fe9a0656e51e6655c3e65da4bcb3fe52537a318",
+        "scorecard_template.csv": "7b01c5e0f66a601e56f4631c947409f262f07912a03bf47e4734826215c29b40",
+        "viewer.html": "95cc9c60b7b42f57ea05a86f810b61d7c78baebd401a9cfa4c2aad060f0f29ab",
+        "REVIEWER_GUIDE.md": "16d83a67df4e72f26fe16eb5a78f058fa321f99a23609d5fea80b507498efbd2"
+      },
+      "packet_composite_sha256": "5f17de2c0bae929ae5c8e01295d26efaeb3947119ee875a897833f3d02e818b0"
+    },
+    "REV005": {
+      "reviewer_id": "REV005",
+      "case_count": 14,
+      "case_ids": [
+        "HEVAL_005",
+        "HEVAL_009",
+        "HEVAL_013",
+        "HEVAL_014",
+        "HEVAL_015",
+        "HEVAL_022",
+        "HEVAL_024",
+        "HEVAL_029",
+        "HEVAL_030",
+        "HEVAL_032",
+        "HEVAL_039",
+        "HEVAL_043",
+        "HEVAL_044",
+        "HEVAL_045"
+      ],
+      "file_hashes": {
+        "assigned_cases.json": "539a5392d8f927062a8e2cae152fdee0ff02bb370c8070fdea4a7a5e90f62afe",
+        "scorecard_template.csv": "c6a18e14ce97d092c331b00abf1646be35b7963084a9fa7af681afa9b9cb1598",
+        "viewer.html": "b4ae129576cdf46207533897d347c9a8f6877301a4588c95a74bfa5445063f6d",
+        "REVIEWER_GUIDE.md": "16d83a67df4e72f26fe16eb5a78f058fa321f99a23609d5fea80b507498efbd2"
+      },
+      "packet_composite_sha256": "8c6715b3ea1591f3c252a4bfa70921f5da2317344f9ac6e7e4fab4bb2e011361"
+    },
+    "REV006": {
+      "reviewer_id": "REV006",
+      "case_count": 15,
+      "case_ids": [
+        "HEVAL_003",
+        "HEVAL_008",
+        "HEVAL_010",
+        "HEVAL_011",
+        "HEVAL_013",
+        "HEVAL_021",
+        "HEVAL_023",
+        "HEVAL_024",
+        "HEVAL_026",
+        "HEVAL_028",
+        "HEVAL_033",
+        "HEVAL_038",
+        "HEVAL_041",
+        "HEVAL_043",
+        "HEVAL_046"
+      ],
+      "file_hashes": {
+        "assigned_cases.json": "fc3c86b06be8ae0665a9bafdedfe1abfda305f94e4097811213a42599fbc88f8",
+        "scorecard_template.csv": "4a8459cc12a2b593b51ef8a408ef3c642b574f2d9f63d6815f1843a3174cf613",
+        "viewer.html": "4798510dce33319c271498513a8335058005dddeff66585ff870a4dc54c3d4b9",
+        "REVIEWER_GUIDE.md": "16d83a67df4e72f26fe16eb5a78f058fa321f99a23609d5fea80b507498efbd2"
+      },
+      "packet_composite_sha256": "d157d57ec211a74914913a6c9007f5ceb9ae753e709844a095e72f3c1a2c2e9b"
+    },
+    "REV007": {
+      "reviewer_id": "REV007",
+      "case_count": 15,
+      "case_ids": [
+        "HEVAL_004",
+        "HEVAL_005",
+        "HEVAL_006",
+        "HEVAL_007",
+        "HEVAL_009",
+        "HEVAL_014",
+        "HEVAL_017",
+        "HEVAL_020",
+        "HEVAL_022",
+        "HEVAL_031",
+        "HEVAL_035",
+        "HEVAL_037",
+        "HEVAL_042",
+        "HEVAL_046",
+        "HEVAL_050"
+      ],
+      "file_hashes": {
+        "assigned_cases.json": "544e6402edb010b3e6e87835d3abf2b029e80bc046f8e3b9ce14aac64e0c4074",
+        "scorecard_template.csv": "8a57dd2dedb5347e04e91afee034f6fb303d241de8852d72ffe29de994bfe445",
+        "viewer.html": "80436569288867561130a109940aa2e926109b2138ab87082997d724d789722d",
+        "REVIEWER_GUIDE.md": "16d83a67df4e72f26fe16eb5a78f058fa321f99a23609d5fea80b507498efbd2"
+      },
+      "packet_composite_sha256": "fff9647db98389895eb81a0c22ce06381ee937f3880aa4446f9870b4347c5161"
+    },
+    "REV008": {
+      "reviewer_id": "REV008",
+      "case_count": 15,
+      "case_ids": [
+        "HEVAL_001",
+        "HEVAL_005",
+        "HEVAL_010",
+        "HEVAL_011",
+        "HEVAL_016",
+        "HEVAL_019",
+        "HEVAL_025",
+        "HEVAL_026",
+        "HEVAL_031",
+        "HEVAL_034",
+        "HEVAL_036",
+        "HEVAL_040",
+        "HEVAL_041",
+        "HEVAL_047",
+        "HEVAL_049"
+      ],
+      "file_hashes": {
+        "assigned_cases.json": "5deb589a09d9ffa9cc9906ee51a682ee058bc7463365133096df8e2a35c7cc5c",
+        "scorecard_template.csv": "d91df6f88026a6d6e55c6e338c4ddc2cc6a0067922374d06f93ac4ad09b87710",
+        "viewer.html": "d43a3ee8b0f2a48e39fee6a6fe2e270bd2ee1d04fa53959d78be85adeba81538",
+        "REVIEWER_GUIDE.md": "16d83a67df4e72f26fe16eb5a78f058fa321f99a23609d5fea80b507498efbd2"
+      },
+      "packet_composite_sha256": "258cf381397d8362047a62a3906a0cea44ef9bc9fd3fb31446af2114e452994c"
+    }
+  }
+}

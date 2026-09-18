@@ -1,0 +1,172 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BioReasonHumanReviewSubmissionSchema",
+  "description": "Schema for individual case evaluations submitted by external scientific reviewers in BioReason v0.2.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "reviewer_id",
+    "case_id",
+    "qualification_tier",
+    "reviewer_confidence",
+    "response_evaluations",
+    "pairwise_preference",
+    "submitted_at"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "enum": ["v0.2", "0.2.0"]
+    },
+    "reviewer_id": {
+      "type": "string",
+      "pattern": "^REV[0-9]{3,}$"
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^HEVAL_[0-9]{3,}$"
+    },
+    "qualification_tier": {
+      "type": "string",
+      "enum": [
+        "EXPERT_DOMAIN",
+        "COMPUTATIONAL_BIOLOGIST",
+        "BIOSTATISTICIAN",
+        "BIOINFORMATICIAN",
+        "GENERAL_BIOLOGICAL_SCIENTIST",
+        "OTHER_RELEVANT_SCIENTIST"
+      ]
+    },
+    "reviewer_confidence": {
+      "type": "string",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ]
+    },
+    "response_evaluations": {
+      "type": "object",
+      "required": [
+        "RESPONSE_A",
+        "RESPONSE_B",
+        "RESPONSE_C"
+      ],
+      "properties": {
+        "RESPONSE_A": {
+          "$ref": "#/definitions/ResponseRating"
+        },
+        "RESPONSE_B": {
+          "$ref": "#/definitions/ResponseRating"
+        },
+        "RESPONSE_C": {
+          "$ref": "#/definitions/ResponseRating"
+        }
+      },
+      "additionalProperties": false
+    },
+    "pairwise_preference": {
+      "type": "string",
+      "enum": [
+        "RESPONSE_A",
+        "RESPONSE_B",
+        "RESPONSE_C",
+        "TIE",
+        "NONE_ACCEPTABLE"
+      ]
+    },
+    "comments": {
+      "type": "string",
+      "description": "Optional free-text rationale, strengths, weaknesses, or missing information."
+    },
+    "qualitative_rationale": {
+      "type": "string",
+      "description": "Optional alias for qualitative comments."
+    },
+    "submitted_at": {
+      "type": "string",
+      "description": "ISO 8601 UTC timestamp of submission."
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "ResponseRating": {
+      "type": "object",
+      "required": [
+        "SCIENTIFIC_CORRECTNESS",
+        "PRIMARY_ISSUE_IDENTIFICATION",
+        "EXPERIMENTAL_UNIT_REASONING",
+        "STATISTICAL_VALIDITY",
+        "BIOLOGICAL_PLAUSIBILITY",
+        "CORRECTION_ACTIONABILITY",
+        "UNCERTAINTY_CALIBRATION",
+        "OVERCLAIMING",
+        "FALSE_ALARM_BEHAVIOR",
+        "OVERALL_SCIENTIFIC_USEFULNESS"
+      ],
+      "properties": {
+        "SCIENTIFIC_CORRECTNESS": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "1 = Fundamentally incorrect; 5 = Perfectly accurate scientific critique."
+        },
+        "PRIMARY_ISSUE_IDENTIFICATION": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "1 = Missed primary flaw entirely; 5 = Accurately identified root scientific issue."
+        },
+        "EXPERIMENTAL_UNIT_REASONING": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "1 = Confused biological vs technical units; 5 = Flawless experimental hierarchy reasoning."
+        },
+        "STATISTICAL_VALIDITY": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "1 = Statistically invalid critique; 5 = Rigorous statistical inference."
+        },
+        "BIOLOGICAL_PLAUSIBILITY": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "1 = Biologically nonsensical; 5 = Deeply grounded in biological mechanism."
+        },
+        "CORRECTION_ACTIONABILITY": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "1 = Vague/unusable suggestions; 5 = Concrete, executable, domain-standard corrections."
+        },
+        "UNCERTAINTY_CALIBRATION": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "1 = Extreme ungrounded confidence or unwarranted hesitation; 5 = Appropriately calibrated uncertainty."
+        },
+        "OVERCLAIMING": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "1 = Severe overclaiming/hallucination; 5 = No overclaiming; strictly adheres to evidence."
+        },
+        "FALSE_ALARM_BEHAVIOR": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "1 = Fabricated flaws on valid designs (high false alarm); 5 = Calibrated on valid science."
+        },
+        "OVERALL_SCIENTIFIC_USEFULNESS": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "1 = Harmful/unhelpful; 5 = Exceptional peer-review quality critique."
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,0 +1,23 @@
+# Python bytecode / cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS cruft
+.DS_Store
+
+# Editor/IDE
+.vscode/
+.idea/
+
+# Training-run data and artifacts -- regeneratable via scripts/, not
+# source code. Stays on disk, just excluded from git history so the repo
+# doesn't permanently bloat with multi-MB JSON/JSONL blobs.
+outputs/
+training_data/snapshots/
+training_data/preferences/
+
+# Local environment
+.env
+*.egg-info/
+.pytest_cache/

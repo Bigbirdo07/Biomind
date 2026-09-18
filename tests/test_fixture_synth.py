@@ -178,3 +178,140 @@ def test_preamble_empty_when_no_readers_used():
     # still degrade gracefully (empty string) if ever called on a plan with
     # no reader flags set.
     assert build_execution_preamble(plan) == ""
+
+
+# ---------------------------------------------------------------------------
+# Shell dry-run path (WGS/WES-style subprocess-orchestration pipelines).
+# Fixes the earlier "any .bam/.fastq/.vcf mention -> confidence=none" gap:
+# these files are just string arguments to external tools in this kind of
+# code, not parsed by a Python library that needs real content, so the
+# right move is to mock the TOOL CALLS, not the data.
+# ---------------------------------------------------------------------------
+
+CODE_WITH_SUBPROCESS_AND_BAM = """
+import subprocess
+subprocess.run(f'bwa mem ref.fa in.fq | samtools sort -o out.bam', shell=True)
+subprocess.run(['gatk', 'HaplotypeCaller', '-I', 'out.bam', '-O', 'out.vcf'])
+"""
+
+CODE_WITH_RAW_OPEN = """
+with open('data.txt') as f:
+    data = f.read()
+"""
+
+CODE_WITH_R = """
+library(DESeq2)
+dds <- DESeqDataSetFromMatrix(countData=countData, colData=colData, design=~condition)
+"""
+
+
+def test_subprocess_code_with_bam_gets_shell_dry_run_not_none():
+    # Regression test for the earlier gap: .bam/.fastq/.vcf mentions used
+    # to unconditionally bail out to confidence="none" even when the code
+    # only references them as command-line arguments to external tools.
+    plan = build_fixture_plan(CODE_WITH_SUBPROCESS_AND_BAM, {})
+    assert plan.confidence == "high"
+    assert plan.kind == "shell_dry_run"
+
+
+def test_raw_open_still_unsupported_even_with_subprocess_present():
+    code = CODE_WITH_SUBPROCESS_AND_BAM + "\nwith open('extra.txt') as f:\n    pass\n"
+    plan = build_fixture_plan(code, {})
+    assert plan.confidence == "none"
+
+
+def test_r_code_still_unsupported():
+    plan = build_fixture_plan(CODE_WITH_R, {})
+    assert plan.confidence == "none"
+
+
+def test_shell_dry_run_preamble_mocks_subprocess_and_runs_real_script():
+    """Integration test: the exact zip() arity-mismatch bug found via live
+    WGS/WES testing this session -- the loop unpacks 6 targets from a
+    zip() of 3 lists (one of which, fastq_files, holds 4-tuples), which
+    Python cannot do and raises ValueError the instant the script runs.
+    No real BWA/GATK needed to catch this -- only real Python execution."""
+    from pathlib import Path
+    import tempfile
+    from bioreason.inference.code_sandbox import run_in_sandbox
+
+    code = (
+        "import subprocess\n"
+        "fastq_files = [\n"
+        "    ('t1_R1.fq', 't1_R2.fq', 'n1_R1.fq', 'n1_R2.fq'),\n"
+        "    ('t2_R1.fq', 't2_R2.fq', 'n2_R1.fq', 'n2_R2.fq'),\n"
+        "]\n"
+        "tumor_sample_names = ['tumor1', 'tumor2']\n"
+        "normal_sample_names = ['normal1', 'normal2']\n"
+        "for tumor_r1, tumor_r2, normal_r1, normal_r2, tumor_sample_name, normal_sample_name in zip(\n"
+        "    fastq_files, tumor_sample_names, normal_sample_names\n"
+        "):\n"
+        "    subprocess.run(f'bwa mem ref.fa {tumor_r1} {tumor_r2} -o out.bam', shell=True)\n"
+    )
+    plan = build_fixture_plan(code, {})
+    assert plan.kind == "shell_dry_run"
+    preamble = build_execution_preamble(plan)
+    full_source = preamble + "\n\n" + code
+
+    with tempfile.TemporaryDirectory() as workdir:
+        result = run_in_sandbox(full_source, Path(workdir))
+    assert result.status == "EXCEPTION"
+    assert "ValueError" in result.traceback_text
+
+
+def test_shell_dry_run_preamble_runs_correct_script_cleanly():
+    """A correctly-structured per-sample-function pipeline (the pattern
+    the overlay now recommends) should run to completion under the mock
+    with no real bwa/gatk installed."""
+    from pathlib import Path
+    import tempfile
+    from bioreason.inference.code_sandbox import run_in_sandbox
+
+    code = (
+        "import subprocess\n"
+        "samples = [\n"
+        "    {'tumor_r1': 't1_R1.fq', 'tumor_r2': 't1_R2.fq', 'normal_r1': 'n1_R1.fq', "
+        "'normal_r2': 'n1_R2.fq', 'tumor_bam': 't1.bam', 'normal_bam': 'n1.bam', "
+        "'normal_sample_name': 'normal1'},\n"
+        "    {'tumor_r1': 't2_R1.fq', 'tumor_r2': 't2_R2.fq', 'normal_r1': 'n2_R1.fq', "
+        "'normal_r2': 'n2_R2.fq', 'tumor_bam': 't2.bam', 'normal_bam': 'n2.bam', "
+        "'normal_sample_name': 'normal2'},\n"
+        "]\n"
+        "\n"
+        "def process_sample(s):\n"
+        "    subprocess.run(f\"bwa mem ref.fa {s['tumor_r1']} {s['tumor_r2']} | samtools sort -o {s['tumor_bam']}\", shell=True)\n"
+        "    subprocess.run(f\"gatk Mutect2 -I {s['tumor_bam']} -I {s['normal_bam']} -normal {s['normal_sample_name']} -O out.vcf\", shell=True)\n"
+        "\n"
+        "for sample in samples:\n"
+        "    process_sample(sample)\n"
+        "print('done')\n"
+    )
+    plan = build_fixture_plan(code, {})
+    preamble = build_execution_preamble(plan)
+    full_source = preamble + "\n\n" + code
+
+    with tempfile.TemporaryDirectory() as workdir:
+        result = run_in_sandbox(full_source, Path(workdir))
+    assert result.status == "OK", result.stderr
+
+
+def test_shell_dry_run_touches_output_placeholder_for_o_flag():
+    """A script that checks os.path.exists() on a tool's -o output before
+    proceeding shouldn't false-positive just because no real tool ran."""
+    from pathlib import Path
+    import tempfile
+    from bioreason.inference.code_sandbox import run_in_sandbox
+
+    code = (
+        "import subprocess, os\n"
+        "subprocess.run(['samtools', 'sort', 'in.bam', '-o', 'sorted.bam'])\n"
+        "assert os.path.exists('sorted.bam'), 'expected samtools output to exist'\n"
+        "print('ok')\n"
+    )
+    plan = build_fixture_plan(code, {})
+    preamble = build_execution_preamble(plan)
+    full_source = preamble + "\n\n" + code
+
+    with tempfile.TemporaryDirectory() as workdir:
+        result = run_in_sandbox(full_source, Path(workdir))
+    assert result.status == "OK", result.stderr

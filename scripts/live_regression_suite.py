@@ -53,7 +53,10 @@ def call_generate(base_url: str, history: List[Dict[str, str]], user_message: st
     req = urllib.request.Request(
         f"{base_url}/generate", data=body, headers={"Content-Type": "application/json"}
     )
-    with urllib.request.urlopen(req, timeout=180) as resp:
+    # Execution-in-the-loop scenarios (especially shell dry-run, which can
+    # trigger a corrective regeneration -- a second full model call -- on
+    # top of the sandbox run itself) can comfortably exceed 180s.
+    with urllib.request.urlopen(req, timeout=450) as resp:
         return json.loads(resp.read().decode("utf-8"))
 
 
@@ -307,6 +310,32 @@ SCENARIOS: List[Scenario] = [
         soft_checks=[
             ("mode", soft_router_mode_is("PIPELINE_DEBUG")),
             ("correctly diagnoses AnnData has no groupby", soft_text_contains("groupby")),
+        ],
+    ),
+    Scenario(
+        name="build: WGS/WES paired tumor-normal variant calling pipeline (shell dry-run)",
+        history=[],
+        user_message=(
+            "I have whole genome sequencing on 12 tumor samples and 12 matched "
+            "normal samples from the same patients. Raw fastq files. I want to "
+            "find somatic mutations driving the cancer, and I want to build the "
+            "full pipeline."
+        ),
+        hard_checks=[
+            ("lint honesty invariant", hard_lint_honesty_invariant),
+            ("execution honesty invariant", hard_execution_honesty_invariant),
+        ],
+        soft_checks=[
+            ("mode", soft_router_mode_is("PIPELINE_BUILD")),
+            # Shell-orchestration code with .bam/.fastq mentions now gets
+            # kind="shell_dry_run" instead of confidence="none" -- execution
+            # should actually run (True or False), not stay None the way it
+            # unconditionally did before this fix.
+            ("execution actually attempted (not None)",
+             lambda result: (
+                 result.get("execution_verified") is not None,
+                 f"execution_verified={result.get('execution_verified')}",
+             )),
         ],
     ),
     Scenario(

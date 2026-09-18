@@ -195,8 +195,10 @@ def run_orchestrated_turn(
                     {
                         "role": "user",
                         "content": (
-                            "Running this code against a small synthetic test dataset "
-                            "raised a real error:\n```\n" + (result.traceback_text or "") + "\n```\n"
+                            "Running this code in a controlled test environment "
+                            "(synthetic data, or mocked external tool calls for "
+                            "shell-orchestration code) raised a real error:\n```\n"
+                            + (result.traceback_text or "") + "\n```\n"
                             "Please rewrite the code to fix this exact error. Keep "
                             "everything else the same."
                         ),
@@ -226,8 +228,9 @@ def run_orchestrated_turn(
 
         if execution_verified is False:
             response += (
-                "\n\n---\n**Execution against a synthetic test dataset with similar "
-                "structure failed with a real error (not a heuristic warning):**\n```\n"
+                "\n\n---\n**Execution in a controlled test environment (synthetic "
+                "data, or mocked external tool calls for shell-orchestration code) "
+                "failed with a real error (not a heuristic warning):**\n```\n"
                 + (execution_error or "unknown error") + "\n```"
             )
 

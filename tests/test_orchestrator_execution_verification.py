@@ -71,7 +71,7 @@ def test_broken_code_never_fixed_gets_honest_caveat():
     assert result.execution_verified is False
     assert result.execution_error is not None
     assert "AttributeError" in result.execution_error
-    assert "Execution against a synthetic test dataset" in result.response
+    assert "Execution in a controlled test environment" in result.response
     assert result.execution_regeneration_used is False
 
 
@@ -89,7 +89,7 @@ def test_broken_code_fixed_on_regeneration():
     assert result.execution_verified is True
     assert result.execution_regeneration_used is True
     assert result.response == FIXED_CODE_RESPONSE
-    assert "Execution against a synthetic test dataset" not in result.response
+    assert "Execution in a controlled test environment" not in result.response
 
 
 def test_working_code_verified_without_regeneration():
@@ -125,7 +125,7 @@ def test_pipeline_debug_mode_also_gets_execution_verification():
     assert result.execution_verified is False
     assert result.execution_error is not None
     assert "AttributeError" in result.execution_error
-    assert "Execution against a synthetic test dataset" in result.response
+    assert "Execution in a controlled test environment" in result.response
 
 
 def test_pipeline_debug_fix_verified_when_correct():
@@ -169,7 +169,7 @@ def test_unsupported_io_skips_execution_verification_without_flagging():
     # Fixture can't safely be synthesized for a .bam read -> skipped, not
     # flagged as a failure.
     assert result.execution_verified is None
-    assert "Execution against a synthetic test dataset" not in result.response
+    assert "Execution in a controlled test environment" not in result.response
 
 
 def test_execution_verification_can_be_disabled():

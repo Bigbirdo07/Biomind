@@ -167,6 +167,14 @@ def lint_code_block(code: str) -> List[str]:
         call_text = _extract_balanced_parens(code, match.end() - 1)
         has_pipe_literal = re.search(r"""['"]\s*\|\s*['"]""", call_text)
         uses_shell_true = re.search(r"shell\s*=\s*True", call_text)
+        # A second, distinct way to get this wrong: shell=True combined
+        # with a LIST as the first argument. Python only runs args[0] as
+        # the actual shell command in that case -- every other list item
+        # becomes a positional shell parameter ($0, $1, ...), never
+        # appended to the command line. Seen live: shell=True added to
+        # silence the "missing shell=True" case above, but the list wasn't
+        # converted to a single command string, so it's still broken.
+        starts_with_list = re.match(r"\(\s*\[", call_text)
         if has_pipe_literal and not uses_shell_true:
             warnings.append(
                 f"'subprocess.{match.group(1)}(...)' is called with a list of "
@@ -176,6 +184,16 @@ def lint_code_block(code: str) -> List[str]:
                 "separate calls are chained manually via stdout=subprocess.PIPE). "
                 "As written, '|' is passed as a literal argument to the command "
                 "and this will error or silently fail."
+            )
+        elif uses_shell_true and starts_with_list:
+            warnings.append(
+                f"'subprocess.{match.group(1)}(...)' passes shell=True together "
+                "with a LIST as the command argument -- with shell=True, only "
+                "the first list item is actually run as the shell command; every "
+                "other item becomes a positional parameter to the shell itself, "
+                "never appended to the command line. shell=True requires a "
+                "single command STRING (e.g. 'bwa mem ref.fa in.fq | samtools "
+                "sort -o out.bam'), not a list."
             )
 
     return warnings

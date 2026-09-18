@@ -229,3 +229,24 @@ def test_flags_subprocess_popen_pipe_too():
     )
     warnings = lint_generated_code(code)
     assert any("literal '|'" in w for w in warnings)
+
+
+def test_flags_shell_true_with_list_argument():
+    # Seen live: shell=True added to "fix" the pipe warning, but the
+    # command was left as a list -- only args[0] runs as the actual shell
+    # command with shell=True; the rest become positional shell params,
+    # not part of the command line. Still broken, just differently.
+    code = wrap(
+        "subprocess.run(['bwa', 'mem', ref, r1, r2, '|', 'samtools', 'sort', "
+        "'-o', out_bam], shell=True)\n"
+    )
+    warnings = lint_generated_code(code)
+    assert any("shell=True together with a LIST" in w for w in warnings)
+
+
+def test_does_not_flag_shell_true_with_string_argument():
+    code = wrap(
+        "subprocess.run('bwa mem ref.fa in.fq | samtools sort -o out.bam', shell=True)\n"
+    )
+    warnings = lint_generated_code(code)
+    assert not any("shell=True together with a LIST" in w for w in warnings)

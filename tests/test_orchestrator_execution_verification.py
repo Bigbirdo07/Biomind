@@ -18,6 +18,7 @@ its own dedicated test suite (tests/test_code_lint.py).
 from bioreason.inference.orchestrator import run_orchestrated_turn
 
 ROUTER_PIPELINE_BUILD = '{"mode": "PIPELINE_BUILD", "confidence": 1.0, "explicit_user_request": true}'
+ROUTER_PIPELINE_DEBUG = '{"mode": "PIPELINE_DEBUG", "confidence": 1.0, "explicit_user_request": true}'
 ROUTER_GENERAL_CHAT = '{"mode": "GENERAL_CHAT", "confidence": 1.0, "explicit_user_request": false}'
 
 BROKEN_CODE_RESPONSE = (
@@ -105,6 +106,40 @@ def test_working_code_verified_without_regeneration():
     assert result.execution_regeneration_used is False
     # Only 2 calls should have happened: router + main response, no fix attempt.
     assert generate_fn.call_count() == 2
+
+
+def test_pipeline_debug_mode_also_gets_execution_verification():
+    # PIPELINE_DEBUG proposes a fix for a reported bug -- still generated
+    # code that can be wrong in a new way, so it needs the same real-
+    # execution check as PIPELINE_BUILD, not just the static linter.
+    generate_fn = make_fake_generate_fn(
+        ROUTER_PIPELINE_DEBUG,
+        BROKEN_CODE_RESPONSE,
+        BROKEN_CODE_RESPONSE,
+    )
+    result = run_orchestrated_turn(
+        generate_fn=generate_fn,
+        history=[],
+        user_message="I got an AttributeError running this fix, what's wrong?",
+    )
+    assert result.execution_verified is False
+    assert result.execution_error is not None
+    assert "AttributeError" in result.execution_error
+    assert "Execution against a synthetic test dataset" in result.response
+
+
+def test_pipeline_debug_fix_verified_when_correct():
+    generate_fn = make_fake_generate_fn(
+        ROUTER_PIPELINE_DEBUG,
+        WORKING_CODE_RESPONSE,
+    )
+    result = run_orchestrated_turn(
+        generate_fn=generate_fn,
+        history=[],
+        user_message="Here's my error, can you fix it?",
+    )
+    assert result.execution_verified is True
+    assert result.execution_regeneration_used is False
 
 
 def test_non_pipeline_build_mode_skips_execution_verification():

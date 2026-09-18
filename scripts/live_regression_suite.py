@@ -302,6 +302,7 @@ SCENARIOS: List[Scenario] = [
         user_message="I ran this and got: AttributeError: 'AnnData' object has no attribute 'groupby'. What is wrong?",
         hard_checks=[
             ("lint honesty invariant", hard_lint_honesty_invariant),
+            ("execution honesty invariant", hard_execution_honesty_invariant),
         ],
         soft_checks=[
             ("mode", soft_router_mode_is("PIPELINE_DEBUG")),

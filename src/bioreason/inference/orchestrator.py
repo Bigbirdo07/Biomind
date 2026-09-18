@@ -161,10 +161,15 @@ def run_orchestrated_turn(
     # flagged -- a false-positive execution failure would be worse than the
     # static linter it complements, since "the code was actually run" reads
     # as more authoritative than a heuristic warning.
+    # PIPELINE_DEBUG gets the same check as PIPELINE_BUILD (mirrors the
+    # code_lint gate above): a proposed debug fix is still generated code
+    # that can be wrong in a new way -- live testing found exactly this,
+    # a PIPELINE_DEBUG "fix" that correctly diagnosed the root cause but
+    # introduced a different bug, which only real execution caught.
     execution_verified: Optional[bool] = None
     execution_error: Optional[str] = None
     execution_regeneration_used = False
-    if router.mode == "PIPELINE_BUILD" and enable_execution_verification:
+    if router.mode in ("PIPELINE_BUILD", "PIPELINE_DEBUG") and enable_execution_verification:
         shape = infer_dataset_shape(user_message, history, pipeline_context_summary)
 
         def _try_execute(text: str):

@@ -151,7 +151,49 @@ def lint_code_block(code: str) -> List[str]:
                 "(adata.obsm has no entry for it), causing a KeyError at runtime."
             )
 
+    # 5. subprocess.run/Popen/call/check_call/check_output given a shell
+    # pipe character as a literal list argument, without shell=True.
+    # subprocess with a list of arguments (the safe, recommended form)
+    # NEVER interprets shell metacharacters like '|' -- it passes '|' as a
+    # literal argument to the first command, which errors or silently does
+    # nothing useful. This is a general Python-mechanics bug, not specific
+    # to any one domain -- seen live in a generated WGS variant-calling
+    # pipeline chaining `bwa mem | samtools view | samtools sort` this way.
+    # The fix is either shell=True with a single command string, or
+    # separate Popen calls manually chaining stdout=PIPE between them.
+    for match in re.finditer(
+        r"\bsubprocess\.(run|Popen|call|check_call|check_output)\s*\(", code
+    ):
+        call_text = _extract_balanced_parens(code, match.end() - 1)
+        has_pipe_literal = re.search(r"""['"]\s*\|\s*['"]""", call_text)
+        uses_shell_true = re.search(r"shell\s*=\s*True", call_text)
+        if has_pipe_literal and not uses_shell_true:
+            warnings.append(
+                f"'subprocess.{match.group(1)}(...)' is called with a list of "
+                "arguments that includes a literal '|' -- subprocess never "
+                "interprets shell metacharacters like pipes when given a list "
+                "(only when shell=True is set with a single command string, or "
+                "separate calls are chained manually via stdout=subprocess.PIPE). "
+                "As written, '|' is passed as a literal argument to the command "
+                "and this will error or silently fail."
+            )
+
     return warnings
+
+
+def _extract_balanced_parens(code: str, open_paren_idx: int) -> str:
+    """Returns the substring from an opening '(' to its matching ')',
+    by simple bracket-depth counting (does not account for parens inside
+    string literals -- acceptable for this heuristic-level check)."""
+    depth = 0
+    for i in range(open_paren_idx, len(code)):
+        if code[i] == "(":
+            depth += 1
+        elif code[i] == ")":
+            depth -= 1
+            if depth == 0:
+                return code[open_paren_idx:i + 1]
+    return code[open_paren_idx:]
 
 
 def lint_generated_code(response_text: str) -> List[str]:

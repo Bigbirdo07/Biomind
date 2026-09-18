@@ -189,3 +189,43 @@ def test_flags_groupby_on_anndata_X_slice():
     )
     warnings = lint_generated_code(code)
     assert any("slice of an AnnData object's .X matrix" in w for w in warnings)
+
+
+def test_flags_subprocess_pipe_without_shell_true():
+    # Seen live in a generated WGS variant-calling pipeline: subprocess.run
+    # given a list of arguments including '|' between bwa mem and samtools
+    # -- subprocess never interprets shell metacharacters when given a
+    # list, so '|' is passed as a literal (meaningless) argument.
+    code = wrap(
+        "subprocess.run([\n"
+        "    'bwa', 'mem', '-t', '8', reference_genome, fastq,\n"
+        "    '|', 'samtools', 'view', '-bS', '-',\n"
+        "    '|', 'samtools', 'sort', '-o', alignment_output\n"
+        "], check=True)\n"
+    )
+    warnings = lint_generated_code(code)
+    assert any("literal '|'" in w for w in warnings)
+
+
+def test_does_not_flag_subprocess_with_shell_true():
+    code = wrap(
+        "subprocess.run('bwa mem ref.fa in.fq | samtools sort -o out.bam', shell=True)\n"
+    )
+    warnings = lint_generated_code(code)
+    assert not any("literal '|'" in w for w in warnings)
+
+
+def test_does_not_flag_subprocess_without_pipe():
+    code = wrap(
+        "subprocess.run(['samtools', 'index', 'aligned.bam'], check=True)\n"
+    )
+    warnings = lint_generated_code(code)
+    assert not any("literal '|'" in w for w in warnings)
+
+
+def test_flags_subprocess_popen_pipe_too():
+    code = wrap(
+        "proc = subprocess.Popen(['gatk', 'HaplotypeCaller', '|', 'tee', 'log.txt'])\n"
+    )
+    warnings = lint_generated_code(code)
+    assert any("literal '|'" in w for w in warnings)

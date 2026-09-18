@@ -97,7 +97,7 @@ def test_chat_js_logic_and_features():
     assert 'handleStopGeneration' in content
 
     # Developer Mode
-    assert 'BR-V02-DPO-001-A' in content
+    assert 'BR-VERIFIED-SFT-002' in content
     assert 'devLatency' in content
     assert 'devJsonDisplay' in content
 
@@ -149,8 +149,9 @@ def test_guided_pipeline_js_interactive_features():
     assert 'scores_vs_loadings' in content
     assert 'scores' in content
     assert 'loadings' in content
-    assert 'GroupKFold' in content
-    assert 'GUIDED_RNASEQ_PIPELINE' in content
+    assert 'renderGuidedPipelineHtml' in content
+    assert 'GUIDED_RNASEQ_PIPELINE' not in content
+    assert 'Thank you for sharing this scientific methodology' not in content
 
 
 def test_guided_pipeline_specification_doc():
@@ -165,4 +166,3 @@ def test_guided_pipeline_specification_doc():
     assert "Data Shape Progression" in content
     assert "PCA SCORES VS LOADINGS" in content
     assert "Context-Aware Troubleshooting Engine" in content
-

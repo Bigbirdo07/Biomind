@@ -1,0 +1,51 @@
+[
+  {
+    "_fixture_type": "SYNTHETIC_TEST_FIXTURE",
+    "schema_version": "v0.2",
+    "reviewer_id": "REV001",
+    "case_id": "HEVAL_001",
+    "qualification_tier": "BIOSTATISTICIAN",
+    "reviewer_confidence": "HIGH",
+    "response_evaluations": {
+      "RESPONSE_A": {
+        "SCIENTIFIC_CORRECTNESS": 4,
+        "PRIMARY_ISSUE_IDENTIFICATION": 5,
+        "EXPERIMENTAL_UNIT_REASONING": 5,
+        "STATISTICAL_VALIDITY": 4,
+        "BIOLOGICAL_PLAUSIBILITY": 5,
+        "CORRECTION_ACTIONABILITY": 4,
+        "UNCERTAINTY_CALIBRATION": 4,
+        "OVERCLAIMING": 5,
+        "FALSE_ALARM_BEHAVIOR": 5,
+        "OVERALL_SCIENTIFIC_USEFULNESS": 5
+      },
+      "RESPONSE_B": {
+        "SCIENTIFIC_CORRECTNESS": 2,
+        "PRIMARY_ISSUE_IDENTIFICATION": 1,
+        "EXPERIMENTAL_UNIT_REASONING": 2,
+        "STATISTICAL_VALIDITY": 2,
+        "BIOLOGICAL_PLAUSIBILITY": 3,
+        "CORRECTION_ACTIONABILITY": 2,
+        "UNCERTAINTY_CALIBRATION": 2,
+        "OVERCLAIMING": 2,
+        "FALSE_ALARM_BEHAVIOR": 3,
+        "OVERALL_SCIENTIFIC_USEFULNESS": 2
+      },
+      "RESPONSE_C": {
+        "SCIENTIFIC_CORRECTNESS": 3,
+        "PRIMARY_ISSUE_IDENTIFICATION": 3,
+        "EXPERIMENTAL_UNIT_REASONING": 3,
+        "STATISTICAL_VALIDITY": 3,
+        "BIOLOGICAL_PLAUSIBILITY": 4,
+        "CORRECTION_ACTIONABILITY": 3,
+        "UNCERTAINTY_CALIBRATION": 3,
+        "OVERCLAIMING": 4,
+        "FALSE_ALARM_BEHAVIOR": 4,
+        "OVERALL_SCIENTIFIC_USEFULNESS": 3
+      }
+    },
+    "pairwise_preference": "RESPONSE_A",
+    "comments": "Response A correctly pointed out repeated measures without random subject intercepts.",
+    "submitted_at": "2026-09-16T00:30:00Z"
+  }
+]

@@ -274,3 +274,33 @@ def test_does_not_flag_normal_indexing_into_different_variable():
     )
     warnings = lint_generated_code(code)
     assert not any("reassigns" in w for w in warnings)
+
+
+def test_flags_zip_with_repeated_slice_argument():
+    # Seen live: fastq_files[0:12] passed to zip() twice for what were
+    # meant to be R1 and R2 -- both loop variables end up bound to the
+    # same tuple element instead of the two halves separately.
+    code = wrap(
+        "for tumor_r1, tumor_r2 in zip(fastq_files[0:12], fastq_files[0:12]):\n"
+        "    subprocess.run(f'bwa mem ref {tumor_r1} {tumor_r2}', shell=True)\n"
+    )
+    warnings = lint_generated_code(code)
+    assert any("same argument 'fastq_files[0:12]'" in w for w in warnings)
+
+
+def test_flags_zip_with_repeated_bare_variable():
+    code = wrap(
+        "for a, b in zip(samples, samples):\n"
+        "    print(a, b)\n"
+    )
+    warnings = lint_generated_code(code)
+    assert any("same argument 'samples'" in w for w in warnings)
+
+
+def test_does_not_flag_zip_with_distinct_arguments():
+    code = wrap(
+        "for tumor_bam, normal_bam, name in zip(tumor_bams, normal_bams, names):\n"
+        "    print(tumor_bam, normal_bam, name)\n"
+    )
+    warnings = lint_generated_code(code)
+    assert not any("zip(...)' is called with the same argument" in w for w in warnings)

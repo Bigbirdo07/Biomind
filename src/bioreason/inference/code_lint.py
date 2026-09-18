@@ -216,7 +216,57 @@ def lint_code_block(code: str) -> List[str]:
             f"silently only processes the first sample correctly."
         )
 
+    # 7. zip(...) called with the exact same argument expression more than
+    # once. Binding two different loop variables to the same sequence in
+    # parallel means both get the SAME element every iteration -- if that
+    # element is itself a tuple (e.g. an (r1_path, r2_path) pair), both
+    # loop variables end up bound to the whole tuple, not the two halves
+    # separately, and any f-string using them embeds a tuple's string
+    # representation instead of a clean value. Seen live:
+    # `zip(fastq_files[0:12], fastq_files[0:12], fastq_files[12:24], ...)`
+    # -- almost never intentional; a general Python anti-pattern.
+    for match in re.finditer(r"\bzip\s*\(", code):
+        call_text = _extract_balanced_parens(code, match.end() - 1)
+        inner = call_text[1:-1]
+        args = [a.strip() for a in _split_top_level_commas(inner) if a.strip()]
+        seen = set()
+        for arg in args:
+            if arg in seen and "=" not in arg.split("(")[0]:
+                warnings.append(
+                    f"'zip(...)' is called with the same argument '{arg}' passed "
+                    "more than once -- this binds two different loop variables to "
+                    "the same sequence in parallel, so both get the SAME element "
+                    "every iteration (e.g. if each element is itself a tuple like "
+                    "(r1, r2), both loop variables get the whole tuple, not the "
+                    "two halves separately). This is almost always a bug."
+                )
+            seen.add(arg)
+
     return warnings
+
+
+def _split_top_level_commas(text: str) -> List[str]:
+    """Splits a comma-separated argument string at top-level commas only,
+    respecting nested (), [], {} so a comma inside a slice/tuple/call
+    doesn't get treated as an argument separator."""
+    parts: List[str] = []
+    depth = 0
+    current: List[str] = []
+    for ch in text:
+        if ch in "([{":
+            depth += 1
+            current.append(ch)
+        elif ch in ")]}":
+            depth -= 1
+            current.append(ch)
+        elif ch == "," and depth == 0:
+            parts.append("".join(current))
+            current = []
+        else:
+            current.append(ch)
+    if current:
+        parts.append("".join(current))
+    return parts
 
 
 def _extract_balanced_parens(code: str, open_paren_idx: int) -> str:

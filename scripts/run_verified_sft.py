@@ -18,6 +18,7 @@ from bioreason.training.verified_sft_trainer import VerifiedSFTConfig, train_ver
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--base-model-path")
+    parser.add_argument("--base-model-name")
     parser.add_argument("--output-dir")
     parser.add_argument("--durable-archive-dir")
     parser.add_argument("--epochs", type=float)
@@ -39,6 +40,7 @@ def main() -> None:
     config = VerifiedSFTConfig()
     updates = {
         "base_model_path": args.base_model_path,
+        "base_model_name": args.base_model_name,
         "output_dir": args.output_dir,
         "durable_archive_dir": args.durable_archive_dir,
         "num_train_epochs": args.epochs,

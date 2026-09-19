@@ -295,6 +295,32 @@ def test_shell_dry_run_preamble_runs_correct_script_cleanly():
     assert result.status == "OK", result.stderr
 
 
+def test_shell_dry_run_catches_missing_shell_true_on_plain_string_command():
+    """Seen live: subprocess.run(f'gatk BaseRecalibrator -R ... -O ...')
+    with no shell=True and no pipe -- easy to miss since it's not the
+    pipe-character bug code_lint already catches. Without shell=True, a
+    plain multi-word STRING command is run as a single literal executable
+    name (no argument splitting), which real Python raises
+    FileNotFoundError for -- the mock must replicate this, not silently
+    accept it, since it's exactly the class of bug this layer exists for."""
+    from pathlib import Path
+    import tempfile
+    from bioreason.inference.code_sandbox import run_in_sandbox
+
+    code = (
+        "import subprocess\n"
+        "subprocess.run(f'gatk BaseRecalibrator -R ref.fa -I in.bam -O out.table')\n"
+    )
+    plan = build_fixture_plan(code, {})
+    preamble = build_execution_preamble(plan)
+    full_source = preamble + "\n\n" + code
+
+    with tempfile.TemporaryDirectory() as workdir:
+        result = run_in_sandbox(full_source, Path(workdir))
+    assert result.status == "EXCEPTION"
+    assert "FileNotFoundError" in result.traceback_text
+
+
 def test_shell_dry_run_touches_output_placeholder_for_o_flag():
     """A script that checks os.path.exists() on a tool's -o output before
     proceeding shouldn't false-positive just because no real tool ran."""

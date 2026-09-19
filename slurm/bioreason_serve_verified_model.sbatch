@@ -6,7 +6,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=64G
-#SBATCH --time=12:00:00
+#SBATCH --time=01:00:00
 #SBATCH --output=logs/verified_training/%x_%j.out
 #SBATCH --error=logs/verified_training/%x_%j.err
 

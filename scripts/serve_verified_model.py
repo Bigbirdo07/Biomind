@@ -202,7 +202,7 @@ class Handler(BaseHTTPRequestHandler):
             "execution_error": result.execution_error,
             "execution_regeneration_used": result.execution_regeneration_used,
             "response_source": "MODEL_GENERATED",
-            "model": "BR-VERIFIED-SFT-002",
+            "model": Path(STATE.adapter_path).name,
             "adapter_sha256": STATE.adapter_sha256,
             "latency_ms": latency_ms,
         })

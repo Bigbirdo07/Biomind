@@ -67,17 +67,59 @@ class BioReasonInferenceRouter:
 
     def _probe_startup_status(self) -> Dict[str, Any]:
         if self.backend == "unity":
-            ready = bool(self.unity_url)
-            return {
-                "bioreason_version": BIOREASON_VERSION,
-                "base_model": BIOREASON_BASE_MODEL,
-                "checkpoint": BIOREASON_CHECKPOINT,
-                "backend": "unity",
-                "device": "Unity GPU via private endpoint" if ready else "UNAVAILABLE",
-                "precision": self.precision,
-                "status": "READY" if ready else "UNAVAILABLE",
-                "detail": "BIOREASON_UNITY_URL configured" if ready else "BIOREASON_UNITY_URL is not configured",
-            }
+            if not self.unity_url:
+                return {
+                    "bioreason_version": BIOREASON_VERSION,
+                    "base_model": BIOREASON_BASE_MODEL,
+                    "checkpoint": BIOREASON_CHECKPOINT,
+                    "backend": "unity",
+                    "device": "UNAVAILABLE",
+                    "precision": self.precision,
+                    "status": "UNAVAILABLE",
+                    "detail": "BIOREASON_UNITY_URL is not configured",
+                }
+            # Query the live server's own /health rather than trusting a static
+            # constant -- status always reflects whichever model is actually
+            # running on the currently-connected Unity job, no manual syncing
+            # needed when a different checkpoint (e.g. 14B vs 32B) is served.
+            try:
+                req = urllib.request.Request(self.unity_url.rstrip("/") + "/health")
+                with urllib.request.urlopen(req, timeout=10) as resp:
+                    health = json.loads(resp.read().decode("utf-8"))
+                if health.get("status") == "READY":
+                    adapter_name = Path(str(health.get("adapter_path", ""))).name or BIOREASON_MODEL_NAME
+                    return {
+                        "bioreason_version": BIOREASON_VERSION,
+                        "base_model": health.get("base_model", BIOREASON_BASE_MODEL),
+                        "checkpoint": f"{adapter_name} (final_adapter)",
+                        "adapter_sha256": health.get("adapter_sha256"),
+                        "backend": "unity",
+                        "device": health.get("device", "Unity GPU via private endpoint"),
+                        "precision": self.precision,
+                        "status": "READY",
+                        "detail": f"Connected to live Unity server at {self.unity_url}",
+                    }
+                return {
+                    "bioreason_version": BIOREASON_VERSION,
+                    "base_model": BIOREASON_BASE_MODEL,
+                    "checkpoint": BIOREASON_CHECKPOINT,
+                    "backend": "unity",
+                    "device": "UNAVAILABLE",
+                    "precision": self.precision,
+                    "status": "UNAVAILABLE",
+                    "detail": f"Unity server at {self.unity_url} reported status={health.get('status')}",
+                }
+            except (urllib.error.URLError, OSError, ValueError) as exc:
+                return {
+                    "bioreason_version": BIOREASON_VERSION,
+                    "base_model": BIOREASON_BASE_MODEL,
+                    "checkpoint": BIOREASON_CHECKPOINT,
+                    "backend": "unity",
+                    "device": "UNAVAILABLE",
+                    "precision": self.precision,
+                    "status": "UNAVAILABLE",
+                    "detail": f"Unity endpoint unreachable at {self.unity_url}: {exc}",
+                }
 
         required = ["adapter_config.json", "adapter_model.safetensors"]
         present = {name: (self.local_checkpoint / name).exists() for name in required}
@@ -213,10 +255,12 @@ class BioReasonInferenceRouter:
         if not text:
             raise BioReasonInferenceError("BIOREASON_INFERENCE_FAILED: Unity endpoint returned an empty response.")
 
+        unity_model_name = str(data.get("model", BIOREASON_MODEL_NAME))
+        unity_checkpoint = f"{unity_model_name} (final_adapter)"
         return InferenceResult(
             text=text,
-            model=str(data.get("model", BIOREASON_MODEL_NAME)),
-            checkpoint=f"{BIOREASON_CHECKPOINT} (sha256={data.get('adapter_sha256', '')[:16]}...)" if data.get("adapter_sha256") else BIOREASON_CHECKPOINT,
+            model=unity_model_name,
+            checkpoint=f"{unity_checkpoint} (sha256={data.get('adapter_sha256', '')[:16]}...)" if data.get("adapter_sha256") else unity_checkpoint,
             backend="unity",
             device=str(data.get("device", "Unity GPU")),
             precision=str(data.get("precision", self.precision)),

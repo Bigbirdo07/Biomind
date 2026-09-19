@@ -44,8 +44,8 @@ class BioReasonRequestHandler(SimpleHTTPRequestHandler):
             }
             status_data = {
                 "status": "ready" if model_status.get("status") == "READY" else "model_unavailable",
-                "model_name": "BR-VERIFIED-SFT-002",
-                "checkpoint": "BR-VERIFIED-SFT-002 (final_adapter)",
+                "model_name": model_status.get("base_model", "BR-VERIFIED-SFT-002"),
+                "checkpoint": model_status.get("checkpoint", "BR-VERIFIED-SFT-002 (final_adapter)"),
                 "pipeline_mode": "DYNAMIC_MODEL_DRIVEN",
                 "engine": "BioReasonPipelineEngine",
                 "model_status": model_status,

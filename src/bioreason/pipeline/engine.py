@@ -315,6 +315,8 @@ class BioReasonPipelineEngine:
         resp = with_provenance(resp, ResponseSource.MODEL_GENERATED)
         resp.provenance["generation_parameters"] = config.model_dump()
         resp.provenance.update(model_meta)
+        if model_meta.get("checkpoint"):
+            resp.model_checkpoint = model_meta["checkpoint"]
         return resp
 
     def _build_model_history(

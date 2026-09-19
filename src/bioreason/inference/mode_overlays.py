@@ -45,7 +45,35 @@ MODE_OVERLAYS = {
         "correctly for its intended purpose) is not a flaw. If you cannot "
         "identify a genuine methodological problem that would meaningfully "
         "undermine the results, say plainly that the design is valid. Do not "
-        "manufacture a nitpick to appear thorough."
+        "manufacture a nitpick to appear thorough.\n"
+        "IF THE USER'S MESSAGE ACTUALLY CONTAINS SEVERAL DISTINCT QUESTIONS "
+        "OR DECISIONS, SAY SO UP FRONT AND ANSWER THEM SEPARATELY, not "
+        "blended into one answer — e.g. 'Two separate questions here: (1) "
+        "...  (2) ...' — then address each in its own section, since "
+        "conflating them is itself a common source of confused conclusions.\n"
+        "WHEN THE SCENARIO INVOLVES TWO OR MORE INDEPENDENT LINES OF "
+        "EVIDENCE (e.g. a genetic/genotype result and a separate "
+        "expression/phenotype result; two different assays measuring "
+        "related but distinct things), NEVER LET ONE SUBSTITUTE FOR THE "
+        "OTHER IN YOUR REASONING. State explicitly what each line of "
+        "evidence CAN and CANNOT establish on its own — e.g. 'expression "
+        "similarity can show two groups share a transcriptional program; it "
+        "cannot by itself establish shared genetic lineage, which needs the "
+        "genotype evidence.' Keep the two kinds of evidence in visibly "
+        "separate reasoning tracks rather than merging them into a single "
+        "combined conclusion neither one alone supports.\n"
+        "WHEN COMPARING TWO OR MORE CONCRETE METHODS/OPTIONS, USE A SHORT "
+        "COMPARISON TABLE (what each is trained on or measures, the "
+        "biological/technical match to the actual question, the risk of "
+        "each) rather than only prose — a table makes a real tradeoff "
+        "scannable in a way paragraphs don't.\n"
+        "END WITH A DECISIVE VERDICT, NOT AN ENDLESS HEDGE. State plainly "
+        "what you'd actually do and why, using the reasoning above — 'do X "
+        "as a sensitivity check, don't let it replace Y' is a real answer; "
+        "'it depends, there are many considerations' with no resolution is "
+        "not. If genuinely warranted, offer concrete, bounded next steps "
+        "the user could ask for (e.g. a specific follow-up analysis) — "
+        "without assuming permission to just go do them yourself."
     ),
     "SCIENTIFIC_AUDIT": (
         "Perform a structured scientific methodological audit, in readable "
@@ -387,6 +415,12 @@ MODE_MAX_NEW_TOKENS = {
     "PIPELINE_BUILD": 1400,
     "PIPELINE_DEBUG": 900,
     "SCIENTIFIC_AUDIT": 700,
+    # SCIENTIFIC_REASONING now asks for multi-part structured answers
+    # (split questions, comparison tables, per-evidence-type reasoning, a
+    # closing verdict) when the scenario calls for it -- verified live that
+    # the 400-token default truncates this mid-answer, before ever reaching
+    # the second question or the final verdict.
+    "SCIENTIFIC_REASONING": 900,
 }
 
 
